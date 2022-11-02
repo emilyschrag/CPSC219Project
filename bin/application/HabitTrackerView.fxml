@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="348.0" prefWidth="311.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainSceneController">
+<VBox prefHeight="348.0" prefWidth="311.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainSceneController">
    <children>
       <Label text="My Habit Tracker">
          <VBox.margin>
@@ -31,7 +31,7 @@
                   <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Label>
-            <Button mnemonicParsing="false" onAction="#enterInfo" text="Enter my Info">
+            <Button mnemonicParsing="false" text="Enter my Info">
                <HBox.margin>
                   <Insets bottom="5.0" right="10.0" top="5.0" />
                </HBox.margin>
@@ -65,27 +65,32 @@
             <Insets bottom="5.0" left="5.0" />
          </VBox.margin>
       </Label>
-      <Button mnemonicParsing="false" onAction="#toSleepIntermediate" text="Sleep">
+      <Button mnemonicParsing="false" text="Sleep" onAction =  "#toSleepIntermediate">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="10.0" />
          </VBox.margin>
       </Button>
-      <Button mnemonicParsing="false" onAction="#toFoodIntermediate" text="Food">
+      <Button mnemonicParsing="false" text="Food">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="10.0" />
          </VBox.margin>
       </Button>
-      <Button mnemonicParsing="false" onAction="#toExpensesIntermediate" text="Expenses">
+      <Button mnemonicParsing="false" text="Financials">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="10.0" />
          </VBox.margin>
       </Button>
-      <Button mnemonicParsing="false" onAction="#toExerciseIntermediate" text="Exercise">
+      <Button mnemonicParsing="false" text="Exercise">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="10.0" />
          </VBox.margin>
       </Button>
-      <Button mnemonicParsing="false" onAction="#toWaterIntermediate" text="Water">
+      <Button mnemonicParsing="false" text="Water">
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="10.0" />
+         </VBox.margin>
+      </Button>
+      <Button mnemonicParsing="false" text="Averages">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="10.0" />
          </VBox.margin>
@@ -103,7 +108,7 @@
             <Insets bottom="5.0" left="5.0" top="5.0" />
          </VBox.margin>
       </Label>
-      <Button mnemonicParsing="false" onAction="#getDailyScore" text="Get My Daily Score!">
+      <Button mnemonicParsing="false" text="Get My Daily Score!">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="10.0" />
          </VBox.margin>

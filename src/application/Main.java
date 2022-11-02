@@ -17,6 +17,9 @@ public class Main extends Application {
 
 			FXMLLoader  loader = new FXMLLoader();
 			VBox root = loader.load(new FileInputStream ("src/application/HabitTrackerView.fxml"));
+			MainSceneController controller = (MainSceneController)loader.getController();
+			controller.applicationStage = primaryStage;
+			
 			Scene scene = new Scene(root,400,400);
 			primaryStage.setScene(scene);
 			primaryStage.show();
