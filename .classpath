@@ -21,7 +21,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/CS219-user/Downloads/lib/javafx.graphics.jar">
+	<classpathentry kind="lib" path="C:/Users/CS219-user/Downloads/lib/javafx.graphics.jar" sourcepath="C:/Users/CS219-user/Downloads/lib">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
