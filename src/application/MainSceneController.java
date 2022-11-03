@@ -3,6 +3,9 @@ package application;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+
+import java.awt.Insets;
+
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -16,40 +19,54 @@ public class MainSceneController {
     private DatePicker todaysDatePicker;
 
     @FXML
-    void enterInfo(ActionEvent event) {
+    void enterInfo(ActionEvent enterInfoEvent) {
+    	//Set the original scene to mainScene
     	Scene mainScene = applicationStage.getScene();
     	
-    	VBox userInfoContainer = new VBox();
-    	HBox nameContainer = new HBox();
+    	//Create the container that will hold everything else in this scene
+    	VBox userInfoContainer = new VBox(20);
+    	Label titleLabel = new Label("Enter your information!");
+    	
+    	//container for entering name
+    	HBox nameContainer = new HBox(10);
     	Label nameLabel = new Label("Enter your name");
     	TextField nameTextField = new TextField();
     	nameContainer.getChildren().addAll(nameLabel, nameTextField);
     	
-    	HBox ageContainer = new HBox();
+    	//container for entering age 
+    	HBox ageContainer = new HBox(10);
     	Label ageLabel = new Label("Enter your Age");
     	ChoiceBox ageChoiceBox = new ChoiceBox();
     	ageContainer.getChildren().addAll(ageLabel, ageChoiceBox);
     	
-    	HBox sexContainer = new HBox();
+    	//container for entering sex 
+    	HBox sexContainer = new HBox(10);
     	Label sexLabel = new Label("Enter your Sex");
     	ChoiceBox sexChoiceBox = new ChoiceBox();
     	sexContainer.getChildren().addAll(sexLabel, sexChoiceBox);
     	
-    	HBox heightContainer = new HBox();
+    	//container for entering height 
+    	HBox heightContainer = new HBox(10);
+    	
     	Label heightLabel = new Label("Enter your height in cm");
     	TextField heightTextField = new TextField();
     	heightContainer.getChildren().addAll(heightLabel, heightTextField);
     	
-    	HBox weightContainer = new HBox();
+    	//container for entering weight 
+    	HBox weightContainer = new HBox(10);
     	Label weightLabel = new Label("Enter your weight in kg");
     	TextField weightTextField = new TextField();
     	weightContainer.getChildren().addAll(weightLabel, weightTextField);
     	
+    	//done button to take user back to main scene when information is entered
     	Button doneButton = new Button("Done");
     	doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
     	
-    	userInfoContainer.getChildren().addAll(nameContainer, ageContainer, sexContainer, heightContainer, weightContainer);
-    	Scene infoScene = new Scene(userInfoContainer);
+    	// add all components to main container
+    	userInfoContainer.getChildren().addAll(titleLabel, nameContainer, ageContainer, sexContainer, heightContainer, weightContainer, doneButton);
+    	//create a new scene that holds the main container
+    	Scene infoScene = new Scene(userInfoContainer, 300, 325);
+    	//set the scene to the info scene when the enterInfo action is initiated
     	applicationStage.setScene(infoScene);
     }
 
