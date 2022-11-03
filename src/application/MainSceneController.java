@@ -67,6 +67,7 @@ public class MainSceneController {
     	//set the scene to the info scene when the enterInfo action is initiated
     	applicationStage.setScene(infoScene);
     }
+    
 
     @FXML
     void toSleepIntermediate(ActionEvent event) {
