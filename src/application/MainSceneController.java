@@ -4,8 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 
-import java.awt.Insets;
-
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
