@@ -155,17 +155,140 @@ public class MainSceneController {
     }
 
     @FXML
-    void toFoodIntermediate(ActionEvent event) {
-    	Scene foodIntermediateScene = new Scene(new Label("Placeholder"));
+    void toFoodIntermediate(ActionEvent foodIntermediateEvent) {
+    	//Set the original scene to mainScene
+    	Scene mainScene = applicationStage.getScene();
+    	
+    	//Create the container that will hold everything else in this scene
+    	VBox foodIntContainer = new VBox(10);
+    	
+    	//container that has the button that takes you to the food data scene
+    	HBox foodGoalButtonContainer = new HBox(10);
+    	Label foodLabel = new Label("Enter your food goal");
+    	Button toFoodGoal = new Button("Enter");
+    	foodGoalButtonContainer.getChildren().addAll(foodLabel, toFoodGoal);
+    	
+    	//back button
+    	Button backButton = new Button("Back");
+    	backButton.setOnAction(backEvent -> applicationStage.setScene(mainScene));
+    	
+    	//add components to main container
+    	foodIntContainer.getChildren().addAll(foodGoalButtonContainer, backButton);
+    	Scene foodIntermediateScene = new Scene(foodIntContainer);
     	applicationStage.setScene(foodIntermediateScene);
     	
+    		//create the food goal scene
+    		VBox foodGoalContainer = new VBox(10);
+    		
+    		HBox weightGoalContainer = new HBox(10);
+    		Label weightGoalLabel = new Label("What is your dietary goal?");
+    		ChoiceBox weightGoalChoiceBox = new ChoiceBox();
+    		weightGoalContainer.getChildren().addAll(weightGoalLabel, weightGoalChoiceBox);
+    		
+    		HBox printWeightGoal = new HBox(10);
+    		Label printCaloriesInfo = new Label("Based on your provided physical characteristics, you should comsume ");
+    		Label printCalories = new Label(" num here ");
+    		Label caloriesLabel = new Label("calories");
+    		printWeightGoal.getChildren().addAll(printCaloriesInfo, printCalories, caloriesLabel);
+    		
+    		Button doneButton = new Button("Done");
+    		
+    		foodGoalContainer.getChildren().addAll(weightGoalContainer, printWeightGoal, doneButton);
+    		Scene foodGoalScene = new Scene(foodGoalContainer);
+    		toFoodGoal.setOnAction(toFoodGoalEvent -> applicationStage.setScene(foodGoalScene));
+    			
+    			//create the food data scene 
+    			VBox foodDataSceneContainer = new VBox(10);
+    			
+    			Label caloriesEnterLabel = new Label("How many calories have you consumed?");
+    			TextField enterCalories = new TextField();
+    			
+    			Label caloriesGoal = new Label("print if goal met");
+    			
+    			Button doneButton2 = new Button("Done");
+    			doneButton2.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));
+    			
+    			foodDataSceneContainer.getChildren().addAll(caloriesEnterLabel, enterCalories, caloriesGoal, doneButton2);
+    			Scene foodDataScene = new Scene(foodDataSceneContainer);
+        		doneButton.setOnAction(doneEvent -> applicationStage.setScene(foodDataScene));    	
     }
 
     @FXML
-    void toExpensesIntermediate(ActionEvent event) {
-    	Scene expensesIntermediateScene = new Scene(new Label("Placeholder"));
-    	applicationStage.setScene(expensesIntermediateScene);
+    void toExpensesIntermediate(ActionEvent expensesIntermediateEvent) {
+    	//Set the original scene to mainScene
+    	Scene mainScene = applicationStage.getScene();
     	
+    	//Create the container that will hold everything else in this scene
+    	VBox exIntContainer = new VBox(10);
+    	
+    	//container that has the button that takes you to the food data scene
+    	HBox exGoalButtonContainer = new HBox(10);
+    	Label exLabel = new Label("Enter your spending goal");
+    	Button toExGoal = new Button("Enter");
+    	exGoalButtonContainer.getChildren().addAll(exLabel, toExGoal);
+    	
+    	//back button
+    	Button backButton = new Button("Back");
+    	backButton.setOnAction(backEvent -> applicationStage.setScene(mainScene));
+    	
+    	//add components to main container
+    	exIntContainer.getChildren().addAll(exGoalButtonContainer, backButton);
+    	Scene exIntermediateScene = new Scene(exIntContainer);
+    	applicationStage.setScene(exIntermediateScene);
+    	
+    		//create the expenses goal scene
+    		VBox exGoalWholeContainer = new VBox(10);
+    		
+    		HBox exGoalContainer = new HBox(10);
+    		Label exGoalLabel = new Label("Spending Goal");
+    		TextField exGoalTextField = new TextField();
+    		exGoalContainer.getChildren().addAll(exGoalLabel, exGoalTextField );
+    		
+    		Label printExGoal = new Label("print spending goal here");
+    		
+    		Button doneButton = new Button("Done");
+    	
+    		exGoalWholeContainer.getChildren().addAll(exGoalContainer, printExGoal, doneButton);
+    		Scene exGoalScene = new Scene(exGoalWholeContainer);
+    		toExGoal.setOnAction(toExGoalEvent -> applicationStage.setScene(exGoalScene));
+
+    			//create the expenses data scene 
+    			VBox dataSceneContainer = new VBox(10);
+    			
+    			Label moneySpentLabel = new Label("Money spent today");
+    			HBox foodContainer = new HBox(10);
+    			Label foodLabel = new Label("Food");
+    			TextField foodTextField = new TextField();
+    			foodContainer.getChildren().addAll(foodLabel, foodTextField);
+    			
+    			HBox entertainmentContainer = new HBox(10);
+    			Label entertainmentLabel = new Label("Entertainment");
+    			TextField entertainmentTextField = new TextField();
+    			entertainmentContainer.getChildren().addAll(entertainmentLabel, entertainmentTextField);
+    			
+    			HBox groceriesContainer = new HBox(10);
+    			Label groceriesLabel = new Label("Groceries");
+    			TextField groceriesTextField = new TextField();
+    			groceriesContainer.getChildren().addAll(groceriesLabel, groceriesTextField);
+    			
+    			HBox otherContainer = new HBox(10);
+    			Label otherLabel = new Label("Other");
+    			TextField otherTextField = new TextField();
+    			otherContainer.getChildren().addAll(otherLabel, otherTextField);
+    			
+    			Button calculateSpent = new Button("Calculate");
+    			
+    			Label printSpent = new Label("Print amount spent here");
+    			Label goalMet = new Label("Print if goal met here");
+    			
+    			Button doneButton2 = new Button("Done");
+    			doneButton2.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));
+    					
+    			dataSceneContainer.getChildren().addAll(moneySpentLabel, foodContainer, entertainmentContainer, groceriesContainer, otherContainer, calculateSpent, printSpent, goalMet, doneButton2);
+    			Scene exDataScene = new Scene(dataSceneContainer);
+    			doneButton.setOnAction(doneEvent -> applicationStage.setScene(exDataScene));
+    			
+
     }
 
     @FXML
