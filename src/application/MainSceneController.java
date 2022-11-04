@@ -68,10 +68,49 @@ public class MainSceneController {
     	applicationStage.setScene(infoScene);
     }
     
-
     @FXML
-    void toSleepIntermediate(ActionEvent event) {
-    	Scene sleepIntermediateScene = new Scene(new Label("Placeholder"));
+    void toSleepIntermediate(ActionEvent sleepIntermediateEvent) {
+    	//Set the original scene to mainScene
+    	Scene mainScene = applicationStage.getScene();
+    	
+    	//Create the container that will hold everything else in this scene
+    	VBox sleepIntContainer = new VBox(10);
+    	
+    	//container that has the button that takes you to the sleep data scene
+    	HBox sleepGoalButtonContainer = new HBox(10);
+    	Label sleepLabel = new Label("Enter your sleep goal");
+    	Button toSleepGoal = new Button("Enter");
+    	
+    	//create the sleepGoal Scene
+//    	VBox sleepGoalContainer = new VBox(10);
+//    	
+//    	HBox enterSleepGoal = new HBox();
+//    	Label enterSleepGoalLabel = new Label("Enter your sleep goal");
+//    	Label hourLabel = new Label("Hour");
+//    	ChoiceBox hourChoiceBox = new ChoiceBox();
+//    	Label minuteLabel = new Label("Minute");
+//    	ChoiceBox minuteChoiceBox = new ChoiceBox();
+//    	Label printSleepGoal = new Label("");
+//    	Button doneButton = new Button("Done");
+//    	
+//    	enterSleepGoal.getChildren().addAll(enterSleepGoalLabel, hourLabel, hourChoiceBox, minuteLabel, minuteChoiceBox);
+//    	sleepGoalContainer.getChildren().addAll(enterSleepGoal, printSleepGoal, doneButton);
+   	Scene sleepGoalScene = new Scene(new Label("place"));
+    	//the enter takes you to the sleep goal scene
+    	toSleepGoal.setOnAction(toSleepGoalEvent -> applicationStage.setScene(sleepGoalScene));
+    	
+    	
+    	sleepGoalButtonContainer.getChildren().addAll(sleepLabel, toSleepGoal);
+    	
+    	//back button
+    	Button backButton = new Button("Back");
+    	backButton.setOnAction(backEvent -> applicationStage.setScene(mainScene));
+    	
+    	//add components to main container
+    	sleepIntContainer.getChildren().addAll(sleepGoalButtonContainer, backButton);
+    	//create a new scene that holds the main container 
+    	Scene sleepIntermediateScene = new Scene(sleepIntContainer);
+    	//set the scene to the sleep intermediate scene
     	applicationStage.setScene(sleepIntermediateScene);
     }
 
