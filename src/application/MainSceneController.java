@@ -14,7 +14,14 @@ import javafx.scene.control.*;
 public class MainSceneController {
 	Stage applicationStage;
     @FXML
+    //initialize all the things we need the data from in more than one section
     private DatePicker todaysDatePicker;
+    private Label metSleepGoalInfo = new Label(" ");
+    private Label metFoodGoalInfo = new Label(" ");
+    private Label metExpensesGoalInfo = new Label(" ");
+    private Label metExerciseGoalInfo = new Label(" ");
+    private Label metWaterGoalInfo = new Label(" ");
+    private Label overallScore = new Label(" ");
 
     @FXML
     void enterInfo(ActionEvent enterInfoEvent) {
@@ -92,7 +99,7 @@ public class MainSceneController {
     		ChoiceBox minuteChoiceBox = new ChoiceBox();
     		Label printSleepGoal = new Label("Your sleep goal: ");
     	
-    		//Done Button on sleep goal scene to take user to sleepdata scene
+    		//Done Button on sleep goal scene to take user to sleep data scene
     		Button doneButton = new Button("Done");
    
     	
@@ -130,13 +137,13 @@ public class MainSceneController {
     			Button calculateSleep = new Button("Calculate");
     		
     			Label printSleep = new Label("PRINT SLEEP AMOUNT HERE: ");
-    			Label metGoalInfo = new Label("PRINT GOAL MET INFO HERE: ");
+    			metSleepGoalInfo.setText("Print sleep goal here");
     		
     			Button doneButton2 = new Button("Done");
     			doneButton2.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));
     		
     		
-    			sleepDataContainer.getChildren().addAll(bedtimeLabel, bedtimeContainer, waketimeLabel, waketimeContainer, calculateSleep, printSleep, metGoalInfo, doneButton2);
+    			sleepDataContainer.getChildren().addAll(bedtimeLabel, bedtimeContainer, waketimeLabel, waketimeContainer, calculateSleep, printSleep, metSleepGoalInfo, doneButton2);
     			Scene sleepDataScene = new Scene(sleepDataContainer);
     			doneButton.setOnAction(doneEvent -> applicationStage.setScene(sleepDataScene));
     		
@@ -203,12 +210,12 @@ public class MainSceneController {
     			Label caloriesEnterLabel = new Label("How many calories have you consumed?");
     			TextField enterCalories = new TextField();
     			
-    			Label caloriesGoal = new Label("print if goal met");
+    		    metFoodGoalInfo.setText("print if goal met");
     			
     			Button doneButton2 = new Button("Done");
     			doneButton2.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));
     			
-    			foodDataSceneContainer.getChildren().addAll(caloriesEnterLabel, enterCalories, caloriesGoal, doneButton2);
+    			foodDataSceneContainer.getChildren().addAll(caloriesEnterLabel, enterCalories,  metFoodGoalInfo, doneButton2);
     			Scene foodDataScene = new Scene(foodDataSceneContainer);
         		doneButton.setOnAction(doneEvent -> applicationStage.setScene(foodDataScene));    	
     }
@@ -279,38 +286,183 @@ public class MainSceneController {
     			Button calculateSpent = new Button("Calculate");
     			
     			Label printSpent = new Label("Print amount spent here");
-    			Label goalMet = new Label("Print if goal met here");
+    			metExpensesGoalInfo.setText("Print if goal met here");
     			
     			Button doneButton2 = new Button("Done");
     			doneButton2.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));
     					
-    			dataSceneContainer.getChildren().addAll(moneySpentLabel, foodContainer, entertainmentContainer, groceriesContainer, otherContainer, calculateSpent, printSpent, goalMet, doneButton2);
+    			dataSceneContainer.getChildren().addAll(moneySpentLabel, foodContainer, entertainmentContainer, groceriesContainer, otherContainer, calculateSpent, printSpent,metExpensesGoalInfo, doneButton2);
     			Scene exDataScene = new Scene(dataSceneContainer);
     			doneButton.setOnAction(doneEvent -> applicationStage.setScene(exDataScene));
-    			
-
     }
 
     @FXML
-    void toExerciseIntermediate(ActionEvent event) {
-    	Scene exerciseIntermediateScene = new Scene(new Label("Placeholder"));
+    void toExerciseIntermediate(ActionEvent toExerciseIntermediateScene) {
+    	//Set the original scene to mainScene
+    	Scene mainScene = applicationStage.getScene();
+    	
+    	//Create the container that will hold everything else in this scene
+    	VBox exerciseIntContainer = new VBox(10);
+    	
+    	//container that has the button that takes you to the exercise data scene
+    	HBox exerciseGoalButtonContainer = new HBox(10);
+    	Label exerciseLabel = new Label("Enter your exercise goal");
+    	Button toExerciseGoal = new Button("Enter");
+    	exerciseGoalButtonContainer.getChildren().addAll(exerciseLabel, toExerciseGoal);
+    	
+    	//back button
+    	Button backButton = new Button("Back");
+    	backButton.setOnAction(backEvent -> applicationStage.setScene(mainScene));
+    	
+    	//add components to main container
+    	exerciseIntContainer.getChildren().addAll(exerciseGoalButtonContainer, backButton);
+    	Scene exerciseIntermediateScene = new Scene(exerciseIntContainer);
     	applicationStage.setScene(exerciseIntermediateScene);
     	
+    	
+    		//create the exercise goal scene
+			VBox exerciseGoalWholeContainer = new VBox(10);
+		
+			HBox stepsGoalContainer = new HBox(10);
+			Label stepsGoalLabel = new Label("What is your step goal?");
+			TextField stepsGoalTextField = new TextField();
+			Label stepsLabel = new Label("Steps");
+			stepsGoalContainer.getChildren().addAll(stepsGoalLabel, stepsGoalTextField, stepsLabel);
+			
+			HBox exerciseGoalContainer = new HBox(10);
+			Label exerciseGoalLabel = new Label("What is your goal for other exercise(in minutes)?");
+			TextField exerciseGoalTextField = new TextField();
+			Label minsLabel = new Label("Minutes");
+			exerciseGoalContainer.getChildren().addAll(exerciseGoalLabel, exerciseGoalTextField, minsLabel);
+		
+			Label printStepsGoal = new Label("print step goal here");
+			Label printExGoal = new Label("print exercise goal here");
+		
+			Button doneButton = new Button("Done");
+			doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
+	
+			exerciseGoalWholeContainer.getChildren().addAll(stepsGoalContainer, exerciseGoalContainer, printStepsGoal, printExGoal, doneButton);
+			Scene exerciseGoalScene = new Scene(exerciseGoalWholeContainer);
+			toExerciseGoal.setOnAction(toExerciseGoalEvent -> applicationStage.setScene(exerciseGoalScene));
+
+				//create the exercise goal data scene
+				VBox exerciseDataWholeContainer = new VBox(10);
+				
+				HBox stepsDataContainer = new HBox(10);
+				Label stepsDataLabel = new Label("Number of steps");
+				TextField stepsDataTextField = new TextField();
+				stepsDataContainer.getChildren().addAll(stepsDataLabel, stepsDataTextField);
+				
+				HBox exerciseDataContainer = new HBox(10);
+				Label exerciseDataLabel = new Label("Other exercise (in minutes)");
+				TextField exerciseDataTextField = new TextField();
+				exerciseDataContainer.getChildren().addAll(exerciseDataLabel, exerciseDataTextField);
+				
+				Button calculateButton = new Button("Calculate");
+				
+				Label printAllData = new Label("print data here");
+				metExerciseGoalInfo.setText("print goal info here");
+				
+				Button doneButton2 = new Button("Done");
+				doneButton2.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));
+				
+				exerciseDataWholeContainer.getChildren().addAll(stepsDataContainer, exerciseDataContainer, calculateButton, printAllData, metExerciseGoalInfo, doneButton2);
+				Scene exerciseDataScene = new Scene(exerciseDataWholeContainer);
+				doneButton.setOnAction(toExerciseDataScene -> applicationStage.setScene(exerciseDataScene));
     }
 
     @FXML
-    void toWaterIntermediate(ActionEvent event) {
-    	Scene waterIntermediateScene = new Scene(new Label("Placeholder"));
+    void toWaterIntermediate(ActionEvent toWaterIntermediateEvent) {
+    	//Set the original scene to mainScene
+    	Scene mainScene = applicationStage.getScene();
+    	
+    	//Create the container that will hold everything else in this scene
+    	VBox waterIntContainer = new VBox(10);
+    	
+    	//container that has the button that takes you to the water data scene
+    	HBox waterGoalButtonContainer = new HBox(10);
+    	Label waterLabel = new Label("Enter your water goal (in mL)");
+    	
+    	Button toWaterGoal = new Button("Enter");
+    	waterGoalButtonContainer.getChildren().addAll(waterLabel, toWaterGoal);
+    	
+    	//back button
+    	Button backButton = new Button("Back");
+    	backButton.setOnAction(backEvent -> applicationStage.setScene(mainScene));
+    	
+    	//add components to main container
+    	waterIntContainer.getChildren().addAll(waterGoalButtonContainer, backButton);
+    	Scene waterIntermediateScene = new Scene(waterIntContainer);
     	applicationStage.setScene(waterIntermediateScene);
-    	
+    		
+    		//create water goal scene
+    		VBox waterGoalWholeContainer = new VBox(10);
+		
+    		HBox waterGoalContainer = new HBox(10);
+    		Label waterGoalLabel = new Label("What is your water goal?");
+    		TextField waterGoalTextField = new TextField();
+    		Label mLLabel = new Label("mL");
+    		waterGoalContainer.getChildren().addAll(waterGoalLabel, waterGoalTextField, mLLabel);
+		
+			Label printWaterGoal = new Label("print water goal here");
+	
+			Button doneButton = new Button("Done");
+
+			waterGoalWholeContainer.getChildren().addAll(waterGoalContainer, printWaterGoal, doneButton);
+			Scene waterGoalScene = new Scene(waterGoalWholeContainer);
+			toWaterGoal.setOnAction(toWaterGoalEvent -> applicationStage.setScene(waterGoalScene));
+
+
+    			//create water data scene
+    			VBox waterDataWholeContainer = new VBox(10);
+		
+    			HBox waterDataContainer = new HBox(10);
+    			Label waterDataLabel = new Label("How much water did you drink (in mL)?");
+    			TextField waterDataTextField = new TextField();
+    			waterDataContainer.getChildren().addAll(waterDataLabel, waterDataTextField, mLLabel);
+		
+    			Label printWaterData = new Label("print water amount here");
+    			metWaterGoalInfo.setText("print goal info here");
+	
+    			Button doneButton2 = new Button("Done");
+    			doneButton2.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
+
+
+    			waterDataWholeContainer.getChildren().addAll(waterDataContainer, printWaterData, metWaterGoalInfo, doneButton2);
+    			Scene waterDataScene = new Scene(waterDataWholeContainer);
+    			doneButton.setOnAction(doneEvent -> applicationStage.setScene(waterDataScene));
     }
 
 
     @FXML
-    void getDailyScore(ActionEvent event) {
-    	Scene scoreScene = new Scene(new Label("Placeholder"));
-    	applicationStage.setScene(scoreScene);
+    void getDailyScore(ActionEvent toDailyScoreEvent) {
+    	//Set the original scene to mainScene
+    	Scene mainScene = applicationStage.getScene();
     	
+    	VBox dailyScoreAll = new VBox(10);
+    	Label dailyScore = new Label("Your daily Score!");
+    	Button doneButton = new Button("Done");
+    	doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
+    	
+    	HBox overallScoreContainer = new HBox(5);
+    	Label printOverallScore = new Label("Your overall score is ");
+    	Label yayLabel = new Label("! Good Job!!");
+    	overallScoreContainer.getChildren().addAll(printOverallScore, overallScore, yayLabel);
+    	
+    	if (metSleepGoalInfo.getText() == " ")
+    		metSleepGoalInfo.setText("no info entered");
+    	if (metFoodGoalInfo.getText() == " ")
+    		metFoodGoalInfo.setText("no info entered");
+    	if (metExpensesGoalInfo.getText() == " ")
+    		metExpensesGoalInfo.setText("no info entered");
+    	if (metExerciseGoalInfo.getText() == " ")
+    		metExerciseGoalInfo.setText("no info entered");
+    	if (metWaterGoalInfo.getText() == " ")
+    		metWaterGoalInfo.setText("no info entered");
+    	dailyScoreAll.getChildren().addAll(dailyScore, metSleepGoalInfo,  metFoodGoalInfo, metExpensesGoalInfo, metExerciseGoalInfo, metWaterGoalInfo, overallScoreContainer, doneButton);
+    	
+    	Scene scoreScene = new Scene(dailyScoreAll);
+    	applicationStage.setScene(scoreScene);
     }
 
 }
