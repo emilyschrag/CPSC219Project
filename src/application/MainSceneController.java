@@ -22,9 +22,34 @@ public class MainSceneController {
     private Label metExerciseGoalInfo = new Label(" ");
     private Label metWaterGoalInfo = new Label(" ");
     private Label overallScore = new Label(" ");
-
+    private TextField nameTextField = new TextField();
+    private ChoiceBox<Integer> ageChoiceBox = new ChoiceBox();
+    private ChoiceBox<Integer> sexChoiceBox = new ChoiceBox();
+    private TextField heightTextField = new TextField();
+    private TextField weightTextField = new TextField();
+    private ChoiceBox<Integer> hourChoiceBox = new ChoiceBox();
+    private ChoiceBox<Integer> minuteChoiceBox = new ChoiceBox();
+    private ChoiceBox<Integer> hourChoiceBox2 = new ChoiceBox();
+    private ChoiceBox<Integer> minuteChoiceBox2 = new ChoiceBox();
+    private ChoiceBox<Integer> hourChoiceBox3 = new ChoiceBox();
+    private ChoiceBox<Integer> minuteChoiceBox3 = new ChoiceBox();
+    private ChoiceBox<Integer> ampmChoiceBox = new ChoiceBox();
+    private ChoiceBox<Integer> ampmChoiceBox2 = new ChoiceBox();
+    private ChoiceBox<String> weightGoalChoiceBox = new ChoiceBox();
+    private TextField enterCalories = new TextField();
+    private TextField exGoalTextField = new TextField();
+    private TextField foodTextField = new TextField();
+    private TextField entertainmentTextField = new TextField();
+    private TextField groceriesTextField = new TextField();
+    private TextField otherTextField = new TextField();
+    private TextField stepsGoalTextField = new TextField();
+    private TextField waterGoalTextField = new TextField();
+    private TextField waterDataTextField = new TextField();
+    private TextField stepsDataTextField = new TextField();
+ 
+    
     @FXML
-    void enterInfo(ActionEvent enterInfoEvent) {
+    void enterInfo(ActionEvent enterInfo) {
     	//Set the original scene to mainScene
     	Scene mainScene = applicationStage.getScene();
     	
@@ -35,33 +60,33 @@ public class MainSceneController {
     	//container for entering name
     	HBox nameContainer = new HBox(10);
     	Label nameLabel = new Label("Enter your name");
-    	TextField nameTextField = new TextField();
     	nameContainer.getChildren().addAll(nameLabel, nameTextField);
+    	String userName = new String(nameTextField.getText());
     	
     	//container for entering age 
     	HBox ageContainer = new HBox(10);
     	Label ageLabel = new Label("Enter your Age");
-    	ChoiceBox ageChoiceBox = new ChoiceBox();
     	ageContainer.getChildren().addAll(ageLabel, ageChoiceBox);
+    	int userAge = ageChoiceBox.getValue();
     	
     	//container for entering sex 
     	HBox sexContainer = new HBox(10);
     	Label sexLabel = new Label("Enter your Sex");
-    	ChoiceBox sexChoiceBox = new ChoiceBox();
     	sexContainer.getChildren().addAll(sexLabel, sexChoiceBox);
+    	int userSex = sexChoiceBox.getValue();
     	
     	//container for entering height 
     	HBox heightContainer = new HBox(10);
     	
     	Label heightLabel = new Label("Enter your height in cm");
-    	TextField heightTextField = new TextField();
     	heightContainer.getChildren().addAll(heightLabel, heightTextField);
+    	String userHeight = heightTextField.getText();
     	
     	//container for entering weight 
     	HBox weightContainer = new HBox(10);
     	Label weightLabel = new Label("Enter your weight in kg");
-    	TextField weightTextField = new TextField();
     	weightContainer.getChildren().addAll(weightLabel, weightTextField);
+    	String userWeight = weightTextField.getText();
     	
     	//done button to take user back to main scene when information is entered
     	Button doneButton = new Button("Done");
@@ -76,7 +101,7 @@ public class MainSceneController {
     }
     
     @FXML
-    void toSleepIntermediate(ActionEvent sleepIntermediateEvent) {
+    void toSleepIntermediate(ActionEvent sleepIntermediate) {
     	//Set the original scene to mainScene
     	Scene mainScene = applicationStage.getScene();
     	
@@ -94,14 +119,14 @@ public class MainSceneController {
     		HBox enterSleepGoal = new HBox(5);
     		Label enterSleepGoalLabel = new Label("Enter your sleep goal");
     		Label hourLabel = new Label("Hour");
-    		ChoiceBox hourChoiceBox = new ChoiceBox();
     		Label minuteLabel = new Label("Minute");
-    		ChoiceBox minuteChoiceBox = new ChoiceBox();
     		Label printSleepGoal = new Label("Your sleep goal: ");
     	
+    		int sleepHour = hourChoiceBox.getValue();
+    		int sleepMinute = minuteChoiceBox.getValue();
+    		
     		//Done Button on sleep goal scene to take user to sleep data scene
     		Button doneButton = new Button("Done");
-   
     	
     		enterSleepGoal.getChildren().addAll(hourLabel, hourChoiceBox, minuteLabel, minuteChoiceBox);
     		sleepGoalContainer.getChildren().addAll(enterSleepGoalLabel, enterSleepGoal, printSleepGoal, doneButton);
@@ -116,24 +141,26 @@ public class MainSceneController {
     		
     			HBox bedtimeContainer = new HBox(5);
     			Label hourLabel2 = new Label("Hour");
-    			ChoiceBox hourChoiceBox2 = new ChoiceBox();
     			Label minuteLabel2 = new Label("Minute");
-    			ChoiceBox minuteChoiceBox2 = new ChoiceBox();
     			Label ampmLabel = new Label("AM/PM");
-    			ChoiceBox ampmChoiceBox = new ChoiceBox();
     			bedtimeContainer.getChildren().addAll(hourLabel2, hourChoiceBox2, minuteLabel2, minuteChoiceBox2, ampmLabel, ampmChoiceBox);
     		
+    			int sleepHour2 = hourChoiceBox2.getValue();
+    			int sleepMinute2 = minuteChoiceBox2.getValue();
+    			int sleepAMPM = ampmChoiceBox.getValue();
+    			
     			Label waketimeLabel = new Label("What time did you wake up?");
     		
     			HBox waketimeContainer = new HBox(5);
     			Label hourLabel3 = new Label("Hour");
-    			ChoiceBox hourChoiceBox3 = new ChoiceBox();
     			Label minuteLabel3 = new Label("Minute");
-    			ChoiceBox minuteChoiceBox3 = new ChoiceBox();
     			Label ampmLabel2 = new Label("AM/PM");
-    			ChoiceBox ampmChoiceBox2 = new ChoiceBox();
     			waketimeContainer.getChildren().addAll(hourLabel3, hourChoiceBox3, minuteLabel3, minuteChoiceBox3, ampmLabel2, ampmChoiceBox2);
     		
+    			int sleepHour3 = hourChoiceBox3.getValue();
+    			int sleepMinute3 = minuteChoiceBox3.getValue();
+    			int sleepAMPM2 = ampmChoiceBox2.getValue();
+    			
     			Button calculateSleep = new Button("Calculate");
     		
     			Label printSleep = new Label("PRINT SLEEP AMOUNT HERE: ");
@@ -189,8 +216,9 @@ public class MainSceneController {
     		
     		HBox weightGoalContainer = new HBox(10);
     		Label weightGoalLabel = new Label("What is your dietary goal?");
-    		ChoiceBox weightGoalChoiceBox = new ChoiceBox();
     		weightGoalContainer.getChildren().addAll(weightGoalLabel, weightGoalChoiceBox);
+    		
+    		String foodWeightGoal = weightGoalChoiceBox.getValue();
     		
     		HBox printWeightGoal = new HBox(10);
     		Label printCaloriesInfo = new Label("Based on your provided physical characteristics, you should comsume ");
@@ -208,7 +236,7 @@ public class MainSceneController {
     			VBox foodDataSceneContainer = new VBox(10);
     			
     			Label caloriesEnterLabel = new Label("How many calories have you consumed?");
-    			TextField enterCalories = new TextField();
+    			String foodCalories = enterCalories.getText();
     			
     		    metFoodGoalInfo.setText("print if goal met");
     			
@@ -248,8 +276,8 @@ public class MainSceneController {
     		
     		HBox exGoalContainer = new HBox(10);
     		Label exGoalLabel = new Label("Spending Goal");
-    		TextField exGoalTextField = new TextField();
     		exGoalContainer.getChildren().addAll(exGoalLabel, exGoalTextField );
+    		String expensesGoal = exGoalTextField.getText();
     		
     		Label printExGoal = new Label("print spending goal here");
     		
@@ -265,23 +293,23 @@ public class MainSceneController {
     			Label moneySpentLabel = new Label("Money spent today");
     			HBox foodContainer = new HBox(10);
     			Label foodLabel = new Label("Food");
-    			TextField foodTextField = new TextField();
     			foodContainer.getChildren().addAll(foodLabel, foodTextField);
+    			String expensesFood = foodTextField.getText();
     			
     			HBox entertainmentContainer = new HBox(10);
     			Label entertainmentLabel = new Label("Entertainment");
-    			TextField entertainmentTextField = new TextField();
     			entertainmentContainer.getChildren().addAll(entertainmentLabel, entertainmentTextField);
+    			String expensesEnt = entertainmentTextField.getText();
     			
     			HBox groceriesContainer = new HBox(10);
     			Label groceriesLabel = new Label("Groceries");
-    			TextField groceriesTextField = new TextField();
     			groceriesContainer.getChildren().addAll(groceriesLabel, groceriesTextField);
+    			String expensesGroceries =groceriesTextField.getText();
     			
     			HBox otherContainer = new HBox(10);
     			Label otherLabel = new Label("Other");
-    			TextField otherTextField = new TextField();
     			otherContainer.getChildren().addAll(otherLabel, otherTextField);
+    			String expensesOther = otherTextField.getText();
     			
     			Button calculateSpent = new Button("Calculate");
     			
@@ -306,7 +334,7 @@ public class MainSceneController {
     	
     	//container that has the button that takes you to the exercise data scene
     	HBox exerciseGoalButtonContainer = new HBox(10);
-    	Label exerciseLabel = new Label("Enter your exercise goal");
+    	Label exerciseLabel = new Label("Enter your step goal");
     	Button toExerciseGoal = new Button("Enter");
     	exerciseGoalButtonContainer.getChildren().addAll(exerciseLabel, toExerciseGoal);
     	
@@ -325,23 +353,17 @@ public class MainSceneController {
 		
 			HBox stepsGoalContainer = new HBox(10);
 			Label stepsGoalLabel = new Label("What is your step goal?");
-			TextField stepsGoalTextField = new TextField();
 			Label stepsLabel = new Label("Steps");
 			stepsGoalContainer.getChildren().addAll(stepsGoalLabel, stepsGoalTextField, stepsLabel);
+			String exerciseStepsGoal = stepsGoalTextField.getText();
 			
-			HBox exerciseGoalContainer = new HBox(10);
-			Label exerciseGoalLabel = new Label("What is your goal for other exercise(in minutes)?");
-			TextField exerciseGoalTextField = new TextField();
-			Label minsLabel = new Label("Minutes");
-			exerciseGoalContainer.getChildren().addAll(exerciseGoalLabel, exerciseGoalTextField, minsLabel);
-		
 			Label printStepsGoal = new Label("print step goal here");
-			Label printExGoal = new Label("print exercise goal here");
+	;
 		
 			Button doneButton = new Button("Done");
 			doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
 	
-			exerciseGoalWholeContainer.getChildren().addAll(stepsGoalContainer, exerciseGoalContainer, printStepsGoal, printExGoal, doneButton);
+			exerciseGoalWholeContainer.getChildren().addAll(stepsGoalContainer, printStepsGoal, doneButton);
 			Scene exerciseGoalScene = new Scene(exerciseGoalWholeContainer);
 			toExerciseGoal.setOnAction(toExerciseGoalEvent -> applicationStage.setScene(exerciseGoalScene));
 
@@ -350,13 +372,8 @@ public class MainSceneController {
 				
 				HBox stepsDataContainer = new HBox(10);
 				Label stepsDataLabel = new Label("Number of steps");
-				TextField stepsDataTextField = new TextField();
 				stepsDataContainer.getChildren().addAll(stepsDataLabel, stepsDataTextField);
-				
-				HBox exerciseDataContainer = new HBox(10);
-				Label exerciseDataLabel = new Label("Other exercise (in minutes)");
-				TextField exerciseDataTextField = new TextField();
-				exerciseDataContainer.getChildren().addAll(exerciseDataLabel, exerciseDataTextField);
+				String exerciseStepsData = stepsDataTextField.getText();
 				
 				Button calculateButton = new Button("Calculate");
 				
@@ -366,7 +383,7 @@ public class MainSceneController {
 				Button doneButton2 = new Button("Done");
 				doneButton2.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));
 				
-				exerciseDataWholeContainer.getChildren().addAll(stepsDataContainer, exerciseDataContainer, calculateButton, printAllData, metExerciseGoalInfo, doneButton2);
+				exerciseDataWholeContainer.getChildren().addAll(stepsDataContainer, calculateButton, printAllData, metExerciseGoalInfo, doneButton2);
 				Scene exerciseDataScene = new Scene(exerciseDataWholeContainer);
 				doneButton.setOnAction(toExerciseDataScene -> applicationStage.setScene(exerciseDataScene));
     }
@@ -400,10 +417,10 @@ public class MainSceneController {
 		
     		HBox waterGoalContainer = new HBox(10);
     		Label waterGoalLabel = new Label("What is your water goal?");
-    		TextField waterGoalTextField = new TextField();
     		Label mLLabel = new Label("mL");
     		waterGoalContainer.getChildren().addAll(waterGoalLabel, waterGoalTextField, mLLabel);
-		
+    		String waterGoal =  waterGoalTextField.getText();
+    		
 			Label printWaterGoal = new Label("print water goal here");
 	
 			Button doneButton = new Button("Done");
@@ -418,9 +435,9 @@ public class MainSceneController {
 		
     			HBox waterDataContainer = new HBox(10);
     			Label waterDataLabel = new Label("How much water did you drink (in mL)?");
-    			TextField waterDataTextField = new TextField();
     			waterDataContainer.getChildren().addAll(waterDataLabel, waterDataTextField, mLLabel);
-		
+    			String waterData = waterDataTextField.getText();
+    			
     			Label printWaterData = new Label("print water amount here");
     			metWaterGoalInfo.setText("print goal info here");
 	
