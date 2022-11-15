@@ -23,8 +23,8 @@ public class MainSceneController {
     private Label metWaterGoalInfo = new Label(" ");
     private Label overallScore = new Label(" ");
     private TextField nameTextField = new TextField();
-    private ChoiceBox<Integer> ageChoiceBox = new ChoiceBox();
-    private ChoiceBox<Integer> sexChoiceBox = new ChoiceBox();
+    private ChoiceBox<String> ageChoiceBox = new ChoiceBox();
+    private ChoiceBox<String> sexChoiceBox = new ChoiceBox();
     private TextField heightTextField = new TextField();
     private TextField weightTextField = new TextField();
     private ChoiceBox<Integer> hourChoiceBox = new ChoiceBox();
@@ -33,8 +33,8 @@ public class MainSceneController {
     private ChoiceBox<Integer> minuteChoiceBox2 = new ChoiceBox();
     private ChoiceBox<Integer> hourChoiceBox3 = new ChoiceBox();
     private ChoiceBox<Integer> minuteChoiceBox3 = new ChoiceBox();
-    private ChoiceBox<Integer> ampmChoiceBox = new ChoiceBox();
-    private ChoiceBox<Integer> ampmChoiceBox2 = new ChoiceBox();
+    private ChoiceBox<String> ampmChoiceBox = new ChoiceBox();
+    private ChoiceBox<String> ampmChoiceBox2 = new ChoiceBox();
     private ChoiceBox<String> weightGoalChoiceBox = new ChoiceBox();
     private TextField enterCalories = new TextField();
     private TextField exGoalTextField = new TextField();
@@ -46,10 +46,10 @@ public class MainSceneController {
     private TextField waterGoalTextField = new TextField();
     private TextField waterDataTextField = new TextField();
     private TextField stepsDataTextField = new TextField();
- 
+  
     
     @FXML
-    void enterInfo(ActionEvent enterInfo) {
+    void enterInfo(ActionEvent enterInfoEvent) {
     	//Set the original scene to mainScene
     	Scene mainScene = applicationStage.getScene();
     	
@@ -67,13 +67,15 @@ public class MainSceneController {
     	HBox ageContainer = new HBox(10);
     	Label ageLabel = new Label("Enter your Age");
     	ageContainer.getChildren().addAll(ageLabel, ageChoiceBox);
-    	int userAge = ageChoiceBox.getValue();
+    	ageChoiceBox.getItems().addAll("0-9", "10-19", "20-29", "30-39", "40,49", "50-59", "60-69", "70-79", "80-89", "90-99");
+    	String userAge = ageChoiceBox.getValue();
     	
     	//container for entering sex 
     	HBox sexContainer = new HBox(10);
     	Label sexLabel = new Label("Enter your Sex");
     	sexContainer.getChildren().addAll(sexLabel, sexChoiceBox);
-    	int userSex = sexChoiceBox.getValue();
+    	sexChoiceBox.getItems().addAll("Male", "Female", "Prefer not to Say");
+    	String userSex = sexChoiceBox.getValue();
     	
     	//container for entering height 
     	HBox heightContainer = new HBox(10);
@@ -101,7 +103,7 @@ public class MainSceneController {
     }
     
     @FXML
-    void toSleepIntermediate(ActionEvent sleepIntermediate) {
+    void toSleepIntermediate(ActionEvent sleepIntermediateEvent) {
     	//Set the original scene to mainScene
     	Scene mainScene = applicationStage.getScene();
     	
@@ -122,8 +124,8 @@ public class MainSceneController {
     		Label minuteLabel = new Label("Minute");
     		Label printSleepGoal = new Label("Your sleep goal: ");
     	
-    		int sleepHour = hourChoiceBox.getValue();
-    		int sleepMinute = minuteChoiceBox.getValue();
+    		hourChoiceBox.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16);
+    		minuteChoiceBox.getItems().addAll(0,5,10,15,20,25,30,35,40,45,50,55);
     		
     		//Done Button on sleep goal scene to take user to sleep data scene
     		Button doneButton = new Button("Done");
@@ -133,7 +135,7 @@ public class MainSceneController {
     		Scene sleepGoalScene = new Scene(sleepGoalContainer);
     		//the enter takes you to the sleep goal scene
     		toSleepGoal.setOnAction(toSleepGoalEvent -> applicationStage.setScene(sleepGoalScene));
-    	
+    		
     			//create the sleepData Scene
     			VBox sleepDataContainer = new VBox(10);
     		
@@ -145,9 +147,10 @@ public class MainSceneController {
     			Label ampmLabel = new Label("AM/PM");
     			bedtimeContainer.getChildren().addAll(hourLabel2, hourChoiceBox2, minuteLabel2, minuteChoiceBox2, ampmLabel, ampmChoiceBox);
     		
-    			int sleepHour2 = hourChoiceBox2.getValue();
-    			int sleepMinute2 = minuteChoiceBox2.getValue();
-    			int sleepAMPM = ampmChoiceBox.getValue();
+    			hourChoiceBox2.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
+        		minuteChoiceBox2.getItems().addAll(0,5,10,15,20,25,30,35,40,45,50,55);
+        		ampmChoiceBox.getItems().addAll("AM", "PM");
+    			
     			
     			Label waketimeLabel = new Label("What time did you wake up?");
     		
@@ -157,9 +160,9 @@ public class MainSceneController {
     			Label ampmLabel2 = new Label("AM/PM");
     			waketimeContainer.getChildren().addAll(hourLabel3, hourChoiceBox3, minuteLabel3, minuteChoiceBox3, ampmLabel2, ampmChoiceBox2);
     		
-    			int sleepHour3 = hourChoiceBox3.getValue();
-    			int sleepMinute3 = minuteChoiceBox3.getValue();
-    			int sleepAMPM2 = ampmChoiceBox2.getValue();
+    			hourChoiceBox3.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
+        		minuteChoiceBox3.getItems().addAll(0,5,10,15,20,25,30,35,40,45,50,55);
+        		ampmChoiceBox2.getItems().addAll("AM", "PM");
     			
     			Button calculateSleep = new Button("Calculate");
     		
@@ -186,6 +189,15 @@ public class MainSceneController {
     	Scene sleepIntermediateScene = new Scene(sleepIntContainer);
     	//set the scene to the sleep intermediate scene
     	applicationStage.setScene(sleepIntermediateScene);
+    	
+    	int sleepHour = hourChoiceBox.getValue();
+		int sleepMinute = minuteChoiceBox.getValue();
+		int sleepHour2 = hourChoiceBox2.getValue();
+		int sleepMinute2 = minuteChoiceBox2.getValue();
+		String sleepAMPM = ampmChoiceBox.getValue();
+		int sleepHour3 = hourChoiceBox3.getValue();
+		int sleepMinute3 = minuteChoiceBox3.getValue();
+		String sleepAMPM2 = ampmChoiceBox2.getValue();
     }
 
     @FXML
@@ -449,7 +461,6 @@ public class MainSceneController {
     			Scene waterDataScene = new Scene(waterDataWholeContainer);
     			doneButton.setOnAction(doneEvent -> applicationStage.setScene(waterDataScene));
     }
-
 
     @FXML
     void getDailyScore(ActionEvent toDailyScoreEvent) {
