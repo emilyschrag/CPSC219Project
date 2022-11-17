@@ -8,22 +8,28 @@ public class Habit {
 	private double grade;
 	
 	//default constructor sets all values to 0
-	public Habit () {
-		setScore(0);
-		setGoal(0);
-		setGrade(0);
-	}
+//	public Habit () {
+//		setScore(0);
+//		setGoal(0);
+//		setGrade(0);
+//	}
 	
 	//constructor takes inputs for score and goal and sets grade to 0
 	public Habit (int inputScore, int inputGoal) {
-		setScore(inputScore);
-		setGoal(inputGoal);
-		setGrade(0);
+		if (inputScore > 0)
+		score = (inputScore);
+		else score = 0;
+		if (inputGoal > 0)
+		goal = (inputGoal);
+		else goal = 0;
+		grade = 10;
 	}
 	
 	//calculates grade
 	public void calculateGrade() {
-		setGrade(getScore() / getGoal());
+		if (score != 0 && goal != 0)
+			grade = score / goal;
+		else grade = 10;
 	}
 
 	
