@@ -46,6 +46,9 @@ public class MainSceneController {
     private TextField waterGoalTextField = new TextField();
     private TextField waterDataTextField = new TextField();
     private TextField stepsDataTextField = new TextField();
+    private double stepsGrade;
+    private int stepsGoal;
+    private int stepsData;
   
     
     @FXML
@@ -198,6 +201,8 @@ public class MainSceneController {
 		int sleepHour3 = hourChoiceBox3.getValue();
 		int sleepMinute3 = minuteChoiceBox3.getValue();
 		String sleepAMPM2 = ampmChoiceBox2.getValue();
+		
+		//create sleep objects
     }
 
     @FXML
@@ -359,7 +364,6 @@ public class MainSceneController {
     	Scene exerciseIntermediateScene = new Scene(exerciseIntContainer);
     	applicationStage.setScene(exerciseIntermediateScene);
     	
-    	
     		//create the exercise goal scene
 			VBox exerciseGoalWholeContainer = new VBox(10);
 		
@@ -368,36 +372,42 @@ public class MainSceneController {
 			Label stepsLabel = new Label("Steps");
 			stepsGoalContainer.getChildren().addAll(stepsGoalLabel, stepsGoalTextField, stepsLabel);
 			String exerciseStepsGoal = stepsGoalTextField.getText();
-			
-			Label printStepsGoal = new Label("print step goal here");
-	;
+			if (exerciseStepsGoal != "") {
+				stepsGoal = Integer.parseInt(exerciseStepsGoal);}
 		
 			Button doneButton = new Button("Done");
 			doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
 	
-			exerciseGoalWholeContainer.getChildren().addAll(stepsGoalContainer, printStepsGoal, doneButton);
+			exerciseGoalWholeContainer.getChildren().addAll(stepsGoalContainer,  doneButton);
 			Scene exerciseGoalScene = new Scene(exerciseGoalWholeContainer);
 			toExerciseGoal.setOnAction(toExerciseGoalEvent -> applicationStage.setScene(exerciseGoalScene));
 
-				//create the exercise goal data scene
+				//create the exercise data scene
 				VBox exerciseDataWholeContainer = new VBox(10);
 				
 				HBox stepsDataContainer = new HBox(10);
 				Label stepsDataLabel = new Label("Number of steps");
 				stepsDataContainer.getChildren().addAll(stepsDataLabel, stepsDataTextField);
 				String exerciseStepsData = stepsDataTextField.getText();
+				if (exerciseStepsData != "") {
+					stepsData = Integer.parseInt(exerciseStepsData);}
 				
 				Button calculateButton = new Button("Calculate");
-				
-				Label printAllData = new Label("print data here");
-				metExerciseGoalInfo.setText("print goal info here");
-				
 				Button doneButton2 = new Button("Done");
 				doneButton2.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));
-				
-				exerciseDataWholeContainer.getChildren().addAll(stepsDataContainer, calculateButton, printAllData, metExerciseGoalInfo, doneButton2);
+				calculateButton.setOnAction(backToMain -> applicationStage.setScene(mainScene));		
+
+				exerciseDataWholeContainer.getChildren().addAll(stepsDataContainer, calculateButton, metExerciseGoalInfo, doneButton2);
 				Scene exerciseDataScene = new Scene(exerciseDataWholeContainer);
 				doneButton.setOnAction(toExerciseDataScene -> applicationStage.setScene(exerciseDataScene));
+    
+		//Habit stepsHabit = new Habit(stepsData, stepsGoal);
+		if (stepsGoal > 0 && stepsData > 0) {
+			Habit stepsHabit = new Habit(stepsData, stepsGoal);
+		    stepsHabit.calculateGrade();
+		    stepsGrade = stepsHabit.getGrade();
+			}
+		
     }
 
     @FXML
@@ -483,10 +493,13 @@ public class MainSceneController {
     		metFoodGoalInfo.setText("no info entered");
     	if (metExpensesGoalInfo.getText() == " ")
     		metExpensesGoalInfo.setText("no info entered");
-    	if (metExerciseGoalInfo.getText() == " ")
+    	if (stepsGrade == 0)
     		metExerciseGoalInfo.setText("no info entered");
+    	else 
+    		metExerciseGoalInfo.setText(". " + stepsGrade );
     	if (metWaterGoalInfo.getText() == " ")
     		metWaterGoalInfo.setText("no info entered");
+    	System.out.print(stepsGrade);
     	dailyScoreAll.getChildren().addAll(dailyScore, metSleepGoalInfo,  metFoodGoalInfo, metExpensesGoalInfo, metExerciseGoalInfo, metWaterGoalInfo, overallScoreContainer, doneButton);
     	
     	Scene scoreScene = new Scene(dailyScoreAll);
