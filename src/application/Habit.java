@@ -22,14 +22,14 @@ public class Habit {
 		if (inputGoal > 0)
 		goal = (inputGoal);
 		else goal = 0;
-		grade = 10;
+		grade = 0;
 	}
 	
 	//calculates grade
 	public void calculateGrade() {
 		if (score != 0 && goal != 0)
-			grade = score / goal;
-		else grade = 10;
+			grade = ((double) score  / goal)*10;
+		else grade = 0;
 	}
 
 	

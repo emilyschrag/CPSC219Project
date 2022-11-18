@@ -510,12 +510,8 @@ public class MainSceneController {
     		Habit expensesHabit = new Habit(spendingData, spendingGoal);
     		expensesHabit.calculateGrade();
     		spendingGrade = expensesHabit.getGrade();
-    		metExpensesGoalInfo.setText("Spending Grade " + spendingGrade);
-    	}
-//    	System.out.println(spendingGoal);
-//    	System.out.println(spendingData);
-//    	System.out.println(spendingGrade);
-    	
+    		metExpensesGoalInfo.setText("Spending Grade " + spendingGrade + " out of 10.0.");
+    	}	
     	
     	//Water
     	if (waterGoalTextField.getText() != "") {
@@ -533,12 +529,8 @@ public class MainSceneController {
     	Habit waterHabit = new Habit(waterData, waterGoal);
     	waterHabit.calculateGrade();
     	waterGrade = waterHabit.getGrade();
-    	metWaterGoalInfo.setText("Water Grade: " + waterGrade); }
+    	metWaterGoalInfo.setText("Water Grade: " + waterGrade + " out of 10.0."); }
     	
-//    	System.out.println(waterGoal);
-//    	System.out.println(waterData);
-//    	System.out.println(waterGrade);
-//    	
     	
     	//Exercise 
     	if (stepsGoalTextField.getText() != "") {
@@ -557,11 +549,9 @@ public class MainSceneController {
     	Habit stepsHabit = new Habit(stepsData, stepsGoal);
     	stepsHabit.calculateGrade();
     	stepsGrade = stepsHabit.getGrade();
-    	metExerciseGoalInfo.setText("Step Grade:" + stepsGrade); }
+    	metExerciseGoalInfo.setText("Step Grade: " + stepsGrade + " out of 10.0."); }
    
-//    	System.out.println(stepsGoal);
-//    	System.out.println(stepsData);
-//    	System.out.println(stepsGrade);
+
     	
     	//Calculate dailyScore
     	double dailyScore = 0;
@@ -570,7 +560,7 @@ public class MainSceneController {
     	if (stepsGrade != 0)
     		dailyScore += stepsGrade;
     	if (spendingGoal != 0)
-    		dailyScore += spendingGoal;
+    		dailyScore += spendingGrade;
     	//need to divide by number of habits with data
     	dailyScore = dailyScore/3;
     	
