@@ -234,9 +234,7 @@ public class MainSceneController {
     	waterDataContainer.getChildren().addAll(waterDataLabel, waterDataTextField, mLLabel);
    		Button doneButton = new Button("Done");
    		Button calculateButton = new Button("Calculate");
-   		Label printWater = new Label("Print amount here");
-   	   	metWaterGoalInfo.setText("Print  goal here");
-   		waterDataWholeContainer.getChildren().addAll(waterGoalContainer, waterDataContainer,calculateButton, printWater, metWaterGoalInfo, doneButton);
+   		waterDataWholeContainer.getChildren().addAll(waterGoalContainer, waterDataContainer,calculateButton, errorLabel, goalLabel, doneButton);
    		Scene waterScene = new Scene(waterDataWholeContainer);
    		calculateButton.setOnAction(calculateEvent -> createHabit(waterDataTextField.getText(), waterGoalTextField.getText()));
    		doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
