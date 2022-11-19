@@ -22,6 +22,8 @@ public class MainSceneController {
     private Label metExpensesGoalInfo = new Label(" ");
     private Label metExerciseGoalInfo = new Label(" ");
     private Label metWaterGoalInfo = new Label(" ");
+    private Label errorLabel = new Label("");
+    private Label goalLabel = new Label("");
     private TextField nameTextField = new TextField();
     private ChoiceBox<String> ageChoiceBox = new ChoiceBox();
     private ChoiceBox<String> sexChoiceBox = new ChoiceBox();
@@ -61,6 +63,18 @@ public class MainSceneController {
     private double spendingGrade;
     
   
+
+    void createHabit(String dataAsString, String goalAsString) {
+    	errorLabel.setText("");
+    	goalLabel.setText("");
+    	Habit basic = new Habit(); 
+    	errorLabel.setText(basic.setGoal(goalAsString));
+    	errorLabel.setText(basic.setValue(dataAsString));
+    	basic.calculateGrade();
+    	goalLabel.setText("socre: " + basic.getGrade());
+    	System.out.println(basic.getGrade());
+    }
+    
     
     @FXML
     void enterInfo(ActionEvent enterInfoEvent) {
@@ -198,15 +212,11 @@ public class MainSceneController {
 		HBox stepsDataContainer = new HBox(10);
 		Label stepsDataLabel = new Label("Number of steps");
 		stepsDataContainer.getChildren().addAll(stepsDataLabel, stepsDataTextField);
-		String exerciseStepsData = stepsDataTextField.getText();
-		if (exerciseStepsData != "") {
-			stepsData = Integer.parseInt(exerciseStepsData);}	
 		Button calculateButton = new Button("Calculate");
 		Button doneButton = new Button("Done");
-		Label printExercise = new Label("Print amount here");
-	   	metExerciseGoalInfo.setText("Print  goal here");
-		doneButton.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));		
-		exerciseDataWholeContainer.getChildren().addAll(stepsGoalContainer, stepsDataContainer, calculateButton, printExercise,  metExerciseGoalInfo, doneButton);
+	   	calculateButton.setOnAction(calculateEvent -> createHabit(stepsDataTextField.getText(), stepsGoalTextField.getText()));
+	   	doneButton.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));		
+		exerciseDataWholeContainer.getChildren().addAll(stepsGoalContainer, stepsDataContainer, calculateButton, errorLabel,  goalLabel, doneButton);
 		Scene exerciseScene = new Scene(exerciseDataWholeContainer);
 		applicationStage.setScene(exerciseScene);
     }
@@ -228,6 +238,7 @@ public class MainSceneController {
    	   	metWaterGoalInfo.setText("Print  goal here");
    		waterDataWholeContainer.getChildren().addAll(waterGoalContainer, waterDataContainer,calculateButton, printWater, metWaterGoalInfo, doneButton);
    		Scene waterScene = new Scene(waterDataWholeContainer);
+   		calculateButton.setOnAction(calculateEvent -> createHabit(waterDataTextField.getText(), waterGoalTextField.getText()));
    		doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
    		applicationStage.setScene(waterScene);
     }
@@ -260,13 +271,7 @@ public class MainSceneController {
     		waterData = 0;
     	}
     	
-    	if (waterData == 0 || waterGoal == 0) {
-    	metWaterGoalInfo.setText("No info entered");
-    	} else {
-    	Habit waterHabit = new Habit(waterData, waterGoal);
-    	waterHabit.calculateGrade();
-    	waterGrade = waterHabit.getGrade();
-    	metWaterGoalInfo.setText("Water Grade: " + waterGrade + " out of 10.0."); }
+    	
     	
     	
     	//Exercise 
@@ -282,12 +287,7 @@ public class MainSceneController {
     	if (stepsGoal == 0 || stepsGoal ==0) {
     		metExerciseGoalInfo.setText("No info entered");
     	}
-    	else {
-    	Habit stepsHabit = new Habit(stepsData, stepsGoal);
-    	stepsHabit.calculateGrade();
-    	stepsGrade = stepsHabit.getGrade();
-    	metExerciseGoalInfo.setText("Step Grade: " + stepsGrade + " out of 10.0."); }
-  
+    	
     	//Calculate dailyScore
     	double dailyScore = 0;
     	if (waterGrade != 0)
