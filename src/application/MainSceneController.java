@@ -64,17 +64,31 @@ public class MainSceneController {
     
   
 
-    void createHabit(String dataAsString, String goalAsString) {
+    void createStepsHabit(String dataAsString, String goalAsString) {
     	errorLabel.setText("");
     	goalLabel.setText("");
-    	Habit basic = new Habit(); 
-    	errorLabel.setText(basic.setGoal(goalAsString));
-    	errorLabel.setText(basic.setValue(dataAsString));
-    	basic.calculateGrade();
-    	goalLabel.setText("socre: " + basic.getGrade());
-    	System.out.println(basic.getGrade());
+    	Habit step = new Habit(); 
+    	errorLabel.setText(step.setGoal(goalAsString));
+    	errorLabel.setText(step.setValue(dataAsString));
+    	step.calculateGrade();
+    	double stepGrade = step.getGrade();
+    	if (step.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your exercise goal.");
+    	else goalLabel.setText(String.format("you have completed %.0f"
+				+ "%% of your exercise goal", stepGrade));
     }
     
+    void createWaterHabit(String dataAsString, String goalAsString) {
+    	errorLabel.setText("");
+    	goalLabel.setText("");
+    	Habit water = new Habit(); 
+    	errorLabel.setText(water.setGoal(goalAsString));
+    	errorLabel.setText(water.setValue(dataAsString));
+    	water.calculateGrade();
+    	double waterGrade = water.getGrade();
+    	if (water.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your water intake goal.");
+    	else goalLabel.setText(String.format("you have completed %.0f"
+				+ "%% of your exercise goal", waterGrade));
+    }
     
     @FXML
     void enterInfo(ActionEvent enterInfoEvent) {
@@ -203,6 +217,8 @@ public class MainSceneController {
 
     @FXML
     void toExerciseIntermediate(ActionEvent toExerciseIntermediateScene) {
+    	errorLabel.setText("");
+    	goalLabel.setText("");
     	Scene mainScene = applicationStage.getScene();
 		HBox stepsGoalContainer = new HBox(10);
 		Label stepsGoalLabel = new Label("What is your step goal?");
@@ -214,7 +230,7 @@ public class MainSceneController {
 		stepsDataContainer.getChildren().addAll(stepsDataLabel, stepsDataTextField);
 		Button calculateButton = new Button("Calculate");
 		Button doneButton = new Button("Done");
-	   	calculateButton.setOnAction(calculateEvent -> createHabit(stepsDataTextField.getText(), stepsGoalTextField.getText()));
+	   	calculateButton.setOnAction(calculateEvent -> createStepsHabit(stepsDataTextField.getText(), stepsGoalTextField.getText()));
 	   	doneButton.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));		
 		exerciseDataWholeContainer.getChildren().addAll(stepsGoalContainer, stepsDataContainer, calculateButton, errorLabel,  goalLabel, doneButton);
 		Scene exerciseScene = new Scene(exerciseDataWholeContainer);
@@ -223,6 +239,8 @@ public class MainSceneController {
 
     @FXML
     void toWaterIntermediate(ActionEvent toWaterIntermediateEvent) {
+    	errorLabel.setText("");
+    	goalLabel.setText("");
     	Scene mainScene = applicationStage.getScene();
     	HBox waterGoalContainer = new HBox(10);
     	Label waterGoalLabel = new Label("What is your water goal?");
@@ -236,7 +254,7 @@ public class MainSceneController {
    		Button calculateButton = new Button("Calculate");
    		waterDataWholeContainer.getChildren().addAll(waterGoalContainer, waterDataContainer,calculateButton, errorLabel, goalLabel, doneButton);
    		Scene waterScene = new Scene(waterDataWholeContainer);
-   		calculateButton.setOnAction(calculateEvent -> createHabit(waterDataTextField.getText(), waterGoalTextField.getText()));
+   		calculateButton.setOnAction(calculateEvent -> createWaterHabit(waterDataTextField.getText(), waterGoalTextField.getText()));
    		doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
    		applicationStage.setScene(waterScene);
     }

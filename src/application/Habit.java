@@ -27,7 +27,7 @@ public class Habit {
 	
 	//calculates grade
 	public void calculateGrade() {
-			grade =  value  / goal *10;
+			grade =  value  / goal * 100;
 	}
 
 	public double getWeightedGrade() {
@@ -47,7 +47,7 @@ public class Habit {
     	boolean validGrade = true;
     	for (char c : goalAsString.toCharArray()) {
     		// If any character is not a digit, set flag to false: it is not a number
-    		if (!Character.isDigit(c)) {
+    	  	if (!Character.isDigit(c)) {
     			
     			if (c != '.') {
     				validGrade = false;
