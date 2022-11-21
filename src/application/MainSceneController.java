@@ -33,10 +33,6 @@ public class MainSceneController {
     private ChoiceBox<Integer> minuteChoiceBox = new ChoiceBox();
     private ChoiceBox<Integer> hourChoiceBox2 = new ChoiceBox();
     private ChoiceBox<Integer> minuteChoiceBox2 = new ChoiceBox();
-    private ChoiceBox<Integer> hourChoiceBox3 = new ChoiceBox();
-    private ChoiceBox<Integer> minuteChoiceBox3 = new ChoiceBox();
-    private ChoiceBox<String> ampmChoiceBox = new ChoiceBox();
-    private ChoiceBox<String> ampmChoiceBox2 = new ChoiceBox();
     private ChoiceBox<String> weightGoalChoiceBox = new ChoiceBox();
     private TextField enterCalories = new TextField();
     private TextField exGoalTextField = new TextField();
@@ -72,7 +68,7 @@ public class MainSceneController {
     	errorLabel.setText(step.setValue(dataAsString));
     	step.calculateGrade();
     	double stepGrade = step.getGrade();
-    	if (step.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your exercise goal.");
+    	if (step.getGrade() == 100) goalLabel.setText("Congratulations! You have reached your exercise goal.");
     	else goalLabel.setText(String.format("you have completed %.0f"
 				+ "%% of your exercise goal", stepGrade));
     }
@@ -85,7 +81,7 @@ public class MainSceneController {
     	errorLabel.setText(water.setValue(dataAsString));
     	water.calculateGrade();
     	double waterGrade = water.getGrade();
-    	if (water.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your water intake goal.");
+    	if (water.getGrade() == 100) goalLabel.setText("Congratulations! You have reached your water intake goal.");
     	else goalLabel.setText(String.format("you have completed %.0f"
 				+ "%% of your exercise goal", waterGrade));
     }
@@ -120,7 +116,7 @@ public class MainSceneController {
     }
     
     @FXML
-    void toSleepIntermediate(ActionEvent sleepIntermediateEvent) {
+    void toSleepIntermediate(ActionEvent sleepEvent) {
     	Scene mainScene = applicationStage.getScene();
        	VBox sleepContainer = new VBox(10);
     	HBox enterSleepGoal = new HBox(5);
@@ -130,30 +126,19 @@ public class MainSceneController {
     	hourChoiceBox.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16);
     	minuteChoiceBox.getItems().addAll(0,5,10,15,20,25,30,35,40,45,50,55);
     	enterSleepGoal.getChildren().addAll(hourLabel, hourChoiceBox, minuteLabel, minuteChoiceBox);
-    	Label bedtimeLabel = new Label("What time did you go to bed?");
+    	Label bedtimeLabel = new Label("How much sleep did you get?");
     	HBox bedtimeContainer = new HBox(5);
     	Label hourLabel2 = new Label("Hour");
     	Label minuteLabel2 = new Label("Minute");
-    	Label ampmLabel = new Label("AM/PM");
-    	bedtimeContainer.getChildren().addAll(hourLabel2, hourChoiceBox2, minuteLabel2, minuteChoiceBox2, ampmLabel, ampmChoiceBox);
-    	hourChoiceBox2.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
+    	bedtimeContainer.getChildren().addAll(hourLabel2, hourChoiceBox2, minuteLabel2, minuteChoiceBox2);
+    	hourChoiceBox2.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16);
         minuteChoiceBox2.getItems().addAll(0,5,10,15,20,25,30,35,40,45,50,55);
-        ampmChoiceBox.getItems().addAll("AM", "PM");
-    	Label waketimeLabel = new Label("What time did you wake up?");
-    	HBox waketimeContainer = new HBox(5);
-    	Label hourLabel3 = new Label("Hour");
-    	Label minuteLabel3 = new Label("Minute");
-    	Label ampmLabel2 = new Label("AM/PM");
-    	waketimeContainer.getChildren().addAll(hourLabel3, hourChoiceBox3, minuteLabel3, minuteChoiceBox3, ampmLabel2, ampmChoiceBox2);
-    	hourChoiceBox3.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
-        minuteChoiceBox3.getItems().addAll(0,5,10,15,20,25,30,35,40,45,50,55);
-        ampmChoiceBox2.getItems().addAll("AM", "PM");	
     	Button calculateSleep = new Button("Calculate");	
     	Label printSleep = new Label("Print sleep amount here");
     	metSleepGoalInfo.setText("Print sleep goal here");
     	Button doneButton = new Button("Done");
     	doneButton.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));
-    	sleepContainer.getChildren().addAll(enterSleepGoalLabel, enterSleepGoal, bedtimeLabel, bedtimeContainer, waketimeLabel, waketimeContainer, calculateSleep, printSleep, metSleepGoalInfo, doneButton);
+    	sleepContainer.getChildren().addAll(enterSleepGoalLabel, enterSleepGoal, bedtimeLabel, bedtimeContainer, calculateSleep, printSleep, metSleepGoalInfo, doneButton);
     	Scene sleepScene = new Scene(sleepContainer);
     	Button backButton = new Button("Back");
     	backButton.setOnAction(backEvent -> applicationStage.setScene(mainScene));
