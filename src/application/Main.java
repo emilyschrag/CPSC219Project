@@ -19,7 +19,7 @@ public class Main extends Application {
 			MainSceneController controller = (MainSceneController)loader.getController();
 			controller.applicationStage = primaryStage;
 			
-			Scene scene = new Scene(root,400,400);
+			Scene scene = new Scene(root,200,300);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			primaryStage.setTitle("Habit Tracker");

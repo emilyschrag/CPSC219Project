@@ -42,26 +42,34 @@ public class Habit {
 		String errorMessage = ""; // start with assuming no error
 		
 		// Check that the user entered a numeric value
-    	int counter = 0;
+    	int periodcounter = 0;
+    	int commacounter = 0;
     	
     	boolean validGrade = true;
     	for (char c : goalAsString.toCharArray()) {
     		// If any character is not a digit, set flag to false: it is not a number
     	  	if (!Character.isDigit(c)) {
-    			
-    			if (c != '.') {
+    			if (c != '.' && c != ',') {
     				validGrade = false;
-    			}else{
-    				counter++;
-    				if (counter > 1){
+    			}else if (c == '.'){
+    				periodcounter++;
+    				if (periodcounter > 1){
         				validGrade = false;
         			}
+    			} else if (c == ',') {
+    				commacounter++;
+    				if (commacounter > 1) 
+    					validGrade = false;
     			}
-    			
     				
     			if (validGrade == false) {
-    				if (counter > 1) {
-    					errorMessage = "Cannot have more than one period.";
+    				if (commacounter < 1) {
+    				}
+    				else if (periodcounter <1) {
+    					
+    				}
+    				else if (commacounter > 1 || periodcounter >1) {
+    					errorMessage = "Cannot have more than one period or comma.";
     				}else {
     					errorMessage = "Don't include the character: " + c
     						+ ". Grade should be a number.";
@@ -75,7 +83,11 @@ public class Habit {
     	// Default project grade to 0. If valid number entered, convert user input to
     	// floating point number.
     	if (validGrade) {
-    		goal = Double.parseDouble(goalAsString);
+    		if (goalAsString.contains(",")) {
+    			String goalString = goalAsString.replace(",", "");
+    			goal = Double.parseDouble(goalString);
+    		}else {
+    		goal = Double.parseDouble(goalAsString);}
     	}
     	
     	return errorMessage;
@@ -85,26 +97,37 @@ public class Habit {
 		String errorMessage = ""; // start with assuming no error
 		
 		// Check that the user entered a numeric value
-    	int counter = 0;
+    	int commacounter = 0;
+    	int periodcounter = 0;
     	
     	boolean validGrade = true;
     	for (char c : valueAsString.toCharArray()) {
     		// If any character is not a digit, set flag to false: it is not a number
     		if (!Character.isDigit(c)) {
     			
-    			if (c != '.') {
+    			if (c != '.' && c != ',') {
     				validGrade = false;
-    			}else{
-    				counter++;
-    				if (counter > 1){
+    			}else if (c == '.'){
+    				periodcounter++;
+    				if (periodcounter > 1){
         				validGrade = false;
         			}
+    			} else if (c ==',') {
+    				commacounter++;
+    				if (commacounter > 1)
+    					validGrade = false;
     			}
     			
     				
     			if (validGrade == false) {
-    				if (counter > 1) {
-    					errorMessage = "Cannot have more than one period.";
+    				if (commacounter < 1) {
+    					
+    				}
+    				else if (periodcounter < 1) {
+    					
+    				}
+    				else if (periodcounter > 1 || commacounter >1) {
+    					errorMessage = "Cannot have more than one period or comma.";
     				}else {
     					errorMessage = "Don't include the character: " + c
     						+ ". Grade should be a number.";
@@ -118,6 +141,10 @@ public class Habit {
     	// Default project grade to 0. If valid number entered, convert user input to
     	// floating point number.
     	if (validGrade) {
+    		if (valueAsString.contains(",")) {
+    			String valueString = valueAsString.replace(",", "");
+    			value = Double.parseDouble(valueString);
+    		}else 
     		value = Double.parseDouble(valueAsString);
     	}
     	
