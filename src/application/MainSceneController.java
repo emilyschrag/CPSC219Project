@@ -62,8 +62,7 @@ public class MainSceneController {
     private int spendingGoal;
     private double spendingGrade;
     
-  
-
+    
     void createStepsHabit(String dataAsString, String goalAsString) {
     	errorLabel.setText("");
     	goalLabel.setText("");
@@ -73,6 +72,7 @@ public class MainSceneController {
     	step.calculateGrade();
     	double stepGrade = step.getGrade();
     	if (step.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your exercise goal.");
+    	else if (step.getGrade() > 100) goalLabel.setText("Congradulations! You have surpassed your exercise goal.");
     	else goalLabel.setText(String.format("you have completed %.0f"
 				+ "%% of your exercise goal", stepGrade));
     }
@@ -86,6 +86,7 @@ public class MainSceneController {
     	water.calculateGrade();
     	double waterGrade = water.getGrade();
     	if (water.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your water intake goal.");
+    	else if (water.getGrade() > 100) goalLabel.setText("Congradulations! You have surpassed your water intake goal.");
     	else goalLabel.setText(String.format("you have completed %.0f"
 				+ "%% of your exercise goal", waterGrade));
     }

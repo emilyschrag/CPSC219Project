@@ -27,7 +27,9 @@ public class Habit {
 	
 	//calculates grade
 	public void calculateGrade() {
-			grade =  value  / goal * 100;
+		if (value == 0.0 || goal == 0.0) grade = 0.0;
+		else if (value > goal) grade = 100.0;
+		else grade =  value  / goal * 100;
 	}
 
 	public double getWeightedGrade() {
@@ -43,7 +45,7 @@ public class Habit {
 		
 		// Check that the user entered a numeric value
     	int counter = 0;
-    	
+    	if (goalAsString == "") goalAsString = "0.0";
     	boolean validGrade = true;
     	for (char c : goalAsString.toCharArray()) {
     		// If any character is not a digit, set flag to false: it is not a number
@@ -86,7 +88,7 @@ public class Habit {
 		
 		// Check that the user entered a numeric value
     	int counter = 0;
-    	
+    	if (valueAsString == "") valueAsString = "0.0";
     	boolean validGrade = true;
     	for (char c : valueAsString.toCharArray()) {
     		// If any character is not a digit, set flag to false: it is not a number
@@ -120,12 +122,6 @@ public class Habit {
     	if (validGrade) {
     		value = Double.parseDouble(valueAsString);
     	}
-    	
-    	if (value < 0 || value > goal) {
-    		errorMessage = String.format("Value should be between 0 and %d."
-    				+ " Invalid  grade: %.02f", goal, value);
-    		value = 0;
-    	} 
     	
     	return errorMessage;
 	}
