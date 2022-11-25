@@ -35,7 +35,6 @@ public class MainSceneController {
     private ChoiceBox<Integer> minuteChoiceBox2 = new ChoiceBox();
     private ChoiceBox<Integer> hourChoiceBox3 = new ChoiceBox();
     private ChoiceBox<Integer> minuteChoiceBox3 = new ChoiceBox();
-    private ChoiceBox<String> ampmChoiceBox = new ChoiceBox();
     private ChoiceBox<String> ampmChoiceBox2 = new ChoiceBox();
     private ChoiceBox<String> weightGoalChoiceBox = new ChoiceBox();
     private TextField enterCalories = new TextField();
@@ -51,7 +50,6 @@ public class MainSceneController {
     private double stepsGrade;
     private int stepsGoal;
     private int stepsData;
-    private double waterGrade;
     private int waterGoal;
     private int waterData;
     private int foodData;
@@ -61,8 +59,31 @@ public class MainSceneController {
     private int spendingData;
     private int spendingGoal;
     private double spendingGrade;
+    private double waterGrade;
+    private double foodGrade;
+    private double spendGrade;
+    private double stepGrade;
+    private double sleepGrade;
+    private double weightedWaterGrade;
+    private double weightedFoodGrade = 0.0;
+    private double weightedSpendGrade = 0.0;
+    private double weightedStepGrade;
+    private double weightedSleepGrade;
     
-    
+   void createSleepHabit (double goalHour, double goalMinute, double valueHour, double valueMinute) {
+	    errorLabel.setText("");
+	    goalLabel.setText("");
+   	    Habit sleep = new Habit();
+   	    errorLabel.setText(sleep.setSleepGoal(goalHour, goalMinute));
+ 	    errorLabel.setText(sleep.setSleepValue(valueHour, valueMinute));
+   	    sleep.calculateGrade();
+ 	    sleepGrade = sleep.getGrade();
+ 	    weightedSleepGrade = sleep.getWeightedGrade();
+ 	    if (sleep.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your sleep goal.");
+ 	    else if (sleep.getGrade() > 100) goalLabel.setText("Congradulations! You have surpassed your sleep goal.");
+ 	    else goalLabel.setText(String.format("you have completed %.0f"
+				+ "%% of your sleep goal", sleepGrade));
+   }
     void createStepsHabit(String dataAsString, String goalAsString) {
     	errorLabel.setText("");
     	goalLabel.setText("");
@@ -70,7 +91,8 @@ public class MainSceneController {
     	errorLabel.setText(step.setGoal(goalAsString));
     	errorLabel.setText(step.setValue(dataAsString));
     	step.calculateGrade();
-    	double stepGrade = step.getGrade();
+    	stepGrade = step.getGrade();
+    	weightedStepGrade = step.getWeightedGrade();
     	if (step.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your exercise goal.");
     	else if (step.getGrade() > 100) goalLabel.setText("Congradulations! You have surpassed your exercise goal.");
     	else goalLabel.setText(String.format("you have completed %.0f"
@@ -84,11 +106,12 @@ public class MainSceneController {
     	errorLabel.setText(water.setGoal(goalAsString));
     	errorLabel.setText(water.setValue(dataAsString));
     	water.calculateGrade();
-    	double waterGrade = water.getGrade();
+    	waterGrade = water.getGrade();
+    	weightedWaterGrade = water.getWeightedGrade();
     	if (water.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your water intake goal.");
     	else if (water.getGrade() > 100) goalLabel.setText("Congradulations! You have surpassed your water intake goal.");
     	else goalLabel.setText(String.format("you have completed %.0f"
-				+ "%% of your exercise goal", waterGrade));
+				+ "%% of your water intake goal", waterGrade));
     }
     
     @FXML
@@ -131,33 +154,21 @@ public class MainSceneController {
     	hourChoiceBox.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16);
     	minuteChoiceBox.getItems().addAll(0,5,10,15,20,25,30,35,40,45,50,55);
     	enterSleepGoal.getChildren().addAll(hourLabel, hourChoiceBox, minuteLabel, minuteChoiceBox);
-    	Label bedtimeLabel = new Label("What time did you go to bed?");
+    	Label bedtimeLabel = new Label("How much sleep did you get?");
     	HBox bedtimeContainer = new HBox(5);
     	Label hourLabel2 = new Label("Hour");
     	Label minuteLabel2 = new Label("Minute");
-    	Label ampmLabel = new Label("AM/PM");
-    	bedtimeContainer.getChildren().addAll(hourLabel2, hourChoiceBox2, minuteLabel2, minuteChoiceBox2, ampmLabel, ampmChoiceBox);
+    	bedtimeContainer.getChildren().addAll(hourLabel2, hourChoiceBox2, minuteLabel2, minuteChoiceBox2);
     	hourChoiceBox2.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
         minuteChoiceBox2.getItems().addAll(0,5,10,15,20,25,30,35,40,45,50,55);
-        ampmChoiceBox.getItems().addAll("AM", "PM");
-    	Label waketimeLabel = new Label("What time did you wake up?");
-    	HBox waketimeContainer = new HBox(5);
-    	Label hourLabel3 = new Label("Hour");
-    	Label minuteLabel3 = new Label("Minute");
-    	Label ampmLabel2 = new Label("AM/PM");
-    	waketimeContainer.getChildren().addAll(hourLabel3, hourChoiceBox3, minuteLabel3, minuteChoiceBox3, ampmLabel2, ampmChoiceBox2);
-    	hourChoiceBox3.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
-        minuteChoiceBox3.getItems().addAll(0,5,10,15,20,25,30,35,40,45,50,55);
-        ampmChoiceBox2.getItems().addAll("AM", "PM");	
-    	Button calculateSleep = new Button("Calculate");	
-    	Label printSleep = new Label("Print sleep amount here");
-    	metSleepGoalInfo.setText("Print sleep goal here");
+        Button calculateSleep = new Button("Calculate");
+        calculateSleep.setOnAction(calculateEvent -> createSleepHabit(hourChoiceBox.getValue(), minuteChoiceBox.getValue(), hourChoiceBox2.getValue(), minuteChoiceBox2.getValue()));
     	Button doneButton = new Button("Done");
     	doneButton.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));
-    	sleepContainer.getChildren().addAll(enterSleepGoalLabel, enterSleepGoal, bedtimeLabel, bedtimeContainer, waketimeLabel, waketimeContainer, calculateSleep, printSleep, metSleepGoalInfo, doneButton);
+    	sleepContainer.getChildren().addAll(enterSleepGoalLabel, enterSleepGoal, bedtimeLabel, bedtimeContainer, calculateSleep, errorLabel, goalLabel, doneButton);
     	Scene sleepScene = new Scene(sleepContainer);
-    	Button backButton = new Button("Back");
-    	backButton.setOnAction(backEvent -> applicationStage.setScene(mainScene));
+    	
+   
     	applicationStage.setScene(sleepScene);
     			
 
@@ -267,57 +278,40 @@ public class MainSceneController {
     	Label dailyScoreLabel = new Label("Your daily Score!");
     	Button doneButton = new Button("Done");
     	doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
+   
+    	int numOfHabits = 0;
+    	if (stepGrade != 0)
+    		numOfHabits++;
+    	if (waterGrade != 0)
+    		numOfHabits++;
+    	if (foodGrade != 0)
+    		numOfHabits++;
+    	if (sleepGrade != 0)
+    		numOfHabits++;
+    	if (spendGrade != 0)
+    		numOfHabits++;
+    	
     
-    	
-    	//Sleep
-    	if (metSleepGoalInfo.getText() == " ")
-    		metSleepGoalInfo.setText("no info entered");
-    	
-    	//Food
-    	if (metFoodGoalInfo.getText() == " ")
-    		metFoodGoalInfo.setText("no info entered");
-    
-    	
-    	//Water
-    	if (waterGoalTextField.getText() != "") {
-    		waterGoal = Integer.parseInt(waterGoalTextField.getText()); }
-    	else waterGoal = 0;
-    	if (waterDataTextField.getText() != "") {
-    		waterData = Integer.parseInt(waterDataTextField.getText());}
-    	else {
-    		waterData = 0;
-    	}
-    	
-    	
-    	
-    	
-    	//Exercise 
-    	if (stepsGoalTextField.getText() != "") {
-    		stepsGoal = Integer.parseInt(stepsGoalTextField.getText());
-    	}
-    	else stepsGoal = 0;
-    	if (stepsDataTextField.getText() != "") {
-    		stepsData = Integer.parseInt(stepsDataTextField.getText());
-    	}
-    	else stepsData = 0;
-    	
-    	if (stepsGoal == 0 || stepsGoal ==0) {
-    		metExerciseGoalInfo.setText("No info entered");
-    	}
+    	metExerciseGoalInfo.setText(String.format("you have completed %.0f"
+				+ "%% of your exercise goal", stepGrade));
+    	metWaterGoalInfo.setText(String.format("you have completed %.0f"
+				+ "%% of your water goal", waterGrade));
+    	metFoodGoalInfo.setText(String.format("you have completed %.0f"
+				+ "%% of your food goal", foodGrade));
+    	metSleepGoalInfo.setText(String.format("you have completed %.0f"
+				+ "%% of your sleep goal", sleepGrade));
+    	metExpensesGoalInfo.setText(String.format("you have completed %.0f"
+				+ "%% of your spending goal", spendGrade));
     	
     	//Calculate dailyScore
     	double dailyScore = 0;
-    	if (waterGrade != 0)
-    		dailyScore += waterGrade;
-    	if (stepsGrade != 0)
-    		dailyScore += stepsGrade;
-    	if (spendingGoal != 0)
-    		dailyScore += spendingGrade;
+    	dailyScore = weightedStepGrade + weightedSpendGrade + weightedWaterGrade +
+    			weightedFoodGrade + weightedSleepGrade;
     	//need to divide by number of habits with data
-    	dailyScore = dailyScore/3;
+    	dailyScore = dailyScore/numOfHabits;
     	
     	HBox overallScoreContainer = new HBox(5);
-    	Label printOverallScore = new Label("Your overall score is " + dailyScore);
+    	Label printOverallScore = new Label("Your overall score is " + dailyScore + " %");
     	Label yayLabel = new Label("! Good Job!!");
     	overallScoreContainer.getChildren().addAll(printOverallScore, yayLabel);
     	
@@ -327,4 +321,3 @@ public class MainSceneController {
     }
 
 }
-

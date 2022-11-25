@@ -28,11 +28,11 @@ public class Habit {
 	//calculates grade
 	public void calculateGrade() {
 		if (value == 0.0 || goal == 0.0) grade = 0.0;
-		else if (value > goal) grade = 100.0;
 		else grade =  value  / goal * 100;
 	}
 
 	public double getWeightedGrade() {
+		if (grade > 100.0) grade = 100.0;
 		return grade * 0.2;
 	}
 	
@@ -124,5 +124,17 @@ public class Habit {
     	}
     	
     	return errorMessage;
+	}
+	
+	String setSleepGoal(double hour, double minutes) {
+		hour = hour * 60;
+		goal = hour + minutes;
+		return "your score" + value;
+	}
+	
+	String setSleepValue(double hour, double minutes) {
+		hour = hour * 60;
+		value = hour + minutes;
+		return "your score" + value;
 	}
 }
