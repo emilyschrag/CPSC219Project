@@ -14,17 +14,6 @@ public class Habit {
 		grade = 0.0;
 	}
 	
-	//constructor takes inputs for score and goal and sets grade to 0
-//	public Habit (int inputScore, int inputGoal) {
-//		if (inputScore > 0)
-//		value = (inputScore);
-//		else value = 0;
-//		if (inputGoal > 0)
-//		goal = (inputGoal);
-//		else goal = 0;
-//		grade = 0;
-//	}
-	
 	//calculates grade
 	public void calculateGrade() {
 		if (value == 0.0 || goal == 0.0) grade = 0.0;
