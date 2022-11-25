@@ -37,7 +37,6 @@ public class MainSceneController {
     private ChoiceBox<Integer> minuteChoiceBox3 = new ChoiceBox();
     private ChoiceBox<String> ampmChoiceBox2 = new ChoiceBox();
     private ChoiceBox<String> weightGoalChoiceBox = new ChoiceBox();
-    private TextField enterCalories = new TextField();
     private TextField exGoalTextField = new TextField();
     private TextField foodTextField = new TextField();
     private TextField entertainmentTextField = new TextField();
@@ -47,18 +46,7 @@ public class MainSceneController {
     private TextField waterGoalTextField = new TextField();
     private TextField waterDataTextField = new TextField();
     private TextField stepsDataTextField = new TextField();
-    private double stepsGrade;
-    private int stepsGoal;
-    private int stepsData;
-    private int waterGoal;
-    private int waterData;
-    private int foodData;
-    private int grocData;
-    private int entData;
-    private int otherData;
-    private int spendingData;
-    private int spendingGoal;
-    private double spendingGrade;
+
     private double waterGrade;
     private double foodGrade;
     private double spendGrade;
@@ -74,8 +62,8 @@ public class MainSceneController {
 	    errorLabel.setText("");
 	    goalLabel.setText("");
    	    Habit sleep = new Habit();
-   	    errorLabel.setText(sleep.setSleepGoal(goalHour, goalMinute));
- 	    errorLabel.setText(sleep.setSleepValue(valueHour, valueMinute));
+   	    sleep.setSleepGoal(goalHour, goalMinute);
+ 	    sleep.setSleepValue(valueHour, valueMinute);
    	    sleep.calculateGrade();
  	    sleepGrade = sleep.getGrade();
  	    weightedSleepGrade = sleep.getWeightedGrade();
@@ -176,7 +164,7 @@ public class MainSceneController {
     	Label hourLabel2 = new Label("Hour");
     	Label minuteLabel2 = new Label("Minute");
     	bedtimeContainer.getChildren().addAll(hourLabel2, hourChoiceBox2, minuteLabel2, minuteChoiceBox2);
-    	hourChoiceBox2.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
+    	hourChoiceBox2.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12);
         minuteChoiceBox2.getItems().addAll(0,5,10,15,20,25,30,35,40,45,50,55);
         Button calculateSleep = new Button("Calculate");
         calculateSleep.setOnAction(calculateEvent -> createSleepHabit(hourChoiceBox.getValue(), minuteChoiceBox.getValue(), hourChoiceBox2.getValue(), minuteChoiceBox2.getValue()));

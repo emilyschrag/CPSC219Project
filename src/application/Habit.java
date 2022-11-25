@@ -126,15 +126,14 @@ public class Habit {
     	return errorMessage;
 	}
 	
-	String setSleepGoal(double hour, double minutes) {
+	void setSleepGoal(double hour, double minutes) {
 		hour = hour * 60;
 		goal = hour + minutes;
-		return "your score" + value;
 	}
 	
-	String setSleepValue(double hour, double minutes) {
+	void setSleepValue(double hour, double minutes) {
 		hour = hour * 60;
 		value = hour + minutes;
-		return "your score" + value;
+	
 	}
 }
