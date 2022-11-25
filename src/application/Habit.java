@@ -156,4 +156,9 @@ public class Habit {
     	
     	return errorMessage;
 	}
+	
+	//goal/input
+	
+	
+	
 }

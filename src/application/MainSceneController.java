@@ -26,12 +26,13 @@ public class MainSceneController {
     private ChoiceBox<Integer> hourChoiceBox2 = new ChoiceBox();
     private ChoiceBox<Integer> minuteChoiceBox2 = new ChoiceBox();
   
+    private double expenseGrade;
     private double waterGrade;
     private double foodGrade;
     private double spendGrade;
     private double stepGrade;
     private double sleepGrade;
-    
+    private double weightedExpenseGrade;
   
     void createStepsHabit(String dataAsString, String goalAsString) {
     	errorLabel.setText("");
@@ -125,7 +126,8 @@ public class MainSceneController {
     	errorLabel.setText(expense.setGoal(goalAsString));
     	errorLabel.setText(expense.setValue(dataAsString));
     	expense.calculateGrade();
-    	double expenseGrade = expense.getGrade();
+    	expenseGrade = expense.getGrade();
+    	weightedExpenseGrade = expense.getWeightedGrade();
     	if (expense.getGrade() == 100) goalLabel.setText("Congratulations! You have reached your expense goal.");
     	else if (expense.getGrade() > 100) goalLabel.setText("Congratulations! You have surpassed your expense goal.");
     	else goalLabel.setText(String.format("you have completed %.0f"
@@ -205,6 +207,7 @@ public class MainSceneController {
    		Button calculateSpent = new Button("Calculate");
     	Button doneButton = new Button("Done");
     	doneButton.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));				
+    	calculateSpent.setOnAction(calculateEvent -> createExpenseHabit(exGoalTextField.getText(),exDataTextField.getText()));
     	dataSceneContainer.getChildren().addAll(exGoalContainer, exDataContainer, exDataLabel, exDataTextField, calculateSpent,  doneButton);
     	Scene expensesScene = new Scene(dataSceneContainer);
     	applicationStage.setScene(expensesScene);
@@ -305,6 +308,8 @@ public class MainSceneController {
     	dailyScoreAll.getChildren().addAll(dailyScoreLabel, metSleepGoalInfo,  metFoodGoalInfo, metExpensesGoalInfo, metExerciseGoalInfo, metWaterGoalInfo, overallScoreContainer, doneButton);
     	Scene scoreScene = new Scene(dailyScoreAll);
     	applicationStage.setScene(scoreScene);
+    	
+    	
     }
 
 }
