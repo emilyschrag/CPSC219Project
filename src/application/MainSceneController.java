@@ -101,6 +101,38 @@ public class MainSceneController {
 //				+ "%% of your sleep goal", sleepGrade));
 //    }
     
+    
+    void createFoodHabit(String dataAsString, String goalAsString) {
+    	errorLabel.setText("");
+    	goalLabel.setText("");
+    	Habit food = new Habit(); 
+    	errorLabel.setText(food.setGoal(goalAsString));
+    	errorLabel.setText(food.setValue(dataAsString));
+    	food.calculateGrade();
+    	double foodGrade = food.getGrade();
+    	if (food.getGrade() == 100) goalLabel.setText("Congratulations! You have reached your calorie goal.");
+    	else if (food.getGrade() > 100) goalLabel.setText("Congratulations! You have surpassed your calorie goal.");
+    	else goalLabel.setText(String.format("you have completed %.0f"
+				+ "%% of your calorie goal", stepGrade));
+    }
+    
+    
+    
+    void createExpenseHabit(String dataAsString, String goalAsString) {
+    	errorLabel.setText("");
+    	goalLabel.setText("");
+    	Habit expense = new Habit(); 
+    	errorLabel.setText(expense.setGoal(goalAsString));
+    	errorLabel.setText(expense.setValue(dataAsString));
+    	expense.calculateGrade();
+    	double expenseGrade = expense.getGrade();
+    	if (expense.getGrade() == 100) goalLabel.setText("Congratulations! You have reached your expense goal.");
+    	else if (expense.getGrade() > 100) goalLabel.setText("Congratulations! You have surpassed your expense goal.");
+    	else goalLabel.setText(String.format("you have completed %.0f"
+				+ "%% of your expense goal", stepGrade));
+    }
+    
+    
     @FXML
     void toSleep(ActionEvent sleepEvent) {
     	errorLabel.setText("");

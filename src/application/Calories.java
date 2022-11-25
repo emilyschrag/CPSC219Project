@@ -3,12 +3,12 @@ package application;
 public class Calories extends Habit {
 
 private int calsIn;
-private int calsWanted;
+
 	
-public Calories (int calsConsumed, int calsRequired) {
+public Calories (int calsConsumed) {
 	super ();
 	calsIn = calsConsumed;
-	calsWanted = calsRequired;
+
 }
 
 int getCalories () {
