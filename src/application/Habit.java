@@ -14,23 +14,14 @@ public class Habit {
 		grade = 0.0;
 	}
 	
-	//constructor takes inputs for score and goal and sets grade to 0
-//	public Habit (int inputScore, int inputGoal) {
-//		if (inputScore > 0)
-//		value = (inputScore);
-//		else value = 0;
-//		if (inputGoal > 0)
-//		goal = (inputGoal);
-//		else goal = 0;
-//		grade = 0;
-//	}
-	
 	//calculates grade
 	public void calculateGrade() {
-			grade =  value  / goal * 100;
+		if (value == 0.0 || goal == 0.0) grade = 0.0;
+		else grade =  value  / goal * 100;
 	}
 
 	public double getWeightedGrade() {
+		if (grade > 100.0) grade = 100.0;
 		return grade * 0.2;
 	}
 	
@@ -43,7 +34,7 @@ public class Habit {
 		
 		// Check that the user entered a numeric value
     	int counter = 0;
-    	
+    	if (goalAsString == "") goalAsString = "0.0";
     	boolean validGrade = true;
     	for (char c : goalAsString.toCharArray()) {
     		// If any character is not a digit, set flag to false: it is not a number
@@ -86,7 +77,7 @@ public class Habit {
 		
 		// Check that the user entered a numeric value
     	int counter = 0;
-    	
+    	if (valueAsString == "") valueAsString = "0.0";
     	boolean validGrade = true;
     	for (char c : valueAsString.toCharArray()) {
     		// If any character is not a digit, set flag to false: it is not a number
@@ -121,12 +112,17 @@ public class Habit {
     		value = Double.parseDouble(valueAsString);
     	}
     	
-    	if (value < 0 || value > goal) {
-    		errorMessage = String.format("Value should be between 0 and %d."
-    				+ " Invalid  grade: %.02f", goal, value);
-    		value = 0;
-    	} 
-    	
     	return errorMessage;
+	}
+	
+	void setSleepGoal(double hour, double minutes) {
+		hour = hour * 60;
+		goal = hour + minutes;
+	}
+	
+	void setSleepValue(double hour, double minutes) {
+		hour = hour * 60;
+		value = hour + minutes;
+	
 	}
 }
