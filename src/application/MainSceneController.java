@@ -53,8 +53,8 @@ public class MainSceneController {
     private double stepGrade;
     private double sleepGrade;
     private double weightedWaterGrade;
-    private double weightedFoodGrade = 0.0;
-    private double weightedSpendGrade = 0.0;
+    private double weightedFoodGrade;
+    private double weightedSpendGrade;
     private double weightedStepGrade;
     private double weightedSleepGrade;
     
@@ -91,16 +91,16 @@ public class MainSceneController {
    void createExpenseHabit(String dataAsString, String goalAsString) {
 	   errorLabel.setText("");
    	goalLabel.setText("");
-   	Habit food = new Habit(); 
-   	errorLabel.setText(food.setGoal(goalAsString));
-   	errorLabel.setText(food.setValue(dataAsString));
-   	food.calculateGrade();
-   	foodGrade = food.getGrade();
-   	weightedFoodGrade = food.getWeightedGrade();
-   	if (food.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your calorie goal.");
-   	else if (food.getGrade() > 100) goalLabel.setText("Congradulations! You have surpassed your calorie goal.");
+   	Habit spend = new Habit(); 
+   	errorLabel.setText(spend.setGoal(goalAsString));
+   	errorLabel.setText(spend.setValue(dataAsString));
+   	spend.calculateGrade();
+   	spendGrade = spend.getGrade();
+   	weightedSpendGrade = spend.getWeightedGrade();
+   	if (spend.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your spending goal.");
+   	else if (spend.getGrade() > 100) goalLabel.setText("Congradulations! You have surpassed your spending goal.");
    	else goalLabel.setText(String.format("you have completed %.0f"
-				+ "%% of your calorie goal", foodGrade));
+				+ "%% of your spending goal", foodGrade));
    }
    
    
@@ -261,40 +261,27 @@ public class MainSceneController {
     	Label dailyScoreLabel = new Label("Your daily Score!");
     	Button doneButton = new Button("Done");
     	doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
-   
-    	int numOfHabits = 0;
-    	if (stepGrade != 0)
-    		numOfHabits++;
-    	if (waterGrade != 0)
-    		numOfHabits++;
-    	if (foodGrade != 0)
-    		numOfHabits++;
-    	if (sleepGrade != 0)
-    		numOfHabits++;
-    	if (spendGrade != 0)
-    		numOfHabits++;
-    	
     
-    	metExerciseGoalInfo.setText(String.format("you have completed %.0f"
+    	metExerciseGoalInfo.setText(String.format("you have completed %.02f"
 				+ "%% of your exercise goal", stepGrade));
-    	metWaterGoalInfo.setText(String.format("you have completed %.0f"
+    	metWaterGoalInfo.setText(String.format("you have completed %.02f"
 				+ "%% of your water goal", waterGrade));
-    	metFoodGoalInfo.setText(String.format("you have completed %.0f"
+    	metFoodGoalInfo.setText(String.format("you have completed %.02f"
 				+ "%% of your food goal", foodGrade));
-    	metSleepGoalInfo.setText(String.format("you have completed %.0f"
+    	metSleepGoalInfo.setText(String.format("you have completed %.02f"
 				+ "%% of your sleep goal", sleepGrade));
-    	metExpensesGoalInfo.setText(String.format("you have completed %.0f"
+    	metExpensesGoalInfo.setText(String.format("you have completed %.02f"
 				+ "%% of your spending goal", spendGrade));
     	
     	//Calculate dailyScore
-    	double dailyScore = 0;
+    	double dailyScore = 0.0;
     	dailyScore = weightedStepGrade + weightedSpendGrade + weightedWaterGrade +
     			weightedFoodGrade + weightedSleepGrade;
     	//need to divide by number of habits with data
-    	dailyScore = dailyScore/numOfHabits;
+
     	
     	HBox overallScoreContainer = new HBox(5);
-    	Label printOverallScore = new Label("Your overall score is " + dailyScore + " %");
+    	Label printOverallScore = new Label(String.format("Your overall score is %.02f" + "%%", dailyScore));
     	Label yayLabel = new Label("! Good Job!!");
     	overallScoreContainer.getChildren().addAll(printOverallScore, yayLabel);
     	
