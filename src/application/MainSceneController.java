@@ -205,12 +205,13 @@ public class MainSceneController {
     	HBox exDataContainer = new HBox(10);
    		Label exDataLabel = new Label("Money Spent:");
    		TextField exDataTextField = new TextField();
+   		exDataContainer.getChildren().addAll(exDataLabel,exDataTextField);
    	
    		Button calculateSpent = new Button("Calculate");
     	Button doneButton = new Button("Done");
     	doneButton.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));				
     	calculateSpent.setOnAction(calculateEvent -> createExpenseHabit(exGoalTextField.getText(),exDataTextField.getText()));
-    	dataSceneContainer.getChildren().addAll(exGoalContainer, exDataContainer, exDataLabel, exDataTextField, calculateSpent,  doneButton);
+    	dataSceneContainer.getChildren().addAll(exGoalContainer, exDataContainer, calculateSpent,  doneButton);
     	Scene expensesScene = new Scene(dataSceneContainer);
     	applicationStage.setScene(expensesScene);
     }
