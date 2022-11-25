@@ -162,7 +162,9 @@ public class MainSceneController {
     	backButton.setOnAction(backEvent -> applicationStage.setScene(mainScene));
     	applicationStage.setScene(sleepScene);
     }
-
+    
+    
+    
     @FXML
     void toFood(ActionEvent foodEvent) {
     	errorLabel.setText("");
@@ -175,14 +177,53 @@ public class MainSceneController {
     	VBox foodDataSceneContainer = new VBox(10);
     	Label caloriesEnterLabel = new Label("How many calories have you consumed?");
     	TextField enterCalories = new TextField();
+    	Button calculateCalories = new Button("Calculate");
     	Button doneButton = new Button("Done");
+    	calculateCalories.setOnAction(calculateEvent -> createFoodHabit(enterCalories.getText(), weightGoalTextField.getText()));
     	doneButton.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));	
-    	foodDataSceneContainer.getChildren().addAll(weightGoalContainer, caloriesEnterLabel, enterCalories,  metFoodGoalInfo, doneButton);
-    	Scene foodScene = new Scene(foodDataSceneContainer);
+    	foodDataSceneContainer.getChildren().addAll(weightGoalContainer, caloriesEnterLabel,  enterCalories,  metFoodGoalInfo, calculateCalories, doneButton);
+    	Scene foodScene = new Scene(foodDataSceneContainer)
         applicationStage.setScene(foodScene);
     }
+ 
 
     @FXML
+    
+    /*
+     * void toExpenses(ActionEvent expensesEvent) {
+    	errorLabel.setText("");
+    	goalLabel.setText("");
+    	Scene mainScene = applicationStage.getScene();
+    	HBox exGoalContainer = new HBox(10);
+   		Label exGoalLabel = new Label("Spending Goal");
+   		TextField exGoalTextField = new TextField();
+   		exGoalContainer.getChildren().addAll(exGoalLabel, exGoalTextField );
+    	VBox dataSceneContainer = new VBox(10);		
+    	Label moneySpentLabel = new Label("Money spent today");
+    	HBox foodContainer = new HBox(10);
+    	TextField foodTextField = new TextField();
+    	Label foodLabel = new Label("Food");
+    	foodContainer.getChildren().addAll(foodLabel, foodTextField);		
+    	HBox entertainmentContainer = new HBox(10);
+    	TextField entertainmentTextField = new TextField();
+    	Label entertainmentLabel = new Label("Entertainment");
+    	entertainmentContainer.getChildren().addAll(entertainmentLabel, entertainmentTextField);		
+    	HBox groceriesContainer = new HBox(10);
+    	TextField groceriesTextField = new TextField();
+    	Label groceriesLabel = new Label("Groceries");
+    	groceriesContainer.getChildren().addAll(groceriesLabel, groceriesTextField);		
+    	HBox otherContainer = new HBox(10);
+    	TextField otherTextField = new TextField();
+    	Label otherLabel = new Label("Other");
+    	otherContainer.getChildren().addAll(otherLabel, otherTextField);		
+   		Button calculateSpent = new Button("Calculate");
+    	Button doneButton = new Button("Done");
+    	doneButton.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));				
+    	dataSceneContainer.getChildren().addAll(exGoalContainer, moneySpentLabel, foodContainer, entertainmentContainer, groceriesContainer, otherContainer, calculateSpent,  doneButton);
+    	Scene expensesScene = new Scene(dataSceneContainer);
+    	applicationStage.setScene(expensesScene);
+    }
+     */
     void toExpenses(ActionEvent expensesEvent) {
     	errorLabel.setText("");
     	goalLabel.setText("");
