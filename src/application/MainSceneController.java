@@ -33,6 +33,7 @@ public class MainSceneController {
     private double stepGrade;
     private double sleepGrade;
     private double weightedExpenseGrade;
+    private double weightedFoodGrade;
   
     void createStepsHabit(String dataAsString, String goalAsString) {
     	errorLabel.setText("");
@@ -110,7 +111,8 @@ public class MainSceneController {
     	errorLabel.setText(food.setGoal(goalAsString));
     	errorLabel.setText(food.setValue(dataAsString));
     	food.calculateGrade();
-    	double foodGrade = food.getGrade();
+    	foodGrade = food.getGrade();
+    	weightedFoodGrade = food.getWeightedGrade();
     	if (food.getGrade() == 100) goalLabel.setText("Congratulations! You have reached your calorie goal.");
     	else if (food.getGrade() > 100) goalLabel.setText("Congratulations! You have surpassed your calorie goal.");
     	else goalLabel.setText(String.format("you have completed %.0f"
