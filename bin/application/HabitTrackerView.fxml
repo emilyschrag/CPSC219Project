@@ -65,27 +65,27 @@
             <Insets bottom="5.0" left="5.0" />
          </VBox.margin>
       </Label>
-      <Button mnemonicParsing="false" onAction="#toSleepIntermediate" text="Sleep">
+      <Button mnemonicParsing="false" onAction="#toSleep" text="Sleep">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="10.0" />
          </VBox.margin>
       </Button>
-      <Button mnemonicParsing="false" onAction="#toFoodIntermediate" text="Food">
+      <Button mnemonicParsing="false" onAction="#toFood" text="Food">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="10.0" />
          </VBox.margin>
       </Button>
-      <Button mnemonicParsing="false" onAction="#toExpensesIntermediate" text="Expenses">
+      <Button mnemonicParsing="false" onAction="#toExpenses" text="Expenses">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="10.0" />
          </VBox.margin>
       </Button>
-      <Button mnemonicParsing="false" onAction="#toExerciseIntermediate" text="Exercise">
+      <Button mnemonicParsing="false" onAction="#toExercise" text="Exercise">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="10.0" />
          </VBox.margin>
       </Button>
-      <Button mnemonicParsing="false" onAction="#toWaterIntermediate" text="Water">
+      <Button mnemonicParsing="false" onAction="#toWater" text="Water">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="10.0" />
          </VBox.margin>
