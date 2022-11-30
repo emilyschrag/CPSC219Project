@@ -2,6 +2,7 @@ package application;
 
 public class Habit {
 
+	
 	// instance variables
 	private double value;
 	private double goal;
@@ -26,7 +27,12 @@ public class Habit {
 	}
 	
 	double getGrade() {
+		
 		return grade;
+	}
+	
+	double getGoal() {
+		return goal;
 	}
 	
 	String setGoal(String goalAsString) {

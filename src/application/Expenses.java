@@ -1,14 +1,12 @@
 package application;
 
-public class Expenses {
+public class Expenses extends Habit {
 	// instance variables
 		private double food;
 		private double entertainment;
 		private double groceries;
 		private double other;
 		private double total;
-		private double grade;
-		private double goal;
 		
 		//default constructor sets all values to 0
 		public Expenses() {
@@ -17,45 +15,29 @@ public class Expenses {
 			entertainment = 0.0;
 			groceries = 0.0;
 			total = 0.0;
-			grade = 0.0;
-			goal = 0.0;
 		}
 
-		public double calculateTotal() {
-			if (food == 0.0 || groceries == 0.0 || other == 0.0 || entertainment == 0.0) {
+		public String calculateTotal() {
+			String returnTotal;
+			if (food == 0.0 && groceries == 0.0 && other == 0.0 && entertainment == 0.0) {
 				total = 0.0;
+				returnTotal = Double.toString(total);
 			}
 			else {
 				total = food + groceries + other + entertainment;
+				returnTotal = Double.toString(total);
 			}
-			return total;
+			return returnTotal;
 		}
-		public void calculateGrade(double total1) {
-			total = total1;
-			if (total == 0.0)
-				grade =0.0;
-			else {
-				grade = total%goal ;
-			}
+		public void calculateGrade(String total1, String goalAsString) {
+			super.setGoal(goalAsString);
+			super.setValue(total1);
+			super.calculateGrade();
 		}
 		
-		double getGrade() {
-			if (total>goal) grade = 100.0;
-			return grade;
-		}
 		
 		double getTotal() {
 			return total;
-		}
-		
-		double getGoal() {
-			return goal;
-		}
-		
-		
-		public double getWeightedGrade() {
-			if (grade > 100.0) grade = 100.0;
-			return grade * 0.2;
 		}
 		
 		String setFood(String foodAsString) {
@@ -109,23 +91,6 @@ public class Expenses {
 			}
 			return errorMessage;
 		}
-	
-	
-    	
-		String setGoal(String goalAsString) {
-			String errorMessage = "";
-			ErrorCheck goalCheck = new ErrorCheck();
-		
-			if (goalCheck.isValid(goalAsString))
-				goal = Double.parseDouble(goalAsString);
-			else {
-				errorMessage = goalCheck.getMessage(goalAsString);
-				goal = 0.0;
-			}
-			return errorMessage;
-		}
-		
-		
 		
 }
 		

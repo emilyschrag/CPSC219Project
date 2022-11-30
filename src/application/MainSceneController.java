@@ -98,11 +98,10 @@ public class MainSceneController {
      	errorLabel.setText(spend.setGroc(grocAsString));
      	errorLabel.setText(spend.setOther(otherAsString));
      	errorLabel.setText(spend.setEnt(entAsString));
-     	errorLabel.setText(spend.setGoal(goalAsString));
-     	spend.calculateGrade(spend.calculateTotal());
+     	spend.calculateGrade(spend.calculateTotal(), goalAsString);
      	spendGrade = spend.getGrade();
      	weightedSpendGrade = spend.getWeightedGrade();
-     	if (spend.getTotal()>spend.getGoal()) goalLabel.setText("You have surpassed your spending goal.");
+     	if (spendGrade > 100.0) goalLabel.setText("You have surpassed your spending goal.");
      	else if (spendGrade == 100) goalLabel.setText("Congradulations! You have reached your spending goal.");
      	else goalLabel.setText(String.format("you have completed %.0f"
   				
