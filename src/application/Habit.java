@@ -14,23 +14,14 @@ public class Habit {
 		grade = 0.0;
 	}
 	
-	//constructor takes inputs for score and goal and sets grade to 0
-//	public Habit (int inputScore, int inputGoal) {
-//		if (inputScore > 0)
-//		value = (inputScore);
-//		else value = 0;
-//		if (inputGoal > 0)
-//		goal = (inputGoal);
-//		else goal = 0;
-//		grade = 0;
-//	}
-	
 	//calculates grade
 	public void calculateGrade() {
-			grade =  value  / goal * 100;
+		if (value == 0.0 || goal == 0.0) grade = 0.0;
+		else grade =  value  / goal * 100;
 	}
 
 	public double getWeightedGrade() {
+		if (grade > 100.0) grade = 100.0;
 		return grade * 0.2;
 	}
 	
@@ -42,34 +33,26 @@ public class Habit {
 		String errorMessage = ""; // start with assuming no error
 		
 		// Check that the user entered a numeric value
-    	int periodcounter = 0;
-    	int commacounter = 0;
-    	
+    	int counter = 0;
+    	if (goalAsString == "") goalAsString = "0.0";
     	boolean validGrade = true;
     	for (char c : goalAsString.toCharArray()) {
     		// If any character is not a digit, set flag to false: it is not a number
     	  	if (!Character.isDigit(c)) {
-    			if (c != '.' && c != ',') {
+    			
+    			if (c != '.') {
     				validGrade = false;
-    			}else if (c == '.'){
-    				periodcounter++;
-    				if (periodcounter > 1){
+    			}else{
+    				counter++;
+    				if (counter > 1){
         				validGrade = false;
         			}
-    			} else if (c == ',') {
-    				commacounter++;
-    				if (commacounter > 1) 
-    					validGrade = false;
     			}
+    			
     				
     			if (validGrade == false) {
-    				if (commacounter < 1) {
-    				}
-    				else if (periodcounter <1) {
-    					
-    				}
-    				else if (commacounter > 1 || periodcounter >1) {
-    					errorMessage = "Cannot have more than one period or comma.";
+    				if (counter > 1) {
+    					errorMessage = "Cannot have more than one period.";
     				}else {
     					errorMessage = "Don't include the character: " + c
     						+ ". Grade should be a number.";
@@ -83,11 +66,7 @@ public class Habit {
     	// Default project grade to 0. If valid number entered, convert user input to
     	// floating point number.
     	if (validGrade) {
-    		if (goalAsString.contains(",")) {
-    			String goalString = goalAsString.replace(",", "");
-    			goal = Double.parseDouble(goalString);
-    		}else {
-    		goal = Double.parseDouble(goalAsString);}
+    		goal = Double.parseDouble(goalAsString);
     	}
     	
     	return errorMessage;
@@ -97,37 +76,26 @@ public class Habit {
 		String errorMessage = ""; // start with assuming no error
 		
 		// Check that the user entered a numeric value
-    	int commacounter = 0;
-    	int periodcounter = 0;
-    	
+    	int counter = 0;
+    	if (valueAsString == "") valueAsString = "0.0";
     	boolean validGrade = true;
     	for (char c : valueAsString.toCharArray()) {
     		// If any character is not a digit, set flag to false: it is not a number
     		if (!Character.isDigit(c)) {
     			
-    			if (c != '.' && c != ',') {
+    			if (c != '.') {
     				validGrade = false;
-    			}else if (c == '.'){
-    				periodcounter++;
-    				if (periodcounter > 1){
+    			}else{
+    				counter++;
+    				if (counter > 1){
         				validGrade = false;
         			}
-    			} else if (c ==',') {
-    				commacounter++;
-    				if (commacounter > 1)
-    					validGrade = false;
     			}
     			
     				
     			if (validGrade == false) {
-    				if (commacounter < 1) {
-    					
-    				}
-    				else if (periodcounter < 1) {
-    					
-    				}
-    				else if (periodcounter > 1 || commacounter >1) {
-    					errorMessage = "Cannot have more than one period or comma.";
+    				if (counter > 1) {
+    					errorMessage = "Cannot have more than one period.";
     				}else {
     					errorMessage = "Don't include the character: " + c
     						+ ". Grade should be a number.";
@@ -141,19 +109,20 @@ public class Habit {
     	// Default project grade to 0. If valid number entered, convert user input to
     	// floating point number.
     	if (validGrade) {
-    		if (valueAsString.contains(",")) {
-    			String valueString = valueAsString.replace(",", "");
-    			value = Double.parseDouble(valueString);
-    		}else 
     		value = Double.parseDouble(valueAsString);
     	}
     	
-    	if (value < 0 || value > goal) {
-    		errorMessage = String.format("Value should be between 0 and %d."
-    				+ " Invalid  grade: %.02f", goal, value);
-    		value = 0;
-    	} 
-    	
     	return errorMessage;
+	}
+	
+	void setSleepGoal(double hour, double minutes) {
+		hour = hour * 60;
+		goal = hour + minutes;
+	}
+	
+	void setSleepValue(double hour, double minutes) {
+		hour = hour * 60;
+		value = hour + minutes;
+	
 	}
 }
