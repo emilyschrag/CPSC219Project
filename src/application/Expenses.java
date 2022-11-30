@@ -59,219 +59,73 @@ public class Expenses {
 		}
 		
 		String setFood(String foodAsString) {
-			String errorMessage = ""; // start with assuming no error
+			String errorMessage = "";
+			ErrorCheck foodCheck = new ErrorCheck();
 		
-		// Check that the user entered a numeric value
-    	int counter = 0;
-    	if (foodAsString == "") foodAsString = "0.0";
-    	boolean validGrade = true;
-    	for (char c : foodAsString.toCharArray()) {
-    		// If any character is not a digit, set flag to false: it is not a number
-    		if (!Character.isDigit(c)) {
-    			
-    			if (c != '.') {
-    				validGrade = false;
-    			}else{
-    				counter++;
-    				if (counter > 1){
-        				validGrade = false;
-        			}
-    			}
-    			
-    				
-    			if (validGrade == false) {
-    				if (counter > 1) {
-    					errorMessage = "Cannot have more than one period.";
-    				}else {
-    					errorMessage = "Don't include the character: " + c
-    						+ ". Grade should be a number.";
-    				}
-    			}
-    		
-    			
-    		}
-    	}
-    	
-    	// Default project grade to 0. If valid number entered, convert user input to
-    	// floating point number.
-    	if (validGrade) {
-    		food = Double.parseDouble(foodAsString);
-    	}
-    	
-    	return errorMessage;
-}
+			if (foodCheck.isValid(foodAsString))
+				food = Double.parseDouble(foodAsString);
+			else {
+				errorMessage = foodCheck.getMessage(foodAsString);
+				food = 0.0;
+			}
+			return errorMessage;
+		}
+
 		String setGroc(String grocAsString) {
-			String errorMessage = ""; // start with assuming no error
+			String errorMessage = "";
+			ErrorCheck grocCheck = new ErrorCheck();
 		
-		// Check that the user entered a numeric value
-    	int counter = 0;
-    	if (grocAsString == "")grocAsString = "0.0";
-    	boolean validGrade = true;
-    	for (char c : grocAsString.toCharArray()) {
-    		// If any character is not a digit, set flag to false: it is not a number
-    		if (!Character.isDigit(c)) {
-    			
-    			if (c != '.') {
-    				validGrade = false;
-    			}else{
-    				counter++;
-    				if (counter > 1){
-        				validGrade = false;
-        			}
-    			}
-    			
-    				
-    			if (validGrade == false) {
-    				if (counter > 1) {
-    					errorMessage = "Cannot have more than one period.";
-    				}else {
-    					errorMessage = "Don't include the character: " + c
-    						+ ". Grade should be a number.";
-    				}
-    			}
-    		
-    			
-    		}
-    	}
-    	
-    	// Default project grade to 0. If valid number entered, convert user input to
-    	// floating point number.
-    	if (validGrade) {
-    		groceries = Double.parseDouble(grocAsString);
-    	}
-    	
-    	return errorMessage;		
-}
+			if (grocCheck.isValid(grocAsString))
+				groceries = Double.parseDouble(grocAsString);
+			else {
+				errorMessage = grocCheck.getMessage(grocAsString);
+				groceries = 0.0;
+			}
+			return errorMessage;
+		}
 		
 		String setEnt(String entAsString) {
-			String errorMessage = ""; // start with assuming no error
+			String errorMessage = "";
+			ErrorCheck entCheck = new ErrorCheck();
 		
-		// Check that the user entered a numeric value
-    	int counter = 0;
-    	if (entAsString == "")entAsString = "0.0";
-    	boolean validGrade = true;
-    	for (char c : entAsString.toCharArray()) {
-    		// If any character is not a digit, set flag to false: it is not a number
-    		if (!Character.isDigit(c)) {
-    			
-    			if (c != '.') {
-    				validGrade = false;
-    			}else{
-    				counter++;
-    				if (counter > 1){
-        				validGrade = false;
-        			}
-    			}
-    			
-    				
-    			if (validGrade == false) {
-    				if (counter > 1) {
-    					errorMessage = "Cannot have more than one period.";
-    				}else {
-    					errorMessage = "Don't include the character: " + c
-    						+ ". Grade should be a number.";
-    				}
-    			}
-    		
-    			
-    		}
-    	}
-    	
-    	// Default project grade to 0. If valid number entered, convert user input to
-    	// floating point number.
-    	if (validGrade) {
-    		entertainment = Double.parseDouble(entAsString);
-    	}
-    	
-    	return errorMessage;
+			if (entCheck.isValid(entAsString))
+				entertainment = Double.parseDouble(entAsString);
+			else {
+				errorMessage = entCheck.getMessage(entAsString);
+				entertainment = 0.0;
+			}
+			return errorMessage;
 		}
 		
-
 		String setOther(String otherAsString) {
-			String errorMessage = ""; // start with assuming no error
+			String errorMessage = "";
+			ErrorCheck otherCheck = new ErrorCheck();
 		
-		// Check that the user entered a numeric value
-    	int counter = 0;
-    	if (otherAsString == "")otherAsString = "0.0";
-    	boolean validGrade = true;
-    	for (char c : otherAsString.toCharArray()) {
-    		// If any character is not a digit, set flag to false: it is not a number
-    		if (!Character.isDigit(c)) {
-    			
-    			if (c != '.') {
-    				validGrade = false;
-    			}else{
-    				counter++;
-    				if (counter > 1){
-        				validGrade = false;
-        			}
-    			}
-    			
-    				
-    			if (validGrade == false) {
-    				if (counter > 1) {
-    					errorMessage = "Cannot have more than one period.";
-    				}else {
-    					errorMessage = "Don't include the character: " + c
-    						+ ". Grade should be a number.";
-    				}
-    			}
-    		
-    			
-    		}
-    	}
+			if (otherCheck.isValid(otherAsString))
+				other = Double.parseDouble(otherAsString);
+			else {
+				errorMessage = otherCheck.getMessage(otherAsString);
+				other = 0.0;
+			}
+			return errorMessage;
+		}
+	
+	
     	
-    	// Default project grade to 0. If valid number entered, convert user input to
-    	// floating point number.
-    	if (validGrade) {
-    		other = Double.parseDouble(otherAsString);
-    	}
-    	
-    	return errorMessage;
+		String setGoal(String goalAsString) {
+			String errorMessage = "";
+			ErrorCheck goalCheck = new ErrorCheck();
+		
+			if (goalCheck.isValid(goalAsString))
+				goal = Double.parseDouble(goalAsString);
+			else {
+				errorMessage = goalCheck.getMessage(goalAsString);
+				goal = 0.0;
+			}
+			return errorMessage;
 		}
 		
-		String setGoal(String goalAsString) {
-			String errorMessage = ""; // start with assuming no error
 		
-		// Check that the user entered a numeric value
-    	int counter = 0;
-    	if (goalAsString == "") goalAsString = "0.0";
-    	boolean validGrade = true;
-    	for (char c : goalAsString.toCharArray()) {
-    		// If any character is not a digit, set flag to false: it is not a number
-    		if (!Character.isDigit(c)) {
-    			
-    			if (c != '.') {
-    				validGrade = false;
-    			}else{
-    				counter++;
-    				if (counter > 1){
-        				validGrade = false;
-        			}
-    			}
-    			
-    				
-    			if (validGrade == false) {
-    				if (counter > 1) {
-    					errorMessage = "Cannot have more than one period.";
-    				}else {
-    					errorMessage = "Don't include the character: " + c
-    						+ ". Grade should be a number.";
-    				}
-    			}
-    		
-    			
-    		}
-    	}
-    	
-    	// Default project grade to 0. If valid number entered, convert user input to
-    	// floating point number.
-    	if (validGrade) {
-    		goal = Double.parseDouble(goalAsString);
-    	}
-    	
-    	return errorMessage;
-}
 		
 }
 		
