@@ -26,6 +26,7 @@ public class MainSceneController {
     private Label metWaterGoalInfo = new Label(" ");
     private Label errorLabel = new Label("");
     private Label goalLabel = new Label("");
+    private Label waterDataLabel = new Label("");
     private TextField nameTextField = new TextField();
     private ChoiceBox<String> ageChoiceBox = new ChoiceBox();
     private ChoiceBox<String> sexChoiceBox = new ChoiceBox();
@@ -51,7 +52,9 @@ public class MainSceneController {
     private TextField stepsDataTextField = new TextField();
     private ArrayList<String> workoutGoalList = new ArrayList<String>();
     private ArrayList<String> workoutCompletedList = new ArrayList<String>();
-
+    private ArrayList<String>dailyWaterList = new ArrayList<String>();
+    
+    private int index = 0;
     private double waterGrade;
     private double foodGrade;
     private double spendGrade;
@@ -62,6 +65,9 @@ public class MainSceneController {
     private double weightedSpendGrade;
     private double weightedStepGrade;
     private double weightedSleepGrade;
+    
+    String[] days = {" Tuesday", " Wednesday", " Thrusday", " Friday", " Saturday", " Sunday"};
+    
     
    void createSleepHabit (double goalHour, double goalMinute, double valueHour, double valueMinute) {
 	    errorLabel.setText("");
@@ -76,6 +82,12 @@ public class MainSceneController {
  	    else if (sleep.getGrade() > 100) goalLabel.setText("Congradulations! You have surpassed your sleep goal.");
  	    else goalLabel.setText(String.format("you have completed %.0f"
 				+ "%% of your sleep goal", sleepGrade));
+   }
+   
+   void addDailyWater(String waterIntake) {
+	   dailyWaterList.add(waterIntake);
+	   waterDataLabel.setText("How much water did you drink on" + days[index] + "?");
+	   index++;
    }
    
    void createWaterHabit(String dataAsString, String goalAsString) {
@@ -280,13 +292,16 @@ public class MainSceneController {
     	goalLabel.setText("");
     	Scene mainScene = applicationStage.getScene();
     	HBox waterGoalContainer = new HBox(10);
-    	Label waterGoalLabel = new Label("What is your water goal?");
-    	Label mLLabel = new Label("mL");
+    	Label waterGoalLabel = new Label("What is your water goal for the week?");
+    	Label mLLabel = new Label("L");
     	waterGoalContainer.getChildren().addAll(waterGoalLabel, waterGoalTextField, mLLabel);
     	VBox waterDataWholeContainer = new VBox(10);
     	HBox waterDataContainer = new HBox(10);
-    	Label waterDataLabel = new Label("How much water did you drink (in mL)?");
-    	waterDataContainer.getChildren().addAll(waterDataLabel, waterDataTextField, mLLabel);
+    	waterDataLabel.setText("How much water did you drink on Monday?");
+    	Label literLabel = new Label("L");
+    	Button addDailyButton = new Button("Add");
+    	addDailyButton.setOnAction(addevent -> addDailyWater(waterDataTextField.getText()));
+    	waterDataContainer.getChildren().addAll(waterDataLabel, waterDataTextField, literLabel, addDailyButton);
    		Button doneButton = new Button("Done");
    		Button calculateButton = new Button("Calculate");
    		waterDataWholeContainer.getChildren().addAll(waterGoalContainer, waterDataContainer,calculateButton, errorLabel, goalLabel, doneButton);
