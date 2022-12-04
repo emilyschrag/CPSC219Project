@@ -109,10 +109,29 @@ public class MainSceneController {
    }
    
    void addWorkoutGoal(String workoutGoal) {
-	   workoutGoalList.add(workoutGoal);
-	   for (int index = 0; index <= (workoutGoalList.size() - 1); index++) {
-		   System.out.println(workoutGoalList.get(index));
+	   errorLabel.setText("");
+	   
+	   boolean valid = true;
+	   
+	   if (workoutGoalList.size() == 0) {
+		   workoutGoalList.add(workoutGoal);
+	   }else{ 
+		   for (int index = 0; index <= (workoutGoalList.size() - 1); index++) {
+			   if (workoutGoalList.get(index).equals(workoutGoal)) {
+				   errorLabel.setText("This workout has already been added");
+				   valid = false;
+			   }
+		   }
+		   if (valid == true)workoutGoalList.add(workoutGoal);
 	   }
+	   
+	   
+	   for (int index = 0; index <= (workoutGoalList.size() - 1); index++) {
+			   System.out.println(workoutGoalList.get(index));
+	   }
+	   
+	   workoutCompletedChoiceBox.getItems().addAll(workoutGoal);
+	   
    }
    
    void addWorkoutCompleted(String workoutCompleted) {
@@ -130,7 +149,6 @@ public class MainSceneController {
     	//errorLabel.setText(step.setValue(dataAsString));
     	workouts.calculate();
     	stepGrade = workouts.getGrade();
-    	System.out.println(stepGrade);
     	//weightedStepGrade = workouts.getWeightedGrade();
     	if (workouts.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your exercise goal.");
     	else if (workouts.getGrade() > 100) goalLabel.setText("Congradulations! You have surpassed your exercise goal.");
@@ -243,7 +261,7 @@ public class MainSceneController {
 		VBox exerciseDataWholeContainer = new VBox(10);
 		HBox stepsDataContainer = new HBox(10);
 		Label stepsDataLabel = new Label("What workouts have you completed this week?");
-		workoutCompletedChoiceBox.getItems().addAll("Chest", "Legs", "Back", "Core" ,  "Shoulders", "Arms", "Push", "Pull", "Cardio");
+		//workoutCompletedChoiceBox.getItems().addAll("Chest", "Legs", "Back", "Core" ,  "Shoulders", "Arms", "Push", "Pull", "Cardio");
 		Button workoutCompletedAddButton = new Button("Add");
 		workoutCompletedAddButton.setOnAction(addEvent2 -> addWorkoutCompleted(workoutCompletedChoiceBox.getValue()));
 		stepsDataContainer.getChildren().addAll(stepsDataLabel, workoutCompletedChoiceBox, workoutCompletedAddButton);
