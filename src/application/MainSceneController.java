@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 
 public class MainSceneController {
 	Stage applicationStage;
+
 	 @FXML
 	    //initialize all the things we need the data from in more than one section
 	    private DatePicker todaysDatePicker;
@@ -139,6 +140,40 @@ public class MainSceneController {
     }
 
     
+    
+    void createFoodHabit(String dataAsString, String goalAsString) {
+    	errorLabel.setText("");
+    	goalLabel.setText("");
+    	Habit food = new Habit(); 
+    	errorLabel.setText(food.setGoal(goalAsString));
+    	errorLabel.setText(food.setValue(dataAsString));
+    	food.calculateGrade();
+    	foodGrade = food.getGrade();
+    	weightedFoodGrade = food.getWeightedGrade();
+    	if (food.getGrade() == 100) goalLabel.setText("Congratulations! You have reached your calorie goal.");
+    	else if (food.getGrade() > 100) goalLabel.setText("Congratulations! You have surpassed your calorie goal.");
+    	else goalLabel.setText(String.format("you have completed %.0f"
+				+ "%% of your calorie goal", stepGrade));
+    }
+    
+    
+    
+    void createExpenseHabit(String dataAsString, String goalAsString) {
+    	errorLabel.setText("");
+    	goalLabel.setText("");
+    	Habit expense = new Habit(); 
+    	errorLabel.setText(expense.setGoal(goalAsString));
+    	errorLabel.setText(expense.setValue(dataAsString));
+    	expense.calculateGrade();
+    	expenseGrade = expense.getGrade();
+    	weightedExpenseGrade = expense.getWeightedGrade();
+    	if (expense.getGrade() == 100) goalLabel.setText("Congratulations! You have reached your expense goal.");
+    	else if (expense.getGrade() > 100) goalLabel.setText("Congratulations! You have surpassed your expense goal.");
+    	else goalLabel.setText(String.format("you have completed %.0f"
+				+ "%% of your expense goal", stepGrade));
+    }
+    
+    
     @FXML
     void toSleep(ActionEvent sleepEvent) {
     	Scene mainScene = applicationStage.getScene();
@@ -169,7 +204,9 @@ public class MainSceneController {
     			
 
     }
-
+    
+    
+    
     @FXML
     void toFood(ActionEvent foodEvent) {
     	errorLabel.setText("");
@@ -182,15 +219,21 @@ public class MainSceneController {
     	VBox foodDataSceneContainer = new VBox(10);
     	Label caloriesEnterLabel = new Label("How many calories have you consumed?");
     	TextField enterCalories = new TextField();
+
     	Button calculateButton = new Button("Calculate");
     	calculateButton.setOnAction(calculateEvent -> createFoodHabit(weightGoalTextField.getText(), enterCalories.getText()));
+
     	Button doneButton = new Button("Done");
+    	calculateCalories.setOnAction(calculateEvent -> createFoodHabit(enterCalories.getText(), weightGoalTextField.getText()));
     	doneButton.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));	
+
     	foodDataSceneContainer.getChildren().addAll(weightGoalContainer, caloriesEnterLabel, enterCalories, calculateButton, errorLabel, goalLabel, doneButton);
+
     	Scene foodScene = new Scene(foodDataSceneContainer);
         applicationStage.setScene(foodScene);
     }
-
+ 
+    
     @FXML
     void toExpenses(ActionEvent expensesEvent) {
     	errorLabel.setText("");
@@ -200,6 +243,7 @@ public class MainSceneController {
    		Label exGoalLabel = new Label("Spending Goal");
    		TextField exGoalTextField = new TextField();
    		exGoalContainer.getChildren().addAll(exGoalLabel, exGoalTextField );
+
     	VBox dataSceneContainer = new VBox(10);		
     	Label moneySpentLabel = new Label("Money spent today");
     	HBox foodContainer = new HBox(10);
@@ -225,6 +269,7 @@ public class MainSceneController {
  
     	calculateSpent.setOnAction(calculateEvent -> createExpensesHabit(exGoalTextField.getText(), foodTextField.getText() , entertainmentTextField.getText(), groceriesTextField.getText(), otherTextField.getText())); 
     	dataSceneContainer.getChildren().addAll(exGoalContainer, moneySpentLabel, foodContainer, entertainmentContainer,groceriesContainer, otherContainer, calculateSpent,  errorLabel, goalLabel, doneButton);
+
     	Scene expensesScene = new Scene(dataSceneContainer);
     	applicationStage.setScene(expensesScene);
     }
@@ -312,6 +357,8 @@ public class MainSceneController {
     	dailyScoreAll.getChildren().addAll(dailyScoreLabel, metSleepGoalInfo,  metFoodGoalInfo, metExpensesGoalInfo, metExerciseGoalInfo, metWaterGoalInfo, overallScoreContainer, doneButton);
     	Scene scoreScene = new Scene(dailyScoreAll);
     	applicationStage.setScene(scoreScene);
+    	
+    	
     }
 
 }
