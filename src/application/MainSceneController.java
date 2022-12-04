@@ -27,6 +27,7 @@ public class MainSceneController {
     private Label errorLabel = new Label("");
     private Label goalLabel = new Label("");
     private Label waterDataLabel = new Label("");
+    private Label waterGoalLabel = new Label("");
     private TextField nameTextField = new TextField();
     private ChoiceBox<String> ageChoiceBox = new ChoiceBox();
     private ChoiceBox<String> sexChoiceBox = new ChoiceBox();
@@ -54,6 +55,7 @@ public class MainSceneController {
     private ArrayList<String> workoutCompletedList = new ArrayList<String>();
     private ArrayList<String>dailyWaterList = new ArrayList<String>();
     private HBox waterDataContainer = new HBox(10);
+    private HBox waterGoalContainer = new HBox(10);
     
     private int index = 0;
     private double waterGrade;
@@ -67,7 +69,7 @@ public class MainSceneController {
     private double weightedStepGrade;
     private double weightedSleepGrade;
     
-    private String[] days = {" Tuesday", " Wednesday", " Thrusday", " Friday", " Saturday", " Sunday"};
+    private String[] days = {" Tuesday", " Wednesday", " Thursday", " Friday", " Saturday", " Sunday"};
     
     
    void createSleepHabit (double goalHour, double goalMinute, double valueHour, double valueMinute) {
@@ -85,33 +87,38 @@ public class MainSceneController {
 				+ "%% of your sleep goal", sleepGrade));
    }
    
-   void addDailyWater(String waterIntake) {
-	   if (index == 6) {
-		   waterDataContainer.getChildren().removeAll(waterDataContainer.getChildren());
+   void addDailyWater(String waterIntake, String waterGoal) {
+	   waterGoalContainer.getChildren().removeAll(waterGoalContainer.getChildren());
+	   waterGoalLabel.setText("Your water goal for the week is " + waterGoal + "L" );
+	   waterGoalContainer.getChildren().addAll(waterGoalLabel);
+	   
+	   if (index == 6) waterDataContainer.getChildren().removeAll(waterDataContainer.getChildren());
 		   
-	   }
 	   if (index < 6) {
 		   dailyWaterList.add(waterIntake);
 		   waterDataLabel.setText("How much water did you drink on" + days[index] + "?");
 	   }
+	   
+	   
+	   
 	   index++;
 	   
    }
    
-   void createWaterHabit(String dataAsString, String goalAsString) {
-   	errorLabel.setText("");
-   	goalLabel.setText("");
-   	Habit water = new Habit(); 
-   	errorLabel.setText(water.setGoal(goalAsString));
-   	errorLabel.setText(water.setValue(dataAsString));
-   	water.calculateGrade();
-   	waterGrade = water.getGrade();
-   	weightedWaterGrade = water.getWeightedGrade();
-   	if (water.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your water intake goal.");
-   	else if (water.getGrade() > 100) goalLabel.setText("Congradulations! You have surpassed your water intake goal.");
-   	else goalLabel.setText(String.format("you have completed %.0f"
-				+ "%% of your water intake goal", waterGrade));
-   }
+//   void createWaterHabit(String dataAsString, String goalAsString) {
+//   	errorLabel.setText("");
+//   	goalLabel.setText("");
+//   	Habit water = new Habit(); 
+//  	errorLabel.setText(water.setGoal(goalAsString));
+//   	errorLabel.setText(water.setValue(dataAsString));
+//   	water.calculateGrade();
+//   	waterGrade = water.getGrade();
+//   	weightedWaterGrade = water.getWeightedGrade();
+//   	if (water.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your water intake goal.");
+//   	else if (water.getGrade() > 100) goalLabel.setText("Congradulations! You have surpassed your water intake goal.");
+//   	else goalLabel.setText(String.format("you have completed %.0f"
+//				+ "%% of your water intake goal", waterGrade));
+//   }
    
    void createExpenseHabit(String dataAsString, String goalAsString) {
 	   errorLabel.setText("");
@@ -281,7 +288,6 @@ public class MainSceneController {
 		VBox exerciseDataWholeContainer = new VBox(10);
 		HBox stepsDataContainer = new HBox(10);
 		Label stepsDataLabel = new Label("What workouts have you completed this week?");
-		//workoutCompletedChoiceBox.getItems().addAll("Chest", "Legs", "Back", "Core" ,  "Shoulders", "Arms", "Push", "Pull", "Cardio");
 		Button workoutCompletedAddButton = new Button("Add");
 		workoutCompletedAddButton.setOnAction(addEvent2 -> addWorkoutCompleted(workoutCompletedChoiceBox.getValue()));
 		stepsDataContainer.getChildren().addAll(stepsDataLabel, workoutCompletedChoiceBox, workoutCompletedAddButton);
@@ -297,24 +303,24 @@ public class MainSceneController {
     @FXML
     void toWater(ActionEvent toWaterEvent) {
     	index = 0;
+    	waterGoalContainer.getChildren().removeAll(waterGoalContainer.getChildren());
     	errorLabel.setText("");
     	goalLabel.setText("");
     	Scene mainScene = applicationStage.getScene();
-    	HBox waterGoalContainer = new HBox(10);
-    	Label waterGoalLabel = new Label("What is your water goal for the week?");
+    	waterGoalLabel.setText("What is your water goal for the week?");
     	Label mLLabel = new Label("L");
     	waterGoalContainer.getChildren().addAll(waterGoalLabel, waterGoalTextField, mLLabel);
     	VBox waterDataWholeContainer = new VBox(10);
     	waterDataLabel.setText("How much water did you drink on Monday?");
     	Label literLabel = new Label("L");
     	Button addDailyButton = new Button("Add");
-    	addDailyButton.setOnAction(addevent -> addDailyWater(waterDataTextField.getText()));
+    	addDailyButton.setOnAction(addevent -> addDailyWater(waterDataTextField.getText(), waterGoalTextField.getText()));
     	waterDataContainer.getChildren().addAll(waterDataLabel, waterDataTextField, literLabel, addDailyButton);
    		Button doneButton = new Button("Done");
-   		Button calculateButton = new Button("Calculate");
-   		waterDataWholeContainer.getChildren().addAll(waterGoalContainer, waterDataContainer,calculateButton, errorLabel, goalLabel, doneButton);
+   		//Button calculateButton = new Button("Calculate");
+   		waterDataWholeContainer.getChildren().addAll(waterGoalContainer, waterDataContainer, errorLabel, goalLabel, doneButton);
    		Scene waterScene = new Scene(waterDataWholeContainer);
-   		calculateButton.setOnAction(calculateEvent -> createWaterHabit(waterDataTextField.getText(), waterGoalTextField.getText()));
+   		//calculateButton.setOnAction(calculateEvent -> createWaterHabit(waterDataTextField.getText(), waterGoalTextField.getText()));
    		doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
    		applicationStage.setScene(waterScene);
     }
