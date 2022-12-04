@@ -14,9 +14,7 @@ public class Excercise {
 	}
 	
 	public void calculate() {
-		ArrayList<String> copiedList = goal;
-		copiedList.retainAll(completed);
-		grade = (double) (copiedList.size() /goal.size() * 100.0);
+		grade =  (double)(completed.size()) / (double)(goal.size()) * 100.0;
 	}
 	
 	public double getGrade() {
