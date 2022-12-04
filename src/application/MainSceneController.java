@@ -53,6 +53,7 @@ public class MainSceneController {
     private ArrayList<String> workoutGoalList = new ArrayList<String>();
     private ArrayList<String> workoutCompletedList = new ArrayList<String>();
     private ArrayList<String>dailyWaterList = new ArrayList<String>();
+    private HBox waterDataContainer = new HBox(10);
     
     private int index = 0;
     private double waterGrade;
@@ -66,7 +67,7 @@ public class MainSceneController {
     private double weightedStepGrade;
     private double weightedSleepGrade;
     
-    String[] days = {" Tuesday", " Wednesday", " Thrusday", " Friday", " Saturday", " Sunday"};
+    private String[] days = {" Tuesday", " Wednesday", " Thrusday", " Friday", " Saturday", " Sunday"};
     
     
    void createSleepHabit (double goalHour, double goalMinute, double valueHour, double valueMinute) {
@@ -85,9 +86,16 @@ public class MainSceneController {
    }
    
    void addDailyWater(String waterIntake) {
-	   dailyWaterList.add(waterIntake);
-	   waterDataLabel.setText("How much water did you drink on" + days[index] + "?");
+	   if (index == 6) {
+		   waterDataContainer.getChildren().removeAll(waterDataContainer.getChildren());
+		   
+	   }
+	   if (index < 6) {
+		   dailyWaterList.add(waterIntake);
+		   waterDataLabel.setText("How much water did you drink on" + days[index] + "?");
+	   }
 	   index++;
+	   
    }
    
    void createWaterHabit(String dataAsString, String goalAsString) {
@@ -288,6 +296,7 @@ public class MainSceneController {
 
     @FXML
     void toWater(ActionEvent toWaterEvent) {
+    	index = 0;
     	errorLabel.setText("");
     	goalLabel.setText("");
     	Scene mainScene = applicationStage.getScene();
@@ -296,7 +305,6 @@ public class MainSceneController {
     	Label mLLabel = new Label("L");
     	waterGoalContainer.getChildren().addAll(waterGoalLabel, waterGoalTextField, mLLabel);
     	VBox waterDataWholeContainer = new VBox(10);
-    	HBox waterDataContainer = new HBox(10);
     	waterDataLabel.setText("How much water did you drink on Monday?");
     	Label literLabel = new Label("L");
     	Button addDailyButton = new Button("Add");
