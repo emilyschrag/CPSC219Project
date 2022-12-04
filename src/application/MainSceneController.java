@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 
+import java.util.ArrayList;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
@@ -37,15 +39,18 @@ public class MainSceneController {
     private ChoiceBox<Integer> minuteChoiceBox3 = new ChoiceBox();
     private ChoiceBox<String> ampmChoiceBox2 = new ChoiceBox();
     private ChoiceBox<String> weightGoalChoiceBox = new ChoiceBox();
+    private ChoiceBox<String> workoutGoalChoiceBox = new ChoiceBox();
+    private ChoiceBox<String> workoutCompletedChoiceBox = new ChoiceBox();
     private TextField exGoalTextField = new TextField();
     private TextField foodTextField = new TextField();
     private TextField entertainmentTextField = new TextField();
     private TextField groceriesTextField = new TextField();
     private TextField otherTextField = new TextField();
-    private TextField stepsGoalTextField = new TextField();
     private TextField waterGoalTextField = new TextField();
     private TextField waterDataTextField = new TextField();
     private TextField stepsDataTextField = new TextField();
+    private ArrayList<String> workoutGoalList = new ArrayList<String>();
+    private ArrayList<String> workoutCompletedList = new ArrayList<String>();
 
     private double waterGrade;
     private double foodGrade;
@@ -103,18 +108,32 @@ public class MainSceneController {
 				+ "%% of your spending goal", foodGrade));
    }
    
+   void addWorkoutGoal(String workoutGoal) {
+	   workoutGoalList.add(workoutGoal);
+	   for (int index = 0; index <= (workoutGoalList.size() - 1); index++) {
+		   System.out.println(workoutGoalList.get(index));
+	   }
+   }
    
-    void createStepsHabit(String dataAsString, String goalAsString) {
+   void addWorkoutCompleted(String workoutCompleted) {
+	   workoutCompletedList.add(workoutCompleted);
+	   for (int index = 0; index <= (workoutCompletedList.size() - 1); index++) {
+		   System.out.println(workoutCompletedList.get(index));
+	   }
+   }
+   
+    void createExerciseHabit(ArrayList<String> goal, ArrayList<String> completed) {
     	errorLabel.setText("");
     	goalLabel.setText("");
-    	Habit step = new Habit(); 
-    	errorLabel.setText(step.setGoal(goalAsString));
-    	errorLabel.setText(step.setValue(dataAsString));
-    	step.calculateGrade();
-    	stepGrade = step.getGrade();
-    	weightedStepGrade = step.getWeightedGrade();
-    	if (step.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your exercise goal.");
-    	else if (step.getGrade() > 100) goalLabel.setText("Congradulations! You have surpassed your exercise goal.");
+    	Excercise workouts = new Excercise(goal, completed); 
+    	//errorLabel.setText(step.setGoal(goalAsString));
+    	//errorLabel.setText(step.setValue(dataAsString));
+    	workouts.calculate();
+    	stepGrade = workouts.getGrade();
+    	System.out.println(stepGrade);
+    	//weightedStepGrade = workouts.getWeightedGrade();
+    	if (workouts.getGrade() == 100) goalLabel.setText("Congradulations! You have reached your exercise goal.");
+    	else if (workouts.getGrade() > 100) goalLabel.setText("Congradulations! You have surpassed your exercise goal.");
     	else goalLabel.setText(String.format("you have completed %.0f"
 				+ "%% of your exercise goal", stepGrade));
     }
@@ -216,16 +235,21 @@ public class MainSceneController {
     	goalLabel.setText("");
     	Scene mainScene = applicationStage.getScene();
 		HBox stepsGoalContainer = new HBox(10);
-		Label stepsGoalLabel = new Label("What is your step goal?");
-		Label stepsLabel = new Label("Steps");
-		stepsGoalContainer.getChildren().addAll(stepsGoalLabel, stepsGoalTextField, stepsLabel);
+		Label exerciseGoalLabel = new Label("What workouts do you want to complete this week?");
+		workoutGoalChoiceBox.getItems().addAll("Chest", "Legs", "Back", "Core" ,  "Shoulders", "Arms", "Push", "Pull", "Cardio");
+		Button workoutGoalAddButton = new Button("Add");
+		workoutGoalAddButton.setOnAction(addEvent1 -> addWorkoutGoal(workoutGoalChoiceBox.getValue()));
+		stepsGoalContainer.getChildren().addAll(exerciseGoalLabel, workoutGoalChoiceBox, workoutGoalAddButton);
 		VBox exerciseDataWholeContainer = new VBox(10);
 		HBox stepsDataContainer = new HBox(10);
-		Label stepsDataLabel = new Label("Number of steps");
-		stepsDataContainer.getChildren().addAll(stepsDataLabel, stepsDataTextField);
+		Label stepsDataLabel = new Label("What workouts have you completed this week?");
+		workoutCompletedChoiceBox.getItems().addAll("Chest", "Legs", "Back", "Core" ,  "Shoulders", "Arms", "Push", "Pull", "Cardio");
+		Button workoutCompletedAddButton = new Button("Add");
+		workoutCompletedAddButton.setOnAction(addEvent2 -> addWorkoutCompleted(workoutCompletedChoiceBox.getValue()));
+		stepsDataContainer.getChildren().addAll(stepsDataLabel, workoutCompletedChoiceBox, workoutCompletedAddButton);
 		Button calculateButton = new Button("Calculate");
 		Button doneButton = new Button("Done");
-	   	calculateButton.setOnAction(calculateEvent -> createStepsHabit(stepsDataTextField.getText(), stepsGoalTextField.getText()));
+	   	calculateButton.setOnAction(calculateEvent -> createExerciseHabit(workoutGoalList, workoutCompletedList));
 	   	doneButton.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));		
 		exerciseDataWholeContainer.getChildren().addAll(stepsGoalContainer, stepsDataContainer, calculateButton, errorLabel,  goalLabel, doneButton);
 		Scene exerciseScene = new Scene(exerciseDataWholeContainer);
