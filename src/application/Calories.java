@@ -12,6 +12,7 @@ private double BMR;
 private String sex;
 private double AMR;
 private String activityLevel;
+private String weightGoal;
 
 //CONSTANTS
 
@@ -23,6 +24,8 @@ private String activityLevel;
  *For men, BMR = 66.47 + (13.75 x weight in kg) + (5.003 x height in cm) - (6.755 x age in years)
  *
  */
+
+static final double daysInWeek = 7;
 
 static final double maleBmrConstant = 66.47;
 static final double maleWeightFactor = 13.75;
@@ -53,6 +56,7 @@ public Calories () {
 	sex = "";
 	activityLevel = "";
 	AMR = 0;
+	weightGoal = "";
 }
 
 
@@ -73,13 +77,13 @@ public Double calculateBMR() {
 
 public Double calculateAMR() {
 	if (activityLevel =="Sedentary") {
-		
-	} else if (activityLevel == "Lightly Active") {
 		AMR = (BMR*sedentaryAmrFactor);
-	} else if (activityLevel == "Moderately Active") {
+	} else if (activityLevel == "Lightly Active") {
 		AMR = (BMR*lightAmrFactor);
-	} else if (activityLevel == "Active") {
+	} else if (activityLevel == "Moderately Active") {
 		AMR = (BMR*moderateAmrFactor);
+	} else if (activityLevel == "Active") {
+		AMR = (BMR*activeAmrFactor);
 	} else if (activityLevel == "Very Active") {
 		AMR = (BMR*veryActiveAmrFactor);
 	}
@@ -87,24 +91,35 @@ public Double calculateAMR() {
 	return AMR;
 }
 
+public double calculateCals() {
+	if (weightGoal =="Lose Weight") {
+		calories = (AMR*daysInWeek) - (calorieDiffOnePound * daysInWeek);
+	} else if (weightGoal =="Maintain Weight") {
+		calories = (AMR*daysInWeek);
+	} else if (weightGoal == "Gain Weight") {
+		calories = (AMR*daysInWeek) + (calorieDiffOnePound * daysInWeek);
+	}
+	return calories;
+}
 
-public double calculateCalsLoss () {
+/*
+ * public double calculateCalsLoss () {
 	calories = AMR - calorieDiffOnePound;
 	return calories;
 	
 }
-
 public double calculateCalsSame () {
 	calories = AMR;
 	return calories;
 	
 }
-
 public double calculateCalsGain () {
 	calories = AMR + calorieDiffOnePound;
 	return calories;
 	
 }
+ */
+
 
 
 
@@ -113,8 +128,7 @@ double getCalories () {
 	return calories;
 }
 
-/*
- * String setCalories (String caloriesAsString) {
+String setCalories (String caloriesAsString) {
 	String errorMessage = "";
 	ErrorCheck calorieCheck = new ErrorCheck();
 
@@ -126,10 +140,87 @@ double getCalories () {
 	}
 	return errorMessage;
 }
- */
 
+//Setting user info variables to use for calculations
 
+String setAge(String ageAsString) {
+	String errorMessage = "";
+	ErrorCheck ageCheck = new ErrorCheck();
 
-	
+	if (ageCheck.isValid(ageAsString))
+		age = Integer.parseInt(ageAsString);
+	else {
+		errorMessage = ageCheck.getMessage(ageAsString);
+		age = 0;
+	}
+	return errorMessage;
 }
 
+String setSex(String sexAsString) {
+	String errorMessage = "";
+	ErrorCheck sexCheck = new ErrorCheck();
+
+	if (sexCheck.isValid(sexAsString))
+		sex = (sexAsString);
+	else {
+		errorMessage = sexCheck.getMessage(sexAsString);
+		sex = "";
+	}
+	return errorMessage;
+}
+
+String setHeight(String heightAsString) {
+	String errorMessage = "";
+	ErrorCheck heightCheck = new ErrorCheck();
+
+	if (heightCheck.isValid(heightAsString))
+		height = Integer.parseInt(heightAsString);
+	else {
+		errorMessage = heightCheck.getMessage(heightAsString);
+		height = 0;
+	}
+	return errorMessage;
+}
+
+String setWeight(String weightAsString) {
+	String errorMessage = "";
+	ErrorCheck weightCheck = new ErrorCheck();
+
+	if (weightCheck.isValid(weightAsString))
+		weight = Integer.parseInt(weightAsString);
+	else {
+		errorMessage = weightCheck.getMessage(weightAsString);
+		weight = 0;
+	}
+	return errorMessage;
+}
+
+String setActivity(String activityAsString) {
+	String errorMessage = "";
+	ErrorCheck activityCheck = new ErrorCheck();
+
+	if (activityCheck.isValid(activityAsString))
+		activityLevel = (activityAsString);
+	else {
+		errorMessage = activityCheck.getMessage(activityAsString);
+		activityLevel = "";
+	}
+	return errorMessage;
+}
+
+String setWeightGoal(String weightGoalAsString) {
+	String errorMessage = "";
+	ErrorCheck weightGoalCheck = new ErrorCheck();
+
+	if (weightGoalCheck.isValid(weightGoalAsString))
+		weightGoal = (weightGoalAsString);
+	else {
+		errorMessage = weightGoalCheck.getMessage(weightGoalAsString);
+		weightGoal = "";
+	}
+	return errorMessage;
+}
+
+
+
+}
