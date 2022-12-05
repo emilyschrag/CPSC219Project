@@ -30,6 +30,7 @@ public class MainSceneController {
 	    private ChoiceBox<String> sexChoiceBox = new ChoiceBox();
 	    private TextField heightTextField = new TextField();
 	    private TextField weightTextField = new TextField();
+	    private ChoiceBox<String> activityChoiceBox = new ChoiceBox();
 	    //End of User Info
 	    private ChoiceBox<Integer> hourChoiceBox = new ChoiceBox();
 	    private ChoiceBox<Integer> minuteChoiceBox = new ChoiceBox();
@@ -48,6 +49,8 @@ public class MainSceneController {
 	    private TextField waterGoalTextField = new TextField();
 	    private TextField waterDataTextField = new TextField();
 	    private TextField stepsDataTextField = new TextField();
+
+	    
 	    private double waterGrade;
 	    private double foodGrade;
 	    private double spendGrade;
@@ -102,13 +105,21 @@ public class MainSceneController {
 	    	TextField weightTextField = new TextField();
 	    	weightContainer.getChildren().addAll(weightLabel, weightTextField);
 	    	String userWeight = weightTextField.getText();
+	    	
+	    	//container for entering activity level
+	    	HBox activityContainer = new HBox(10);
+	    	Label activityLabel = new Label("Enter your Activity Level");
+	    	ChoiceBox activityChoiceBox = new ChoiceBox();
+	    	activityContainer.getChildren().addAll(activityLabel, activityChoiceBox);
+	    	activityChoiceBox.getItems().addAll("Sedentary", "Lightly Active","Moderately Active","Active","Very Active");
+	    	String userActivity = (String) activityChoiceBox.getValue();
 
 	    	//done button to take user back to main scene when information is entered
 	    	Button doneButton = new Button("Done");
 	    	doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
 	    	
 	    	// add all components to main container
-	    	userInfoContainer.getChildren().addAll(titleLabel, ageContainer, sexContainer, heightContainer, weightContainer, doneButton);
+	    	userInfoContainer.getChildren().addAll(titleLabel, ageContainer, sexContainer, heightContainer, weightContainer, activityContainer, doneButton);
 	    	//create a new scene that holds the main container
 	    	Scene infoScene = new Scene(userInfoContainer, 300, 325);
 	    	//set the scene to the info scene when the enterInfo action is initiated
@@ -203,13 +214,14 @@ public class MainSceneController {
 
     
     
-    void createFoodHabit(String dataAsString, String goalAsString) {
+    void createFoodHabit(String ageAsString, String sexAsString , String heightAsString, String weightAsString, String activityAsString, String weightGoalAsString ) {
     	errorLabel.setText("");
     	goalLabel.setText("");
     	Habit food = new Habit(); 
-    	errorLabel.setText(food.setGoal(goalAsString));
-    	errorLabel.setText(food.setValue(dataAsString));
+    	//errorLabel.setText(food.setGoal(goalAsString));
+    	//errorLabel.setText(food.setValue(dataAsString));
     	food.calculateGrade();
+    	//double myCalories = food.getCalories;
     	foodGrade = food.getGrade();
     	weightedFoodGrade = food.getWeightedGrade();
     	if (food.getGrade() == 100) goalLabel.setText("Congratulations! You have reached your calorie goal.");
@@ -278,29 +290,45 @@ public class MainSceneController {
     	Scene mainScene = applicationStage.getScene();
     	HBox weightGoalContainer = new HBox(10);
     	Label weightGoalLabel = new Label("What is your dietary goal?");
+    
     	ChoiceBox weightGoalChoiceBox = new ChoiceBox();
     	weightGoalChoiceBox.getItems().addAll("Lose Weight","Maintain Weight","Gain Weight");
-    	weightGoalContainer.getChildren().addAll(weightGoalLabel, weightGoalChoiceBox);
+    	
+    	Button setWeightGoalButton = new Button ("Set Goal");
+    	setWeightGoalButton.setOnAction(calorieCalc -> createFoodHabit (ageChoiceBox.getValue(),sexChoiceBox.getValue(),heightTextField.getText(),
+    			weightTextField.getText(),activityChoiceBox.getValue(), (String) weightGoalChoiceBox.getValue()));
+    	
+    	weightGoalContainer.getChildren().addAll(weightGoalLabel, weightGoalChoiceBox,setWeightGoalButton);
     	VBox foodDataSceneContainer = new VBox(10);
-    	Label caloriesEnterLabel = new Label("Based on your given Physical data and dietary goal, you should consume: \n"
-    			+ " ____ calories weekly \n"
-    			+ " ____ calories daily");
+    	Label caloriesEnterLabel = new Label ("");
+    	
+    	/*Label caloriesEnterLabel = new Label("Based on your given Physical data and dietary goal, you should consume: \n"
+    	 *		+ " ____ calories weekly \n"
+    	 *		+ " ____ calories daily");
+    	 * 
+    	 */
+    	    	
+    	
     	TextField enterCalories = new TextField();
 
-    	Button calculateButton = new Button("Calculate");
-    	calculateButton.setOnAction(calculateEvent -> createFoodHabit((String) weightGoalChoiceBox.getValue(), enterCalories.getText()));
+    	//Button calculateButton = new Button("Calculate");
+    	//calculateButton.setOnAction(calculateEvent -> createFoodHabit((String) weightGoalChoiceBox.getValue(), enterCalories.getText()));
 
     	Button doneButton = new Button("Done");
     	doneButton.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));	
 
-    	foodDataSceneContainer.getChildren().addAll(weightGoalContainer, caloriesEnterLabel, enterCalories, calculateButton, errorLabel, goalLabel, doneButton);
+    	foodDataSceneContainer.getChildren().addAll(weightGoalContainer, caloriesEnterLabel, enterCalories, errorLabel, goalLabel, doneButton);
 
     	Scene foodScene = new Scene(foodDataSceneContainer);
         applicationStage.setScene(foodScene);
     }
  
     
-    @FXML
+
+
+
+
+	@FXML
     void toExpenses(ActionEvent expensesEvent) {
     	errorLabel.setText("");
     	goalLabel.setText("");
