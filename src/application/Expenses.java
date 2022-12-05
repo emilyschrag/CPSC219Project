@@ -23,14 +23,8 @@ public class Expenses extends Habit {
  */
 		public String calculateTotal() {
 			String returnTotal;
-			if (food == 0.0 && groceries == 0.0 && other == 0.0 && entertainment == 0.0) {
-				total = 0.0;
-				returnTotal = Double.toString(total);
-			}
-			else {
 				total = food + groceries + other + entertainment;
 				returnTotal = Double.toString(total);
-			}
 			return returnTotal;
 		}
 
@@ -64,7 +58,7 @@ public class Expenses extends Habit {
 				food = Double.parseDouble(foodAsString);
 			else {
 				errorMessage = foodCheck.getMessage(foodAsString);
-				food = 0.0;
+				//food = 0.0;
 			}
 			return errorMessage;
 		}
@@ -83,7 +77,7 @@ public class Expenses extends Habit {
 				groceries = Double.parseDouble(grocAsString);
 			else {
 				errorMessage = grocCheck.getMessage(grocAsString);
-				groceries = 0.0;
+				//groceries = 0.0;
 			}
 			return errorMessage;
 		}
@@ -102,7 +96,7 @@ public class Expenses extends Habit {
 				entertainment = Double.parseDouble(entAsString);
 			else {
 				errorMessage = entCheck.getMessage(entAsString);
-				entertainment = 0.0;
+				//entertainment = 0.0;
 			}
 			return errorMessage;
 		}
@@ -121,7 +115,7 @@ public class Expenses extends Habit {
 				other = Double.parseDouble(otherAsString);
 			else {
 				errorMessage = otherCheck.getMessage(otherAsString);
-				other = 0.0;
+				//other = 0.0;
 			}
 			return errorMessage;
 		}

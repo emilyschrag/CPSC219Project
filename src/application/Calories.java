@@ -1,6 +1,8 @@
 package application;
 
-public class Calories extends Habit {
+import java.util.ArrayList;
+
+public class Calories {
 
 	// instance variables
 	//note: INPUT weight is in KG
@@ -13,6 +15,9 @@ private String sex;
 private double AMR;
 private String activityLevel;
 private String weightGoal;
+private double grade;
+private ArrayList<String> calorieList;
+private double weekTotal;
 
 //CONSTANTS
 
@@ -57,25 +62,26 @@ public Calories () {
 	activityLevel = "";
 	AMR = 0;
 	weightGoal = "";
+	age = 0;
+	grade = 0;
 }
 
 
 
 
 
-public Double calculateBMR() {
+public void calculateBMR() {
 	if (sex == "Male") {
 		BMR = maleBmrConstant + (maleWeightFactor * weight) + (maleHeightFactor * height) + (maleAgeFactor * age);
 	} else if (sex =="Female") {
 		BMR = femaleBmrConstant + (femaleWeightFactor * weight) + (femaleHeightFactor * height) + (femaleAgeFactor * age);
 	}
 
-	return BMR;
 }
 
 
 
-public Double calculateAMR() {
+public void calculateAMR() {
 	if (activityLevel =="Sedentary") {
 		AMR = (BMR*sedentaryAmrFactor);
 	} else if (activityLevel == "Lightly Active") {
@@ -88,10 +94,10 @@ public Double calculateAMR() {
 		AMR = (BMR*veryActiveAmrFactor);
 	}
 	
-	return AMR;
 }
 
-public double calculateCals() {
+public void calculateCals() {
+	
 	if (weightGoal =="Lose Weight") {
 		calories = (AMR*daysInWeek) - (calorieDiffOnePound * daysInWeek);
 	} else if (weightGoal =="Maintain Weight") {
@@ -99,7 +105,7 @@ public double calculateCals() {
 	} else if (weightGoal == "Gain Weight") {
 		calories = (AMR*daysInWeek) + (calorieDiffOnePound * daysInWeek);
 	}
-	return calories;
+
 }
 
 /*
@@ -157,9 +163,10 @@ String setAge(String ageAsString) {
 }
 
 String setSex(String sexAsString) {
-	String errorMessage = "";
+	sex= sexAsString;
+	/*
+	 * 	String errorMessage = "";
 	ErrorCheck sexCheck = new ErrorCheck();
-
 	if (sexCheck.isValid(sexAsString))
 		sex = (sexAsString);
 	else {
@@ -167,6 +174,9 @@ String setSex(String sexAsString) {
 		sex = "";
 	}
 	return errorMessage;
+	 */
+	return "";
+
 }
 
 String setHeight(String heightAsString) {
@@ -196,9 +206,10 @@ String setWeight(String weightAsString) {
 }
 
 String setActivity(String activityAsString) {
-	String errorMessage = "";
+	activityLevel = activityAsString;
+	/*
+	 * 	String errorMessage = "";
 	ErrorCheck activityCheck = new ErrorCheck();
-
 	if (activityCheck.isValid(activityAsString))
 		activityLevel = (activityAsString);
 	else {
@@ -206,12 +217,16 @@ String setActivity(String activityAsString) {
 		activityLevel = "";
 	}
 	return errorMessage;
+	 */
+	return "";
 }
 
 String setWeightGoal(String weightGoalAsString) {
-	String errorMessage = "";
+	weightGoal = weightGoalAsString;
+	
+	/*
+	 * String errorMessage = "";
 	ErrorCheck weightGoalCheck = new ErrorCheck();
-
 	if (weightGoalCheck.isValid(weightGoalAsString))
 		weightGoal = (weightGoalAsString);
 	else {
@@ -219,7 +234,60 @@ String setWeightGoal(String weightGoalAsString) {
 		weightGoal = "";
 	}
 	return errorMessage;
+	 */
+	return "";
+	
+	
 }
+
+void setCalorieData(ArrayList <String> data) {
+calorieList = data;
+}
+
+public void total() {
+	for (int index = 0; index <= (calorieList.size() - 1); index++) {
+		weekTotal += Double.parseDouble(calorieList.get(index));
+	}
+}
+
+
+public int getAge () {
+return age;	
+}
+
+public int getWeight() {
+	return weight;
+}
+
+public int getHeight() {
+	return height;
+}
+
+public String getSex() {
+	return sex;
+}
+
+public String getActivity() {
+	return activityLevel;
+}
+
+public double getAMR() {
+	return AMR;
+}
+
+public double getBMR () {
+	return BMR;
+}
+
+public String getWeightGoal () {
+	return weightGoal;
+}
+
+public double getGrade() {
+	return weekTotal/calories * 100;
+}
+
+
 
 
 

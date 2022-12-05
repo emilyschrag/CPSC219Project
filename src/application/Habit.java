@@ -16,24 +16,18 @@ public class Habit {
 	//calculates grade
 	public void calculateGrade() {
 		if (value == 0.0 || goal == 0.0) grade = 0.0;
-		else grade =  value  / goal * 100;
+		else grade =  value / goal * 100;
 	}
 
-	//calculate and get the weighted grade
-	public double getWeightedGrade() {
-		if (grade > 100.0) grade = 100.0;
-		return grade * 0.2;
-	}
-	
-	//get the grade
-	double getGrade() {
-		return grade;
-	}
-	
-	//get the goal
-	double getGoal() {
-		return goal;
-	}
+
+ 	double getGrade() {
+ 		return grade;
+ 	}
+
+ 	double getGoal() {
+ 		return goal;
+ 	}
+
 	
 	String setGoal(String goalAsString) {
 		//set the error message to empty 
