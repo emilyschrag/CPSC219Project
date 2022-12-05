@@ -1,9 +1,7 @@
 package application;
 
 public class Habit {
-
-	
-	// instance variables
+	//set instance variables
 	private double value;
 	private double goal;
 	private double grade;
@@ -18,114 +16,62 @@ public class Habit {
 	//calculates grade
 	public void calculateGrade() {
 		if (value == 0.0 || goal == 0.0) grade = 0.0;
-		else grade =  value  / goal * 100;
+		else grade =  value / goal * 100;
 	}
 
-	public double getWeightedGrade() {
-		if (grade > 100.0) grade = 100.0;
-		return grade * 0.2;
-	}
-	
-	double getGrade() {
-		
-		return grade;
-	}
-	
-	double getGoal() {
-		return goal;
-	}
+
+ 	double getGrade() {
+ 		return grade;
+ 	}
+
+ 	double getGoal() {
+ 		return goal;
+ 	}
+
 	
 	String setGoal(String goalAsString) {
-		String errorMessage = ""; // start with assuming no error
+		//set the error message to empty 
+		String errorMessage = "";
+				
+		//create ErrorCheck object
+		ErrorCheck goalCheck = new ErrorCheck();
 		
-		// Check that the user entered a numeric value
-    	int counter = 0;
-    	if (goalAsString == "") goalAsString = "0.0";
-    	boolean validGrade = true;
-    	for (char c : goalAsString.toCharArray()) {
-    		// If any character is not a digit, set flag to false: it is not a number
-    	  	if (!Character.isDigit(c)) {
-    			
-    			if (c != '.') {
-    				validGrade = false;
-    			}else{
-    				counter++;
-    				if (counter > 1){
-        				validGrade = false;
-        			}
-    			}
-    			
-    				
-    			if (validGrade == false) {
-    				if (counter > 1) {
-    					errorMessage = "Cannot have more than one period.";
-    				}else {
-    					errorMessage = "Don't include the character: " + c
-    						+ ". Grade should be a number.";
-    				}
-    			}
-    		
-    			
-    		}
-    	}
-    	
-    	// Default project grade to 0. If valid number entered, convert user input to
-    	// floating point number.
-    	if (validGrade) {
-    		goal = Double.parseDouble(goalAsString);
-    	}
-    	
+		//set the entered value if it is valid; if not print the appropriate error message
+		//and set the value to 0
+		if (goalCheck.isValid(goalAsString))
+			goal = Double.parseDouble(goalAsString);
+		else {
+			errorMessage = goalCheck.getMessage(goalAsString);
+			goal = 0.0;
+		}	
     	return errorMessage;
 	}
 	
 	String setValue(String valueAsString) {
-		String errorMessage = ""; // start with assuming no error
+		//set the error message to empty 
+		String errorMessage = "";
 		
-		// Check that the user entered a numeric value
-    	int counter = 0;
-    	if (valueAsString == "") valueAsString = "0.0";
-    	boolean validGrade = true;
-    	for (char c : valueAsString.toCharArray()) {
-    		// If any character is not a digit, set flag to false: it is not a number
-    		if (!Character.isDigit(c)) {
-    			
-    			if (c != '.') {
-    				validGrade = false;
-    			}else{
-    				counter++;
-    				if (counter > 1){
-        				validGrade = false;
-        			}
-    			}
-    			
-    				
-    			if (validGrade == false) {
-    				if (counter > 1) {
-    					errorMessage = "Cannot have more than one period.";
-    				}else {
-    					errorMessage = "Don't include the character: " + c
-    						+ ". Grade should be a number.";
-    				}
-    			}
-    		
-    			
-    		}
-    	}
-    	
-    	// Default project grade to 0. If valid number entered, convert user input to
-    	// floating point number.
-    	if (validGrade) {
-    		value = Double.parseDouble(valueAsString);
-    	}
-    	
+		//create ErrorCheck object
+		ErrorCheck valueCheck = new ErrorCheck();
+		
+		//set the entered value if it is valid; if not print the appropriate error message
+		//and set the value to 0
+		if (valueCheck.isValid(valueAsString))
+			value = Double.parseDouble(valueAsString);
+		else {
+			errorMessage = valueCheck.getMessage(valueAsString);
+			value = 0.0;
+		}	
     	return errorMessage;
 	}
 	
+	//set the sleep goal
 	void setSleepGoal(double hour, double minutes) {
 		hour = hour * 60;
 		goal = hour + minutes;
 	}
 	
+	//set the sleep value 
 	void setSleepValue(double hour, double minutes) {
 		hour = hour * 60;
 		value = hour + minutes;
