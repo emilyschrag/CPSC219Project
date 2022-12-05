@@ -27,7 +27,6 @@ public class Habit {
 	}
 	
 	double getGrade() {
-		
 		return grade;
 	}
 	

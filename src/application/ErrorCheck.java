@@ -15,17 +15,21 @@ public class ErrorCheck {
 	
 	//check if the string entered by a user if is valid 
 	public boolean isValid(String grade1) {
-	// Check that the user entered a numeric value
-	if (grade1 == "") grade = "0.0";
-	grade = grade1;
-	boolean validGrade = true;
-	for (char c : grade.toCharArray()) {
-	  	if (!Character.isDigit(c)) {
-			validGrade = false;
-		}
-	}
-	return validGrade;
-	}	
+		// Check that the user entered a numeric value
+		if (grade1 == " ") 
+			grade = "0.0";
+		else
+			grade = grade1;
+		boolean validGrade = true;
+		for (char c : grade.toCharArray()) {
+			if (!Character.isDigit(c)) {
+				if (c != '.' || c!= ',') {
+				validGrade = false;
+			}
+		}}
+		return validGrade;
+		}	
+		
 	
 	//check if the value entered by the user is valid and if not return the specific error message
 	public String getMessage(String grade1) {
@@ -33,7 +37,10 @@ public class ErrorCheck {
 		// Check that the user entered a numeric value
 		int counter = 0;
 		int counter2 = 0;
-		if (grade1 == "") grade1 = "0.0";
+		if (grade1 == "")
+			grade = "0.0";
+		else
+			grade = grade1;
 		boolean validGrade = true;
 		for (char c : grade1.toCharArray()) {
 			// If any character is not a digit, set flag to false: it is not a number
