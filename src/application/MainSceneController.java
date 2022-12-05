@@ -254,33 +254,52 @@ public class MainSceneController {
 		   errorLabel.setText("");
 		   boolean valid = true;
 		    
-		   if (workoutGoalList.size() == 0) {
-			   workoutGoalList.add(workoutGoal);
-		   
-		   }else{ 
-			   
-			   for (int index = 0; index <= (workoutGoalList.size() - 1); index++) {
-				   if (workoutGoalList.get(index).equals(workoutGoal)) {
-					   errorLabel.setText("This workout has already been added");
-					   valid = false;
-					   }
-			   }
-			   
-			   if (valid == true)workoutGoalList.add(workoutGoal);
-		   }
-		   
 		   for (int index = 0; index <= (workoutGoalList.size() - 1); index++) {
-				   System.out.println(workoutGoalList.get(index));
+			   
+			   if (workoutGoalList.get(index).equals(workoutGoal)) valid = false;
+				   
+			   if (valid == false) {
+				   index = 100;
+				   errorLabel.setText("This workout has already been added");
+					}
+			   }
+		   
+		   if (valid == true) {
+			   workoutGoalList.add(workoutGoal);
+			   workoutCompletedChoiceBox.getItems().addAll(workoutGoal);
 		   }
 		   
-		   workoutCompletedChoiceBox.getItems().addAll(workoutGoal);
-		   
+		   System.out.println("goal list: ");
+		    for (int index = 0; index <= (workoutGoalList.size() - 1); index++) {
+		    	System.out.print(workoutGoalList.get(index)+ ", ");
+		   }
+		    System.out.println("");
 	   }
 	   
+	   
 	   void addWorkoutCompleted(String workoutCompleted) {
-		   workoutCompletedList.add(workoutCompleted);
+		   errorLabel.setText("");
+		   boolean valid = true;
+		   
 		   for (int index = 0; index <= (workoutCompletedList.size() - 1); index++) {
-			   System.out.println(workoutCompletedList.get(index));
+			   
+			   if (workoutCompletedList.get(index).equals(workoutCompleted)) valid = false;
+			   
+			   if (valid == false) {
+				   index = 100;
+				   errorLabel.setText("This workout has already been added");
+			   }
+		   }
+			   
+		   if (valid == true) {
+			   workoutCompletedList.add(workoutCompleted);
+			   workoutCompletedChoiceBox.getItems().removeAll(workoutCompleted);
+			   
+		   }
+		
+		   
+		for (index = 0; index <= (workoutCompletedList.size() - 1); index++) {
+			   System.out.println("completed list :" + workoutCompletedList.get(index));
 		   }
 		   
 	   }
