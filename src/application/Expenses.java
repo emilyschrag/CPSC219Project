@@ -1,7 +1,7 @@
 package application;
 
 public class Expenses extends Habit {
-	// instance variables
+	//set instance variables
 		private double food;
 		private double entertainment;
 		private double groceries;
@@ -17,6 +17,10 @@ public class Expenses extends Habit {
 			total = 0.0;
 		}
 
+/**
+ * 		
+ * @return
+ */
 		public String calculateTotal() {
 			String returnTotal;
 			if (food == 0.0 && groceries == 0.0 && other == 0.0 && entertainment == 0.0) {
@@ -29,21 +33,33 @@ public class Expenses extends Habit {
 			}
 			return returnTotal;
 		}
+
+/**
+ * 		
+ * @param total1
+ * @param goalAsString
+ */
 		public void calculateGrade(String total1, String goalAsString) {
 			super.setGoal(goalAsString);
 			super.setValue(total1);
 			super.calculateGrade();
 		}
 		
-		
+		//getter for the calculated total
 		double getTotal() {
 			return total;
 		}
 		
+		//setter for the food variable using the ErrorCheck class
 		String setFood(String foodAsString) {
+			//set the error message to empty 
 			String errorMessage = "";
+			
+			//create ErrorCheck object
 			ErrorCheck foodCheck = new ErrorCheck();
 		
+			//set the entered value if it is valid; if not print the appropriate error message
+			//and set the value to 0
 			if (foodCheck.isValid(foodAsString))
 				food = Double.parseDouble(foodAsString);
 			else {
@@ -53,10 +69,16 @@ public class Expenses extends Habit {
 			return errorMessage;
 		}
 
+		//setter for the grocery variable using the ErrorCheck class
 		String setGroc(String grocAsString) {
+			//set the error message to empty 
 			String errorMessage = "";
+			
+			//create ErrorCheck object
 			ErrorCheck grocCheck = new ErrorCheck();
 		
+			//set the entered value if it is valid; if not print the appropriate error message
+			//and set the value to 0
 			if (grocCheck.isValid(grocAsString))
 				groceries = Double.parseDouble(grocAsString);
 			else {
@@ -66,10 +88,16 @@ public class Expenses extends Habit {
 			return errorMessage;
 		}
 		
+		//setter for the entertainment variable using the ErrorCheck class
 		String setEnt(String entAsString) {
+			//set the error message to empty 
 			String errorMessage = "";
+			
+			//create ErrorCheck object
 			ErrorCheck entCheck = new ErrorCheck();
 		
+			//set the entered value if it is valid; if not print the appropriate error message
+			//and set the value to 0
 			if (entCheck.isValid(entAsString))
 				entertainment = Double.parseDouble(entAsString);
 			else {
@@ -79,10 +107,16 @@ public class Expenses extends Habit {
 			return errorMessage;
 		}
 		
+		//setter for the other variable using the ErrorCheck class
 		String setOther(String otherAsString) {
+			//set the error message to empty
 			String errorMessage = "";
+			
+			//create errorcheck object
 			ErrorCheck otherCheck = new ErrorCheck();
 		
+			//set the entered value if it is valid; if not print the appropriate error message
+			//and set the value to 0
 			if (otherCheck.isValid(otherAsString))
 				other = Double.parseDouble(otherAsString);
 			else {
