@@ -6,13 +6,23 @@ public class Water {
 
 	private double goal;
 	private ArrayList<String> waterInputs;
+	private double weekTotal;
+	private double grade;
 	
 	
-	public Water (double watergoal, ArrayList<String> dailyInputs) {
-		goal = watergoal;
+	public Water (String watergoal, ArrayList<String> dailyInputs) {
+		goal = Double.parseDouble(watergoal);
 		waterInputs = dailyInputs;
 	}
 	
+	public void total() {
+		for (int index = 0; index <= (waterInputs.size() - 1); index++) {
+			weekTotal += Double.parseDouble(waterInputs.get(index));
+		}
+	}
 	
+	public double getGrade() {
+		return weekTotal / goal * 100;
+	}
 	
 }

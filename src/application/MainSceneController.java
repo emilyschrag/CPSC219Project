@@ -99,9 +99,18 @@ public class MainSceneController {
 		   waterDataLabel.setText("How much water did you drink on" + days[index] + "?");
 	   }
 	   
-	   
-	   
 	   index++;
+	  
+	   Water drink = new Water(waterGoal, dailyWaterList);
+	   drink.total();
+	   double waterGrade = drink.getGrade();
+	   
+	   goalLabel.setText(String.format("you have completed %.0f"
+				+ "%% of your water goal", waterGrade));
+	   //if (waterGrade == 100) goalLabel.setText("Congradulations! You have reached your sleep goal.");
+	   //else if (waterGrade > 100) goalLabel.setText("Congradulations! You have surpassed your sleep goal.");
+	   //else goalLabel.setText(String.format("you have completed %.0f"
+				//+ "%% of your sleep goal", waterGrade));
 	   
    }
    
@@ -137,27 +146,30 @@ public class MainSceneController {
    
    void addWorkoutGoal(String workoutGoal) {
 	   errorLabel.setText("");
-	   
 	   boolean valid = true;
 	   
 	   if (workoutGoalList.size() == 0) {
 		   workoutGoalList.add(workoutGoal);
+	   
 	   }else{ 
+		   
 		   for (int index = 0; index <= (workoutGoalList.size() - 1); index++) {
 			   if (workoutGoalList.get(index).equals(workoutGoal)) {
 				   errorLabel.setText("This workout has already been added");
 				   valid = false;
-			   }
+				   }
 		   }
+		   
 		   if (valid == true)workoutGoalList.add(workoutGoal);
 	   }
-	   
 	   
 	   for (int index = 0; index <= (workoutGoalList.size() - 1); index++) {
 			   System.out.println(workoutGoalList.get(index));
 	   }
 	   
 	   workoutCompletedChoiceBox.getItems().addAll(workoutGoal);
+	   
+	   
 	   
    }
    
