@@ -476,6 +476,9 @@ public class MainSceneController {
 	    void toExercise(ActionEvent toExerciseScene) {
 	    	errorLabel.setText("");
 	    	goalLabel.setText("");
+	    	workoutGoalList.clear();
+	    	workoutCompletedList.clear();
+	    	workoutCompletedChoiceBox.getItems().removeAll(workoutCompletedChoiceBox.getItems());
 	    	Scene mainScene = applicationStage.getScene();
 			HBox stepsGoalContainer = new HBox(10);
 			Label exerciseGoalLabel = new Label("What workouts do you want to complete this week?");
