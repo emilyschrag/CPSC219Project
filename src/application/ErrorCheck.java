@@ -37,6 +37,7 @@ public class ErrorCheck {
 					if (counter2>1) {
 						validGrade = false;
 					}
+					
 				}
 			}
 		}	
@@ -69,6 +70,7 @@ public class ErrorCheck {
 					if (counter2>1) {
 						validGrade = false;
 					}
+					
 				}
 					
 				if (validGrade == false) {
@@ -76,7 +78,8 @@ public class ErrorCheck {
 						errorMessage = "Cannot have more than one period.";
 					}else if (counter2 >1){
 						errorMessage = "Cannot have more than one comma.";
-					}else {
+					}	
+					else {
 						errorMessage = "Don't include the character: " + c
 							+ ". Grade should be a number.";
 					}}

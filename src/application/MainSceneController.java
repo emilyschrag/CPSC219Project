@@ -231,22 +231,50 @@ public class MainSceneController {
 	    void createExpensesHabit(String goalAsString, String foodAsString, String entAsString, String grocAsString, String otherAsString) {
 	    	errorLabel.setText("");
 	     	goalLabel.setText("");
+	     	
 	     	Expenses spend = new Expenses();
-	     	errorLabel.setText(spend.setFood(foodAsString));
-	      	errorLabel.setText(spend.setGroc(grocAsString));
-	      	errorLabel.setText(spend.setOther(otherAsString));
-	      	errorLabel.setText(spend.setEnt(entAsString));
-	      	errorLabel.setText(spend.setGoal(goalAsString));
+	     	spend.setEnt(entAsString);
+	     	spend.setFood(foodAsString);
+	     	spend.setGroc(grocAsString);
+	     	spend.setOther(otherAsString);
+	    
 	      	spend.calculateGrade(spend.calculateTotal(), goalAsString);
 	      	spendGrade = spend.getGrade();
+	      	
+	      	 if (((spend.setGoal(goalAsString)) != "") || ((spend.setFood(foodAsString)) != "") ||((spend.setGroc(grocAsString)) != "")
+	      			 ||((spend.setOther(otherAsString)) != "") ||((spend.setEnt(entAsString)) != ""));{ 
+	      		goalLabel.setText("");
+	     		if ((spend.setGroc(grocAsString)) != ""); 
+			 		errorLabel.setText(spend.setGroc(grocAsString)); 
+			 	if ((spend.setOther(otherAsString)) != "") 
+			 		errorLabel.setText(spend.setOther(otherAsString));
+			 	if ((spend.setEnt(entAsString)) != "")
+			 		errorLabel.setText(spend.setEnt(entAsString));
+				if ((spend.setGoal(goalAsString)) != "") 
+		     		errorLabel.setText(spend.setGoal(goalAsString));
+				if ((spend.setFood(foodAsString)) != "")
+	     			errorLabel.setText(spend.setFood(foodAsString));}
+	      	 
 	      	if (spendGrade < 100)
 	      		weightedSpendGrade = spendGrade * 0.2;
 	      	else if (spendGrade >= 100)
 	      		weightedSpendGrade = 20.0;
-	      	if (spend.getTotal()>spend.getGoal()) goalLabel.setText("You have surpassed your spending goal.");
-	      	else if (spendGrade == 100) goalLabel.setText("Congradulations! You have reached your spending goal.");
+	      	if (spend.getTotal()>spend.getGoal())
+	      		goalLabel.setText("You have surpassed your spending goal.");
+	      	else if ((spendGrade == 100))
+	      		goalLabel.setText("Congratulations! You have reached your spending goal.");
 	      	else goalLabel.setText(String.format("you have completed %.0f"
-	  				+ "%% of your spending goal", spendGrade)); 
+	  				+ "%% of your spending goal", spendGrade));
+	      	if (spend.getGoal() == 0)
+	      		goalLabel.setText("");
+	      	if ((spend.setOther(otherAsString)) != "")
+	      		goalLabel.setText("");
+	      	if ((spend.setEnt(entAsString)) != "")
+	      		goalLabel.setText("");
+	      	if ((spend.setGroc(grocAsString)) != "")
+	      		goalLabel.setText("");
+	      	if ((spend.setFood(foodAsString)) != "")
+	      		goalLabel.setText("");
 	    }
 
 	   
