@@ -19,7 +19,6 @@ public class Habit {
 		else grade =  value / goal * 100;
 	}
 
-
  	double getGrade() {
  		return grade;
  	}
@@ -28,7 +27,6 @@ public class Habit {
  		return goal;
  	}
 
-	
 	String setGoal(String goalAsString) {
 		//set the error message to empty 
 		String errorMessage = "";
@@ -63,18 +61,5 @@ public class Habit {
 			value = 0.0;
 		}	
     	return errorMessage;
-	}
-	
-	//set the sleep goal
-	void setSleepGoal(double hour, double minutes) {
-		hour = hour * 60;
-		goal = hour + minutes;
-	}
-	
-	//set the sleep value 
-	void setSleepValue(double hour, double minutes) {
-		hour = hour * 60;
-		value = hour + minutes;
-	
 	}
 }

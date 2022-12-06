@@ -70,9 +70,7 @@ public class ErrorCheck {
 					if (counter2>1) {
 						validGrade = false;
 					}
-					
 				}
-					
 				if (validGrade == false) {
 					if (counter > 1) {
 						errorMessage = "Cannot have more than one period.";
@@ -82,11 +80,11 @@ public class ErrorCheck {
 					else {
 						errorMessage = "Don't include the character: " + c
 							+ ". Grade should be a number.";
-					}}
-					
+					}
 				}
-			}
-		
+					
+		  	}
+		}
 		return errorMessage;
-		}	
+	}	
 }

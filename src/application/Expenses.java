@@ -118,8 +118,7 @@ public class Expenses extends Habit {
 				//other = 0.0;
 			}
 			return errorMessage;
-		}
-		
+		}	
 }
 		
 		
