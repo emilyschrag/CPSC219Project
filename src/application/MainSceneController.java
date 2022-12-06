@@ -180,28 +180,40 @@ public class MainSceneController {
  * @param valueMinute
 // */
 	    void createSleepHabit (String sleepGoal, String SleepData) {
-	    	enterSleepGoal.getChildren().removeAll(enterSleepGoal.getChildren());
-	    	enterSleepGoalLabel.setText("Your sleep goal for the week is " + sleepGoal + "hours" );
-			   
-			   if (index == 6) {
-				   sleepDataList.add(SleepData);
-				   bedtimeContainer.getChildren().removeAll(bedtimeContainer.getChildren());
-			   }
-				   
-			   if (index < 6) {
-				   sleepDataList.add(SleepData);
-				   bedtimeLabel.setText("How much water did you drink on" + days[index] + "?");
-			   }
-			   
-			   index++;
-			  
-			   Water sleep = new Water(sleepGoal, sleepDataList);
-			   sleep.total();
-			   sleepGrade = sleep.getGrade();
-			   weightedSleepGrade = sleepGrade * 0.2;
-			   
-			   goalLabel.setText(String.format("you have completed %.0f"
-						+ "%% of your sleep goal", sleepGrade)); 
+	    	ErrorCheck sleepCheck = new ErrorCheck();			
+	    	
+	    	if (sleepCheck.isValid(sleepGoal)) {
+	    		errorLabel.setText("");
+	    		enterSleepGoal.getChildren().removeAll(enterSleepGoal.getChildren());
+	    		enterSleepGoalLabel.setText("Your sleep goal for the week is " + sleepGoal + "hours" );
+	    		
+	    		if (sleepCheck.isValid(SleepData)) {
+		    		errorLabel.setText("");
+		    		
+	    			if (index == 6) {
+					   sleepDataList.add(SleepData);
+					   bedtimeContainer.getChildren().removeAll(bedtimeContainer.getChildren());
+				   }
+					   
+				   if (index < 6) {
+					   sleepDataList.add(SleepData);
+					   bedtimeLabel.setText("How much water did you drink on" + days[index] + "?");
+				   }
+				   index++;
+		    	
+	    		}else {
+		    		errorLabel.setText(sleepCheck.getMessage(SleepData));
+		    	
+	    		}
+	    			Water sleep = new Water(sleepGoal, sleepDataList);
+	    			sleep.total();
+	    			sleepGrade = sleep.getGrade();
+	    			weightedSleepGrade = sleepGrade * 0.2;
+	    			goalLabel.setText(String.format("you have completed %.0f"
+							+ "%% of your sleep goal", sleepGrade)); 
+	    	}else {
+	    		errorLabel.setText(sleepCheck.getMessage(sleepGoal));
+	    	}
 	   }
 	    
 	    void sleepDoneButton(Scene mainScene) {
@@ -212,9 +224,16 @@ public class MainSceneController {
 		   }
 	   
 	   void addDailyWater(String waterIntake, String waterGoal) {
-		   waterGoalContainer.getChildren().removeAll(waterGoalContainer.getChildren());
-		   waterGoalLabel.setText("Your water goal for the week is " + waterGoal + "L" );
+		   ErrorCheck waterCheck = new ErrorCheck();
 		   
+		   if (waterCheck.isValid(waterGoal)) {
+	    		errorLabel.setText("");
+	    		waterGoalContainer.getChildren().removeAll(waterGoalContainer.getChildren());
+	    		waterGoalLabel.setText("Your water goal for the week is " + waterGoal + "L" );
+		   
+	       if (waterCheck.isValid(waterIntake)) {
+		    		errorLabel.setText("");
+	    		
 		   if (index == 6) {
 			   dailyWaterList.add(waterIntake);
 			   waterDataContainer.getChildren().removeAll(waterDataContainer.getChildren());
@@ -226,7 +245,11 @@ public class MainSceneController {
 		   }
 		   
 		   index++;
-		  
+	       
+	       }else {
+	    		errorLabel.setText(waterCheck.getMessage(waterIntake));
+	    	
+   		}
 		   Water drink = new Water(waterGoal, dailyWaterList);
 		   drink.total();
 		   waterGrade = drink.getGrade();
@@ -234,6 +257,10 @@ public class MainSceneController {
 		   
 		   goalLabel.setText(String.format("you have completed %.0f"
 					+ "%% of your water goal", waterGrade)); 
+		   
+		   }else {
+	    		errorLabel.setText(waterCheck.getMessage(waterGoal));
+	    	}
 	   }
 	   
 	   void waterDoneButton(Scene mainScene) {
@@ -283,12 +310,6 @@ public class MainSceneController {
 			   workoutGoalList.add(workoutGoal);
 			   workoutCompletedChoiceBox.getItems().addAll(workoutGoal);
 		   }
-		   
-		   System.out.println("goal list: ");
-		    for (int index = 0; index <= (workoutGoalList.size() - 1); index++) {
-		    	System.out.print(workoutGoalList.get(index)+ ", ");
-		   }
-		    System.out.println("");
 	   }
 	   
 	   
@@ -310,13 +331,7 @@ public class MainSceneController {
 			   workoutCompletedList.add(workoutCompleted);
 			   workoutCompletedChoiceBox.getItems().removeAll(workoutCompleted);
 			   
-		   }
-		
-		   
-		for (index = 0; index <= (workoutCompletedList.size() - 1); index++) {
-			   System.out.println("completed list :" + workoutCompletedList.get(index));
-		   }
-		   
+		   }  
 	   }
 	   
 	    void createExerciseHabit(ArrayList<String> goal, ArrayList<String> completed) {
@@ -540,10 +555,10 @@ public class MainSceneController {
 	    }
 
 	    @FXML
-	    void getDailyScore(ActionEvent toDailyScoreEvent) {
+	    void getWeeklyScore(ActionEvent toWeeklyScoreEvent) {
 	    	Scene mainScene = applicationStage.getScene();
-	    	VBox dailyScoreAll = new VBox(10);
-	    	Label dailyScoreLabel = new Label("Your daily Score!");
+	    	VBox weeklyScoreAll = new VBox(10);
+	    	Label weeklyScoreLabel = new Label("Your weekly Score!");
 	    	Button doneButton = new Button("Done");
 	    	doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
 	    
@@ -559,17 +574,17 @@ public class MainSceneController {
 					+ "%% of your spending goal", spendGrade));
 	    	
 	    	//Calculate dailyScore
-	    	double dailyScore = 0.0;
-	    	dailyScore = weightedStepGrade + weightedSpendGrade + weightedWaterGrade +
+	    	double weeklyScore = 0.0;
+	    	weeklyScore = weightedStepGrade + weightedSpendGrade + weightedWaterGrade +
 	    			weightedFoodGrade + weightedSleepGrade;
 	    	
 	    	HBox overallScoreContainer = new HBox(5);
-	    	Label printOverallScore = new Label(String.format("Your overall score is %.02f" + "%%", dailyScore));
+	    	Label printOverallScore = new Label(String.format("Your overall score is %.02f" + "%%", weeklyScore));
 	    	Label yayLabel = new Label("! Good Job!!");
 	    	overallScoreContainer.getChildren().addAll(printOverallScore, yayLabel);
 	    	
-	    	dailyScoreAll.getChildren().addAll(dailyScoreLabel, metSleepGoalInfo,  metFoodGoalInfo, metExpensesGoalInfo, metExerciseGoalInfo, metWaterGoalInfo, overallScoreContainer, doneButton);
-	    	Scene scoreScene = new Scene(dailyScoreAll);
+	    	weeklyScoreAll.getChildren().addAll(weeklyScoreLabel, metSleepGoalInfo,  metFoodGoalInfo, metExpensesGoalInfo, metExerciseGoalInfo, metWaterGoalInfo, overallScoreContainer, doneButton);
+	    	Scene scoreScene = new Scene(weeklyScoreAll);
 	    	applicationStage.setScene(scoreScene);
 	    }
 
