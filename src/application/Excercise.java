@@ -3,7 +3,6 @@ package application;
 import java.util.ArrayList;
 
 public class Excercise {
-
 	private ArrayList<String> goal;
 	private ArrayList<String> completed;
 	private double grade = 0.0;
@@ -20,5 +19,4 @@ public class Excercise {
 	public double getGrade() {
 		return grade;
 	}
-	
 }
