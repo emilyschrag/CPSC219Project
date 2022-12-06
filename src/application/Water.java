@@ -13,6 +13,7 @@ public class Water {
 	public Water (String watergoal, ArrayList<String> dailyInputs) {
 		goal = Double.parseDouble(watergoal);
 		waterInputs = dailyInputs;
+		grade = 0;
 	}
 	
 	public void total() {
