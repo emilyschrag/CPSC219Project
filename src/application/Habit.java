@@ -19,7 +19,6 @@ public class Habit {
 		else grade =  value / goal * 100;
 	}
 
-
  	double getGrade() {
  		return grade;
  	}
@@ -28,7 +27,6 @@ public class Habit {
  		return goal;
  	}
 
-	
 	String setGoal(String goalAsString) {
 		//set the error message to empty 
 		String errorMessage = "";
@@ -64,7 +62,4 @@ public class Habit {
 		}	
     	return errorMessage;
 	}
-	
-
-	
 }
