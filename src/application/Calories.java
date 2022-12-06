@@ -108,26 +108,6 @@ public void calculateCals() {
 
 }
 
-/*
- * public double calculateCalsLoss () {
-	calories = AMR - calorieDiffOnePound;
-	return calories;
-	
-}
-public double calculateCalsSame () {
-	calories = AMR;
-	return calories;
-	
-}
-public double calculateCalsGain () {
-	calories = AMR + calorieDiffOnePound;
-	return calories;
-	
-}
- */
-
-
-
 
 
 double getCalories () {
@@ -164,17 +144,6 @@ String setAge(String ageAsString) {
 
 String setSex(String sexAsString) {
 	sex= sexAsString;
-	/*
-	 * 	String errorMessage = "";
-	ErrorCheck sexCheck = new ErrorCheck();
-	if (sexCheck.isValid(sexAsString))
-		sex = (sexAsString);
-	else {
-		errorMessage = sexCheck.getMessage(sexAsString);
-		sex = "";
-	}
-	return errorMessage;
-	 */
 	return "";
 
 }
@@ -207,44 +176,20 @@ String setWeight(String weightAsString) {
 
 String setActivity(String activityAsString) {
 	activityLevel = activityAsString;
-	/*
-	 * 	String errorMessage = "";
-	ErrorCheck activityCheck = new ErrorCheck();
-	if (activityCheck.isValid(activityAsString))
-		activityLevel = (activityAsString);
-	else {
-		errorMessage = activityCheck.getMessage(activityAsString);
-		activityLevel = "";
-	}
-	return errorMessage;
-	 */
 	return "";
 }
 
 String setWeightGoal(String weightGoalAsString) {
 	weightGoal = weightGoalAsString;
-	
-	/*
-	 * String errorMessage = "";
-	ErrorCheck weightGoalCheck = new ErrorCheck();
-	if (weightGoalCheck.isValid(weightGoalAsString))
-		weightGoal = (weightGoalAsString);
-	else {
-		errorMessage = weightGoalCheck.getMessage(weightGoalAsString);
-		weightGoal = "";
-	}
-	return errorMessage;
-	 */
 	return "";
-	
-	
-}
+	}
 
 void setCalorieData(ArrayList <String> data) {
 calorieList = data;
 }
 
 public void total() {
+	weekTotal = 0;
 	for (int index = 0; index <= (calorieList.size() - 1); index++) {
 		weekTotal += Double.parseDouble(calorieList.get(index));
 	}

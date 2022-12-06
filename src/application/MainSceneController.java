@@ -2,7 +2,10 @@ package application;
 
 //import required packages
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+
+import java.awt.Font;
 import java.util.ArrayList;
 
 
@@ -12,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.FontWeight;
 import javafx.scene.control.*;
 
 public class MainSceneController {
@@ -79,14 +83,22 @@ public class MainSceneController {
     	private Label bedtimeLabel = new Label("");
     	private HBox bedtimeContainer = new HBox(5);
 
-	   
+    	boolean isEmpty = true;
+	    
+    	
 	    @FXML
 	    	void enterInfo(ActionEvent enterInfoEvent) {
 	    	//Set the original scene to mainScene
 	    	Scene mainScene = applicationStage.getScene();
+
+
 	    	
 	    	//Create the container that will hold everything else in this scene
 	    	VBox userInfoContainer = new VBox(20);
+	    	userInfoContainer.setMinHeight(400);
+	    	userInfoContainer.setMinWidth(400);
+
+	    	userInfoContainer.setPadding(new Insets(5,7.5,7.5,7.5));
 	    	Label titleLabel = new Label("Enter your information!");
 	    	
 	    	//container for entering age 
@@ -138,10 +150,19 @@ public class MainSceneController {
 	    	Scene infoScene = new Scene(userInfoContainer, 300, 325);
 	    	//set the scene to the info scene when the enterInfo action is initiated
 	    	applicationStage.setScene(infoScene);
+	    	
+	    	if (!((userAge==""||userAge==null) && (userSex==""||userSex==null) && (userHeight==""||userHeight==null) && (userWeight==""||userWeight==null) && (userActivity==""||userActivity==null))) {
+	    		isEmpty = true;
+	    	  }else if(((userAge==""||userAge==null) && (userSex==""||userSex==null) && (userHeight==""||userHeight==null) && (userWeight==""||userWeight==null) && (userActivity==""||userActivity==null))) {
+	    		  isEmpty = false;
+	    	  }
+	    	
 	    } 
 	    
 //END USER INFO
 	    void userInfoDone (String ageAsString, String sexAsString , String heightAsString, String weightAsString, String activityAsString, Scene mainScene) {
+	      		
+	    	
 	    	age = ageAsString;
 	    	sex = sexAsString;
 	    	height = heightAsString;
@@ -149,9 +170,16 @@ public class MainSceneController {
 	    	activityLevel = activityAsString;
 	    	applicationStage.setScene(mainScene);
 	    }
+	    
+
+	    
+	    
 
 	    void dailyCalorieData (String dailyData) {
-	    	if (index == 6) calorieDataContainer.getChildren().removeAll(calorieDataContainer.getChildren());
+	    	if (index == 6) {
+	    		dailyCalorieList.add(dailyData);
+	    		calorieDataContainer.getChildren().removeAll(calorieDataContainer.getChildren());
+	    	}
 	   
 	    	if (index < 6) {
 	    		dailyCalorieList.add(dailyData);
@@ -170,6 +198,11 @@ public class MainSceneController {
 	   
 	    	goalLabel.setText(String.format("you have completed %.0f"
 	    			+ "%% of your calories goal", foodGrade));
+	    	
+	    	
+			for (index = 0; index <= (dailyCalorieList.size() - 1); index++) {
+				   System.out.println("completed list :" + dailyCalorieList.get(index));
+			   }
 	    }
 	
 /**
@@ -350,9 +383,9 @@ public class MainSceneController {
 	    	double myCalories = food.getCalories();
 	    	
 	    	if (myCalories == 0) caloriesEnterLabel.setText("No goal entered");
-	    	else caloriesEnterLabel.setText("Based on your given Physical data and dietary goal, \nyou should consume: \n"
-	    				+ myCalories +" calories weekly \n"
-	    				+ myCalories/7 + " calories daily");
+	    	else caloriesEnterLabel.setText(String.format("Based on your given Physical data and dietary goal, \nyou should consume: \n" 
+	    				+ "%.02f calories weekly \n" 
+	    				+  "%.02f calories daily",myCalories,myCalories/7));
 	    	caloriesEnterLabel.setMinHeight(100);
 	    }
 	    
@@ -364,6 +397,7 @@ public class MainSceneController {
 	    	goalLabel.setText("");
 	    	Scene mainScene = applicationStage.getScene();
 	       	VBox sleepContainer = new VBox(10);
+	    	sleepContainer.setPadding(new Insets(10,10,10,10));
 	       	sleepContainer.setMinHeight(200);
 	       	sleepContainer.setMinWidth(300);
 	    	enterSleepGoalLabel.setText("Enter your sleep goal for the week");
@@ -385,8 +419,16 @@ public class MainSceneController {
 
 	    @FXML
 	    void toFood(ActionEvent foodEvent) {
+	    	
+	    		    	
 	    	index = 0;
+	    	if(isEmpty == true) {
+	    		errorLabel.setText("Enter user info first");
+	    	}else {
+	    	
 	    	errorLabel.setText("");
+	    	}
+	    	
 	    	goalLabel.setText("");
 	    	Scene mainScene = applicationStage.getScene();
 	    	Label weightGoalLabel = new Label("What is your dietary goal?");
@@ -399,7 +441,8 @@ public class MainSceneController {
 	    	
 	    	weightGoalContainer.getChildren().addAll( weightGoalChoiceBox,setWeightGoalButton);
 	    	VBox foodDataSceneContainer = new VBox(10);
-	    	foodDataSceneContainer.setMinHeight(320);
+	    	foodDataSceneContainer.setPadding(new Insets(10,10,10,10));
+	    	foodDataSceneContainer.setMinHeight(330);
 	    	foodDataSceneContainer.setMinWidth(300);
 	    	caloriesEnterLabel.setText("");
 	    	
@@ -421,8 +464,12 @@ public class MainSceneController {
 
 	    	Scene foodScene = new Scene(foodDataSceneContainer);
 	        applicationStage.setScene(foodScene);
+	        
+	        
+	        
+	    	}
 	       
-	    }
+	    
 	    
 	    void caloriesDoneButton(Scene scene) {
 	    	calorieDataContainer.getChildren().removeAll(calorieDataContainer.getChildren());
@@ -446,7 +493,8 @@ public class MainSceneController {
 	    	TextField exGoalTextField = new TextField();
 	    	exGoalContainer.getChildren().addAll(exGoalLabel, exGoalTextField );
 
-	     	VBox dataSceneContainer = new VBox(10);		
+	     	VBox dataSceneContainer = new VBox(10);	
+	    	dataSceneContainer.setPadding(new Insets(10,10,10,10));
 	     	Label moneySpentLabel = new Label("Money spent today");
 	     	HBox foodContainer = new HBox(10);
 	    	TextField foodTextField = new TextField();
@@ -500,6 +548,7 @@ public class MainSceneController {
 			workoutGoalAddButton.setOnAction(addEvent1 -> addWorkoutGoal(workoutGoalChoiceBox.getValue()));
 			stepsGoalContainer.getChildren().addAll(exerciseGoalLabel, workoutGoalChoiceBox, workoutGoalAddButton);
 			VBox exerciseDataWholeContainer = new VBox(10);
+	    	exerciseDataWholeContainer.setPadding(new Insets(10,10,10,10));
 			HBox stepsDataContainer = new HBox(10);
 			Label stepsDataLabel = new Label("What workouts have you completed this week?");
 			Button workoutCompletedAddButton = new Button("Add");
@@ -522,6 +571,7 @@ public class MainSceneController {
 	    	dailyWaterList.clear();
 	    	Scene mainScene = applicationStage.getScene();
 	    	VBox waterDataWholeContainer = new VBox(10);
+	    	waterDataWholeContainer.setPadding(new Insets(10,10,10,10));
 	    	waterGoalLabel.setText("What is your water goal for the week?");
 	    	Label mLLabel = new Label("L");
 	    	waterGoalContainer.getChildren().addAll(waterGoalTextField, mLLabel);
@@ -543,6 +593,7 @@ public class MainSceneController {
 	    void getDailyScore(ActionEvent toDailyScoreEvent) {
 	    	Scene mainScene = applicationStage.getScene();
 	    	VBox dailyScoreAll = new VBox(10);
+	    	dailyScoreAll.setPadding(new Insets(10,10,10,10));
 	    	Label dailyScoreLabel = new Label("Your daily Score!");
 	    	Button doneButton = new Button("Done");
 	    	doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
