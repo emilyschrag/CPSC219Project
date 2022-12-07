@@ -18,11 +18,14 @@ public class ErrorCheck {
 		int counter = 0;
 		int counter2 = 0;
 		// Check that the user entered a numeric value
-		if (grade1 == "") 
-			grade = "0.0";
+		boolean validGrade = true;
+		
+		if (grade1 == "")
+			validGrade = false;
+			
 		else
 			grade = grade1;
-		boolean validGrade = true;
+		
 		for (char c : grade.toCharArray()) {
 			if (!Character.isDigit(c)) {
 				if (c != '.' && c!= ',') {
@@ -48,13 +51,16 @@ public class ErrorCheck {
 	public String getMessage(String grade1) {
 		String errorMessage = "";
 		// Check that the user entered a numeric value
+		boolean validGrade = true;
 		int counter = 0;
 		int counter2 = 0;
-		if (grade1 == "")
-			grade = "0.0";
-		else
+		if (grade1 == "") {
+			errorMessage = "Must enter input.";
+			validGrade = false;
+		}
+		else {
 			grade = grade1;
-		boolean validGrade = true;
+		
 		for (char c : grade1.toCharArray()) {
 			// If any character is not a digit, set flag to false: it is not a number
 		  	if (!Character.isDigit(c)) {
@@ -85,6 +91,9 @@ public class ErrorCheck {
 					
 		  	}
 		}
+		}
 		return errorMessage;
-	}	
+	}
+	
 }
+	

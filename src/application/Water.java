@@ -9,9 +9,21 @@ public class Water {
 	private double grade;
 	
 	public Water (String watergoal, ArrayList<String> dailyInputs) {
+		if(watergoal=="") {
+			goal = 0;
+			
+		}else {
 		goal = Double.parseDouble(watergoal);
+		}
+		for (int index = 0; index <= (dailyInputs.size() - 1); index++) {
+			if(dailyInputs.get(index) == "") dailyInputs.set(index, "0");
+			
+			
+		}
 		waterInputs = dailyInputs;
 		grade = 0;
+		
+		
 	}
 	
 	public void total() {

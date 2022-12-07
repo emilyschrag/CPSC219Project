@@ -85,111 +85,168 @@ public class MainSceneController {
     	private HBox calorieDataContainer = new HBox(10);
     	private Calories food = new Calories();
     	private Boolean isEmpty = true;
+    	private VBox foodDataSceneContainer = new VBox(10);
+    	private Scene foodScene = new Scene(foodDataSceneContainer);
+    	private VBox userInfoContainer = new VBox(20);
+    	private Scene infoScene = new Scene(userInfoContainer, 300, 325);
+
+	   
+	    @FXML
+    	void enterInfo(ActionEvent enterInfoEvent) {
+    	//Set the original scene to mainScene
+    	Scene mainScene = applicationStage.getScene();
     	
 
-	   
-    	 @FXML
-	    	void enterInfo(ActionEvent enterInfoEvent) {
-	    	//Set the original scene to mainScene
-	    	Scene mainScene = applicationStage.getScene();
+    	
+    	//Create the container that will hold everything else in this scene
+    	userInfoContainer.getChildren().removeAll(userInfoContainer.getChildren());
+    	userInfoContainer.setMinHeight(400);
+    	userInfoContainer.setMinWidth(400);
 
-	    	//Create the container that will hold everything else in this scene
-	    	VBox userInfoContainer = new VBox(20);
-	    	userInfoContainer.setMinHeight(400);
-	    	userInfoContainer.setMinWidth(400);
+    	userInfoContainer.setPadding(new Insets(5,7.5,7.5,7.5));
+    	Label titleLabel = new Label("Enter your information!");
+    	
+    	//container for entering age 
+    	HBox ageContainer = new HBox(10);
+    	Label ageLabel = new Label("Enter your Age");
+    	TextField ageTextField = new TextField();
+    	ageContainer.getChildren().addAll(ageLabel, ageTextField);
+    	String userAge = ageTextField.getText();
 
-	    	userInfoContainer.setPadding(new Insets(5,7.5,7.5,7.5));
-	    	Label titleLabel = new Label("Enter your information!");
-	    	
-	    	//container for entering age 
-	    	HBox ageContainer = new HBox(10);
-	    	Label ageLabel = new Label("Enter your Age");
-	    	TextField ageTextField = new TextField();
-	    	ageContainer.getChildren().addAll(ageLabel, ageTextField);
-	    	String userAge = ageTextField.getText();
+    	//container for entering sex 
+    	HBox sexContainer = new HBox(10);
+    	Label sexLabel = new Label("Enter your Sex");
+    	ChoiceBox sexChoiceBox = new ChoiceBox();
+    	sexContainer.getChildren().addAll(sexLabel, sexChoiceBox);
+    	sexChoiceBox.getItems().addAll("Male", "Female");
+    	String userSex = (String) sexChoiceBox.getValue();
 
-	    	//container for entering sex 
-	    	HBox sexContainer = new HBox(10);
-	    	Label sexLabel = new Label("Enter your Sex");
-	    	ChoiceBox sexChoiceBox = new ChoiceBox();
-	    	sexContainer.getChildren().addAll(sexLabel, sexChoiceBox);
-	    	sexChoiceBox.getItems().addAll("Male", "Female");
-	    	String userSex = (String) sexChoiceBox.getValue();
+    	//container for entering height 
+    	HBox heightContainer = new HBox(10);
 
-	    	//container for entering height 
-	    	HBox heightContainer = new HBox(10);
+    	Label heightLabel = new Label("Enter your height in cm");
+    	TextField heightTextField = new TextField();
+    	heightContainer.getChildren().addAll(heightLabel, heightTextField);
+    	String userHeight = heightTextField.getText();
 
-	    	Label heightLabel = new Label("Enter your height in cm");
-	    	TextField heightTextField = new TextField();
-	    	heightContainer.getChildren().addAll(heightLabel, heightTextField);
-	    	String userHeight = heightTextField.getText();
+    	//container for entering weight 
+    	HBox weightContainer = new HBox(10);
+    	Label weightLabel = new Label("Enter your weight in kg");
+    	TextField weightTextField = new TextField();
+    	weightContainer.getChildren().addAll(weightLabel, weightTextField);
+    	String userWeight = weightTextField.getText();
+    	
+    	//container for entering activity level
+    	HBox activityContainer = new HBox(10);
+    	Label activityLabel = new Label("Enter your Activity Level");
+    	ChoiceBox activityChoiceBox = new ChoiceBox();
+    	activityContainer.getChildren().addAll(activityLabel, activityChoiceBox);
+    	activityChoiceBox.getItems().addAll("Sedentary", "Lightly Active","Moderately Active","Active","Very Active");
+    	String userActivity = (String) activityChoiceBox.getValue();
 
-	    	//container for entering weight 
-	    	HBox weightContainer = new HBox(10);
-	    	Label weightLabel = new Label("Enter your weight in kg");
-	    	TextField weightTextField = new TextField();
-	    	weightContainer.getChildren().addAll(weightLabel, weightTextField);
-	    	String userWeight = weightTextField.getText();
-	    	
-	    	//container for entering activity level
-	    	HBox activityContainer = new HBox(10);
-	    	Label activityLabel = new Label("Enter your Activity Level");
-	    	ChoiceBox activityChoiceBox = new ChoiceBox();
-	    	activityContainer.getChildren().addAll(activityLabel, activityChoiceBox);
-	    	activityChoiceBox.getItems().addAll("Sedentary", "Lightly Active","Moderately Active","Active","Very Active");
-	    	String userActivity = (String) activityChoiceBox.getValue();
-
-	    	//done button to take user back to main scene when information is entered
-	    	Button doneButton = new Button("Done");
-	    	doneButton.setOnAction(doneEvent -> userInfoDone(ageTextField.getText(),(String)sexChoiceBox.getValue(),heightTextField.getText(),
-	    			weightTextField.getText(),(String)activityChoiceBox.getValue(), mainScene));
-	    	
-	    	// add all components to main container
-	    	userInfoContainer.getChildren().addAll(titleLabel, ageContainer, sexContainer, heightContainer, weightContainer, activityContainer, doneButton);
-	    	//create a new scene that holds the main container
-	    	Scene infoScene = new Scene(userInfoContainer, 300, 325);
-	    	//set the scene to the info scene when the enterInfo action is initiated
-	    	applicationStage.setScene(infoScene);
-	    	
-	    	if (!((userAge==""||userAge==null) && (userSex==""||userSex==null) && (userHeight==""||userHeight==null) && (userWeight==""||userWeight==null) && (userActivity==""||userActivity==null))) {
-	    		isEmpty = true;
-	    	  }else if(((userAge==""||userAge==null) && (userSex==""||userSex==null) && (userHeight==""||userHeight==null) && (userWeight==""||userWeight==null) && (userActivity==""||userActivity==null))) {
-	    		  isEmpty = false;
-	    	  }
-	    	
-	    } 
-	    
+    	//done button to take user back to main scene when information is entered
+    	Button doneButton = new Button("Done");
+    	doneButton.setOnAction(doneEvent -> userInfoDone(ageTextField.getText(),(String)sexChoiceBox.getValue(),heightTextField.getText(),
+    			weightTextField.getText(),(String)activityChoiceBox.getValue(), mainScene));
+    	
+    	// add all components to main container
+    	userInfoContainer.getChildren().addAll(titleLabel, ageContainer, sexContainer, heightContainer, weightContainer, activityContainer,errorLabel, doneButton);
+    	//create a new scene that holds the main container
+    	
+    	//set the scene to the info scene when the enterInfo action is initiated
+    	applicationStage.setScene(infoScene);
+    	
+    	
+    	
+    	if (!((userAge==""||userAge==null) && (userSex==""||userSex==null) && (userHeight==""||userHeight==null) && (userWeight==""||userWeight==null) && (userActivity==""||userActivity==null))) {
+    		isEmpty = false;
+    	  }else if(((userAge==""||userAge==null) && (userSex==""||userSex==null) && (userHeight==""||userHeight==null) && (userWeight==""||userWeight==null) && (userActivity==""||userActivity==null))) {
+    		  isEmpty = true;
+    	  }
+    	
+    } 
+    
 //END USER INFO
-	    void userInfoDone (String ageAsString, String sexAsString , String heightAsString, String weightAsString, String activityAsString, Scene mainScene) {
-	    	age = ageAsString;
-	    	sex = sexAsString;
-	    	height = heightAsString;
-	    	weight = weightAsString;
-	    	activityLevel = activityAsString;
-	    	applicationStage.setScene(mainScene);
-	    }
-	
-	    void dailyCalorieData (String dailyData) {
-	    	if (index == 6) {
-	    		dailyCalorieList.add(dailyData);
-	    		calorieDataContainer.getChildren().removeAll(calorieDataContainer.getChildren());
-	    	}
-	    	if (index < 6) {
-	    		dailyCalorieList.add(dailyData);
-	    		calorieInputLabel.setText("How many calories did you consume on" + days[index] + "?");
-	    	}
-	    	index++;
-	    	food.setCalorieData(dailyCalorieList);
-	    	food.total();
-	    	foodGrade = food.getGrade();
-	    	if (foodGrade < 100)
-	    		weightedFoodGrade = foodGrade * 0.2;
-	    	else if (foodGrade >= 100)
-	    		weightedFoodGrade = 20.0;
-	   
-	    	goalLabel.setText(String.format("you have completed %.0f"
-	    			+ "%% of your calories goal", foodGrade));
-	    }
+    void userInfoDone (String ageAsString, String sexAsString , String heightAsString, String weightAsString, String activityAsString, Scene mainScene) {
+      	
+    	errorLabel.setText("");
+    	ErrorCheck infoCheck = new ErrorCheck();
+      	if(infoCheck.isValid(ageAsString) && infoCheck.isValid(heightAsString) && infoCheck.isValid(weightAsString)) {
+      		
+      		age = ageAsString;
+        	sex = sexAsString;
+        	height = heightAsString;
+        	weight = weightAsString;
+        	activityLevel = activityAsString;
+        	applicationStage.setScene(mainScene);
+        	
+        	
+        	
+        	  	if (!((ageAsString==""||ageAsString==null) && (sexAsString==""||sexAsString==null) && (heightAsString==""||heightAsString==null) && (weightAsString==""||weightAsString==null) && (activityAsString==""||activityAsString==null))) {
+        		isEmpty = false;
+        	  }else if(((ageAsString==""||ageAsString==null) && (sexAsString==""||sexAsString==null) && (heightAsString==""||heightAsString==null) && (weightAsString==""||weightAsString==null) && (activityAsString==""||activityAsString==null))) {
+        		  isEmpty = true;
+        	  }
+        	 
+      	}else {
+      		if(!infoCheck.isValid(ageAsString)) {
+      			errorLabel.setText(infoCheck.getMessage(ageAsString));
+      		}else if(!infoCheck.isValid(heightAsString)) {
+      			errorLabel.setText(infoCheck.getMessage(heightAsString));
+      		}else if(!infoCheck.isValid(weightAsString))
+      		errorLabel.setText(infoCheck.getMessage(weightAsString));
+      		
+      	}
+    
+      	
+    	
+    	 
+    
+    	
+    	
+    	
+    	
+    }
+    
+
+    
+    
+
+    void dailyCalorieData (String dailyData) {
+    	
+    		
+    	
+    	 ErrorCheck foodCheck = new ErrorCheck();
+		  
+	       if (foodCheck.isValid(dailyData)) {
+		    		errorLabel.setText("");	
+		   if (index == 6) {
+			   dailyCalorieList.add(dailyData);
+			   calorieDataContainer.getChildren().removeAll(calorieDataContainer.getChildren());
+		   }				   
+		   if (index < 6) {
+			   dailyCalorieList.add(dailyData);
+			   calorieInputLabel.setText("How many calories consumed on" + days[index] + "?");
+		   }
+		   index++;
+		   
+	       }else {
+	    		errorLabel.setText(foodCheck.getMessage(dailyData));
+	    		
+ 		}
+		   if(foodCheck.isValid(dailyData)) {
+	       food.setCalorieData(dailyCalorieList);
+	       food.total();
+	       
+		   foodGrade = food.getGrade();
+		   if (food.getGrade() <= 100.0)
+			   weightedFoodGrade = foodGrade * 0.2;
+		   else weightedFoodGrade = 20.0;
+		   goalLabel.setText(String.format("you have completed %.0f"
+					+ "%% of your food goal", foodGrade)); 
+		   }
+		  
+    }
 	
 /**
  * 	    
@@ -373,10 +430,15 @@ public class MainSceneController {
 		    		weightedStepGrade = stepGrade * 0.2;
 		    	else if (stepGrade >= 100)
 		    		weightedStepGrade = 20.0;
+		    	if(goal.isEmpty() || completed.isEmpty()) {
+		    		errorLabel.setText("Must input workout");
+		    	}else {
 		    	if (workouts.getGrade() == 100) goalLabel.setText("Congratulations! You have reached your exercise goal.");
+		    	
 		    	else if (workouts.getGrade() > 100) goalLabel.setText("Congratulations! You have surpassed your exercise goal.");
 		    	else goalLabel.setText(String.format("you have completed %.0f"
 						+ "%% of your exercise goal", stepGrade));
+		    }
 		    }
 		    //end updated exercise 
 		    
@@ -431,36 +493,69 @@ public class MainSceneController {
 	    //end new to slepp
 
 	    @FXML
-	    void toFood(ActionEvent foodEvent) {	    	
+ void toFood(ActionEvent foodEvent) {
+	    	
+	    	foodDataSceneContainer.getChildren().removeAll(foodDataSceneContainer.getChildren());
+	    		    	
 	    	index = 0;
 	    	if(isEmpty == true) {
-	    		errorLabel.setText("Enter user info first");
+	    	   	Scene mainScene = applicationStage.getScene();
+	    		
+	    		errorLabel.setText("ENTER USER INFO FIRST");
+	    		errorLabel.setStyle("-fx-text-fill: red;");
+	    		VBox emptyInfoInputContainer = new VBox(10);
+	    		
+	    		Button emptyInfoButton = new Button ("Back to Main Scene");
+	    		emptyInfoInputContainer.getChildren().addAll(errorLabel,emptyInfoButton);
+	    		foodDataSceneContainer.getChildren().addAll(emptyInfoInputContainer);
+	    		applicationStage.setScene(foodScene);
+	    		
+	    		emptyInfoButton.setOnAction(backToInfo -> applicationStage.setScene(mainScene));
+	    		
+	    	
 	    	}else {
+	    	
 	    	errorLabel.setText("");
-	    	}
+	    	
+	    	
 	    	goalLabel.setText("");
 	    	Scene mainScene = applicationStage.getScene();
 	    	Label weightGoalLabel = new Label("What is your dietary goal?");
+	    
 	    	ChoiceBox<String> weightGoalChoiceBox = new ChoiceBox<String>();
 	    	weightGoalChoiceBox.getItems().addAll("Lose Weight","Maintain Weight","Gain Weight");
+	    	
 	    	Button setWeightGoalButton = new Button ("Set Goal");
+	    	
+	    	
 	    	weightGoalContainer.getChildren().addAll( weightGoalChoiceBox,setWeightGoalButton);
-	    	VBox foodDataSceneContainer = new VBox(10);
+	    	
 	    	foodDataSceneContainer.setPadding(new Insets(10,10,10,10));
 	    	foodDataSceneContainer.setMinHeight(330);
 	    	foodDataSceneContainer.setMinWidth(300);
 	    	caloriesEnterLabel.setText("");
+	    	
+	    	
 	    	setWeightGoalButton.setOnAction(calorieCalc -> createFoodHabit (weightGoalChoiceBox.getValue()));
+	    	
+	    	
 	    	calorieInputLabel.setText("How many calories consumed on Monday?");
 	    	TextField enterCalories = new TextField();
 	    	Button dataCalorieButton = new Button ("Enter");
 	    	dataCalorieButton.setOnAction(enterAction -> dailyCalorieData (enterCalories.getText())  );
+	    	
 	    	calorieDataContainer.getChildren().addAll(enterCalories,dataCalorieButton);
+
 	    	Button doneButton = new Button("Done");
 	    	doneButton.setOnAction(doneEvent2 -> caloriesDoneButton(mainScene));
+	    	
 	    	foodDataSceneContainer.getChildren().addAll(weightGoalLabel, weightGoalContainer, caloriesEnterLabel,calorieInputLabel,  calorieDataContainer, errorLabel, goalLabel, doneButton);
-	    	Scene foodScene = new Scene(foodDataSceneContainer);
+
+	    	
 	        applicationStage.setScene(foodScene);
+	        
+	    	}
+	        
 	    	}
 	       
 	    void caloriesDoneButton(Scene scene) {
