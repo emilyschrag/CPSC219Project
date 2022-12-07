@@ -24,6 +24,7 @@ public class Expenses extends Habit {
 		public String calculateTotal() {
 			String returnTotal;
 				total = food + groceries + other + entertainment;
+				if (total == 0.0) total= 1;
 				returnTotal = Double.toString(total);
 			return returnTotal;
 		}
@@ -34,8 +35,9 @@ public class Expenses extends Habit {
  * @param goalAsString
  */
 		public void calculateGrade(String total1, String goalAsString) {
-			super.setGoal(goalAsString);
-			super.setValue(total1);
+			
+			super.setGoal(total1);
+			super.setValue(goalAsString);
 			super.calculateGrade();
 		}
 		
