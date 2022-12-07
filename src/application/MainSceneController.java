@@ -82,19 +82,23 @@ public class MainSceneController {
     	private Label enterSleepGoalLabel = new Label("");
     	private Label bedtimeLabel = new Label("");
     	private HBox bedtimeContainer = new HBox(5);
-
     	boolean isEmpty = true;
-	    
+    	private VBox foodDataSceneContainer = new VBox(10);
+    	private Scene foodScene = new Scene(foodDataSceneContainer);
+    	private VBox userInfoContainer = new VBox(20);
+    	private Scene infoScene = new Scene(userInfoContainer, 300, 325);
+    	
+    	
     	
 	    @FXML
 	    	void enterInfo(ActionEvent enterInfoEvent) {
 	    	//Set the original scene to mainScene
 	    	Scene mainScene = applicationStage.getScene();
-
+	    	
 
 	    	
 	    	//Create the container that will hold everything else in this scene
-	    	VBox userInfoContainer = new VBox(20);
+	    	
 	    	userInfoContainer.setMinHeight(400);
 	    	userInfoContainer.setMinWidth(400);
 
@@ -147,14 +151,16 @@ public class MainSceneController {
 	    	// add all components to main container
 	    	userInfoContainer.getChildren().addAll(titleLabel, ageContainer, sexContainer, heightContainer, weightContainer, activityContainer, doneButton);
 	    	//create a new scene that holds the main container
-	    	Scene infoScene = new Scene(userInfoContainer, 300, 325);
+	    	
 	    	//set the scene to the info scene when the enterInfo action is initiated
 	    	applicationStage.setScene(infoScene);
 	    	
+	    	
+	    	
 	    	if (!((userAge==""||userAge==null) && (userSex==""||userSex==null) && (userHeight==""||userHeight==null) && (userWeight==""||userWeight==null) && (userActivity==""||userActivity==null))) {
-	    		isEmpty = true;
+	    		isEmpty = false;
 	    	  }else if(((userAge==""||userAge==null) && (userSex==""||userSex==null) && (userHeight==""||userHeight==null) && (userWeight==""||userWeight==null) && (userActivity==""||userActivity==null))) {
-	    		  isEmpty = false;
+	    		  isEmpty = true;
 	    	  }
 	    	
 	    } 
@@ -162,13 +168,27 @@ public class MainSceneController {
 //END USER INFO
 	    void userInfoDone (String ageAsString, String sexAsString , String heightAsString, String weightAsString, String activityAsString, Scene mainScene) {
 	      		
-	    	
+	    
 	    	age = ageAsString;
 	    	sex = sexAsString;
 	    	height = heightAsString;
 	    	weight = weightAsString;
 	    	activityLevel = activityAsString;
 	    	applicationStage.setScene(mainScene);
+	    	
+	    	
+	    	
+	    	  	if (!((ageAsString==""||ageAsString==null) && (sexAsString==""||sexAsString==null) && (heightAsString==""||heightAsString==null) && (weightAsString==""||weightAsString==null) && (activityAsString==""||activityAsString==null))) {
+	    		isEmpty = false;
+	    	  }else if(((ageAsString==""||ageAsString==null) && (sexAsString==""||sexAsString==null) && (heightAsString==""||heightAsString==null) && (weightAsString==""||weightAsString==null) && (activityAsString==""||activityAsString==null))) {
+	    		  isEmpty = true;
+	    	  }
+	    	 
+	    
+	    	
+	    	
+	    	
+	    	
 	    }
 	    
 
@@ -417,17 +437,41 @@ public class MainSceneController {
 	    	applicationStage.setScene(sleepScene);
 	    }
 
+	    
+	    
+	    
 	    @FXML
 	    void toFood(ActionEvent foodEvent) {
 	    	
+	    	foodDataSceneContainer.getChildren().removeAll(foodDataSceneContainer.getChildren());
 	    		    	
 	    	index = 0;
 	    	if(isEmpty == true) {
-	    		errorLabel.setText("Enter user info first");
+	    	   	Scene mainScene = applicationStage.getScene();
+	    		
+	    		errorLabel.setText("ENTER USER INFO FIRST");
+	    		errorLabel.setStyle("-fx-text-fill: red;");
+	    		VBox emptyInfoInputContainer = new VBox(10);
+	    		
+	    		Button emptyInfoButton = new Button ("Back to Main Scene");
+	    		emptyInfoInputContainer.getChildren().addAll(errorLabel,emptyInfoButton);
+	    		foodDataSceneContainer.getChildren().addAll(emptyInfoInputContainer);
+	    		applicationStage.setScene(foodScene);
+	    		
+	    		emptyInfoButton.setOnAction(backToInfo -> applicationStage.setScene(mainScene));
+	    		
+	    		
+	    		
+	    		
+	    		
+	    		
+	    		
+	    		
+	    		
 	    	}else {
 	    	
 	    	errorLabel.setText("");
-	    	}
+	    	
 	    	
 	    	goalLabel.setText("");
 	    	Scene mainScene = applicationStage.getScene();
@@ -440,7 +484,7 @@ public class MainSceneController {
 	    	
 	    	
 	    	weightGoalContainer.getChildren().addAll( weightGoalChoiceBox,setWeightGoalButton);
-	    	VBox foodDataSceneContainer = new VBox(10);
+	    	
 	    	foodDataSceneContainer.setPadding(new Insets(10,10,10,10));
 	    	foodDataSceneContainer.setMinHeight(330);
 	    	foodDataSceneContainer.setMinWidth(300);
@@ -462,10 +506,10 @@ public class MainSceneController {
 	    	
 	    	foodDataSceneContainer.getChildren().addAll(weightGoalLabel, weightGoalContainer, caloriesEnterLabel,calorieInputLabel,  calorieDataContainer, errorLabel, goalLabel, doneButton);
 
-	    	Scene foodScene = new Scene(foodDataSceneContainer);
+	    	
 	        applicationStage.setScene(foodScene);
 	        
-	        
+	    	}
 	        
 	    	}
 	       
