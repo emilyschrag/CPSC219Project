@@ -105,7 +105,9 @@ public class MainSceneController {
 
     	userInfoContainer.setPadding(new Insets(5,7.5,7.5,7.5));
     	
+
     	Label titleLabel = new Label("Enter your information!");
+
     	titleLabel.setStyle("-fx-font-weight: bold");
     	
     	//container for entering age 
@@ -245,12 +247,25 @@ public class MainSceneController {
 	       food.total();
 	       
 		   foodGrade = food.getGrade();
-		   if (food.getGrade() <= 100.0)
-			   weightedFoodGrade = foodGrade * 0.2;
-		   else weightedFoodGrade = 20.0;
-		   goalLabel.setText(String.format("you have completed %.0f"
-					+ "%% of your food goal", foodGrade)); 
-		   goalLabel.setStyle("-fx-font-weight: bold; -fx-text-fill:green; -fx-font-size-14px;");
+  
+		   if (foodGrade == 100) {
+			   foodGrade = 100;
+				goalLabel.setText("you have completed your food goal for the week"); 
+			}else if (foodGrade < 100)	{
+				goalLabel.setText(String.format("you have completed %.0f"
+						+ "%% of your food goal", foodGrade));
+			}else if (foodGrade > 100 && foodGrade < 200) {
+				foodGrade = 100 - (foodGrade - 100);
+				goalLabel.setText(String.format("you have completed %.0f"
+						+ "%% of your food goal", foodGrade));
+			}else {
+				foodGrade = 0.0;
+				goalLabel.setText(String.format("you have completed %.0f"
+						+ "%% of your food goal", foodGrade));
+			}
+			weightedFoodGrade = sleepGrade * 0.2;
+			goalLabel.setStyle("-fx-font-weight: bold; -fx-text-fill:green; -fx-font-size-14px;");
+
 		   }
 		  
     }
@@ -288,11 +303,17 @@ public class MainSceneController {
 	    			Water sleep = new Water(sleepGoal, sleepDataList);
 	    			sleep.total();
 	    			sleepGrade = sleep.getGrade();
-	    			if (sleep.getGrade() < 100)
-	    			weightedSleepGrade = sleepGrade * 0.2;	
-	    			else weightedSleepGrade = 20.0;
-	    			goalLabel.setText(String.format("you have completed %.0f"
-							+ "%% of your sleep goal", sleepGrade)); 
+
+	    			
+	    			if (sleepGrade >= 100) {
+	    				sleepGrade = 100;
+	    				goalLabel.setText("you have completed your sleep goal for the week"); 
+	    			}else if (sleepGrade < 100)	{
+	    				goalLabel.setText(String.format("you have completed %.0f"
+								+ "%% of your sleep goal", sleepGrade));
+	    			}
+	    			weightedSleepGrade = sleepGrade * 0.2;
+
 	    			goalLabel.setStyle("-fx-font-weight: bold; -fx-text-fill:green; -fx-font-size-14px;");
 	    	}else {
 	    		errorLabel.setStyle("-fx-text-fill: red;");
@@ -333,14 +354,17 @@ public class MainSceneController {
 			   Water drink = new Water(waterGoal, dailyWaterList);
 			   drink.total();
 			   waterGrade = drink.getGrade();
-			   if (drink.getGrade() <= 100.0)
-				   weightedWaterGrade = waterGrade * 0.2;
-			   else weightedWaterGrade = 20.0;
-			   goalLabel.setText(String.format("you have completed %.0f"
-						+ "%% of your water goal", waterGrade));
-			   }else {
-				   errorLabel.setStyle("-fx-text-fill: red;");
-		    		errorLabel.setText(waterCheck.getMessage(waterGoal));
+
+			   if (waterGrade >= 100) {
+				   waterGrade = 100;
+   				goalLabel.setText("you have completed your water goal for the week"); 
+   			}else if (waterGrade < 100)	{
+   				goalLabel.setText(String.format("you have completed %.0f"
+							+ "%% of your water goal", waterGrade));
+   			}
+   			weightedWaterGrade = waterGrade * 0.2;
+   			goalLabel.setStyle("-fx-font-weight: bold; -fx-text-fill:green; -fx-font-size-14px;");
+
 		    	}
 		   }
 		   
@@ -380,16 +404,19 @@ public class MainSceneController {
 				if ((spend.setFood(foodAsString)) != "")
 					errorLabel.setStyle("-fx-text-fill: red;");
 	     			errorLabel.setText(spend.setFood(foodAsString));}
-	      	if (spendGrade < 100)
-	      		weightedSpendGrade = spendGrade * 0.2;
-	      	else if (spendGrade >= 100)
-	      		weightedSpendGrade = 20.0;
-	      	if (spend.getTotal()>spend.getGoal())
-	      		goalLabel.setText("You have surpassed your spending goal.");
-	      	else if ((spendGrade == 100))
-	      		goalLabel.setText("Congratulations! You have reached your spending goal.");
-	      	else goalLabel.setText(String.format("you have completed %.0f"
-	  				+ "%% of your spending goal", spendGrade));
+	      	
+	      			if (spendGrade >= 100) {
+	      				spendGrade = 100;
+	    				goalLabel.setText("You have reached your spending goal."); 
+	    			}else if (spendGrade < 100)	{
+	    				goalLabel.setText(String.format("you have completed %.0f"
+	    		  				+ "%% of your spending goal", spendGrade));
+	    			}
+	      			weightedSpendGrade = spendGrade * 0.2;
+	    			goalLabel.setStyle("-fx-font-weight: bold; -fx-text-fill:green; -fx-font-size-14px;"); 
+	      			 
+	      			 
+	      			 
 	      	if (spend.getGoal() == 0)
 	      		goalLabel.setText("");
 	      	if ((spend.setOther(otherAsString)) != "")
@@ -609,7 +636,7 @@ public class MainSceneController {
 	    	exGoalContainer.getChildren().addAll(exGoalLabel, exGoalTextField );
 	     	VBox dataSceneContainer = new VBox(10);	
 	     	dataSceneContainer.setPadding(new Insets(10,10,10,10));
-	     	Label moneySpentLabel = new Label("Money spent today");
+	     	Label moneySpentLabel = new Label("Money spent this week");
 	     	moneySpentLabel.setStyle("-fx-font-weight: bold");
 	     	HBox foodContainer = new HBox(10);
 	    	TextField foodTextField = new TextField();
