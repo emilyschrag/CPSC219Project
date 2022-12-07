@@ -178,10 +178,16 @@ void setCalorieData(ArrayList <String> data) {
 }
 
 public void total() {
-	weekTotal = 0;
+	
+	
+	if(calorieList != null) {
+		weekTotal = 0;
 	for (int index = 0; index <= (calorieList.size() - 1); index++) {
+		
 		weekTotal += Double.parseDouble(calorieList.get(index));
 	}
+	}
+	
 }
 
 
