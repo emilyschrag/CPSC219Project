@@ -246,9 +246,10 @@ public class MainSceneController {
 	       
 		   foodGrade = food.getGrade();
 		   
+		   
 		   if (foodGrade == 100) {
 			   foodGrade = 100;
-				goalLabel.setText("you have completed your food goal for the week"); 
+				goalLabel.setText("you have completed your food goal for the week."); 
 			}else if (foodGrade < 100)	{
 				goalLabel.setText(String.format("you have completed %.0f"
 						+ "%% of your food goal", foodGrade));
