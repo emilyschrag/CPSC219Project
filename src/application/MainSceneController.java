@@ -248,18 +248,18 @@ public class MainSceneController {
 		   
 		   if (foodGrade == 100) {
 			   foodGrade = 100;
-				goalLabel.setText("you have completed your sleep goal for the week"); 
+				goalLabel.setText("you have completed your food goal for the week"); 
 			}else if (foodGrade < 100)	{
 				goalLabel.setText(String.format("you have completed %.0f"
-						+ "%% of your sleep goal", foodGrade));
+						+ "%% of your food goal", foodGrade));
 			}else if (foodGrade > 100 && foodGrade < 200) {
-				foodGrade = foodGrade - 100;
+				foodGrade = 100 - (foodGrade - 100);
 				goalLabel.setText(String.format("you have completed %.0f"
-						+ "%% of your sleep goal", foodGrade));
+						+ "%% of your food goal", foodGrade));
 			}else {
 				foodGrade = 0.0;
 				goalLabel.setText(String.format("you have completed %.0f"
-						+ "%% of your sleep goal", foodGrade));
+						+ "%% of your food goal", foodGrade));
 			}
 			weightedFoodGrade = sleepGrade * 0.2;
 			goalLabel.setStyle("-fx-font-weight: bold; -fx-text-fill:green; -fx-font-size-14px;");
