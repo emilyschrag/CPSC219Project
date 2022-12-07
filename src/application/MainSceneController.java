@@ -105,7 +105,7 @@ public class MainSceneController {
 
     	userInfoContainer.setPadding(new Insets(5,7.5,7.5,7.5));
     	
-    	Label titleLabel = new Label("Enter your information!");
+    	Label titleLabel = new Label("Enter your information.");
     	titleLabel.setStyle("-fx-font-weight: bold");
     	
     	//container for entering age 
