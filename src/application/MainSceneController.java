@@ -4,7 +4,6 @@ package application;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-
 import java.awt.Font;
 import java.util.ArrayList;
 
@@ -17,12 +16,12 @@ import javafx.scene.layout.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.FontWeight;
 import javafx.scene.control.*;
+import javafx.scene.text.FontWeight;
 
 public class MainSceneController {
 	Stage applicationStage;
 	 @FXML
 	    //initialize all the things we need the data from in more than one section
-	    private DatePicker todaysDatePicker;
 	    private Label metSleepGoalInfo = new Label(" ");
 	    private Label metFoodGoalInfo = new Label(" ");
 	    private Label metExpensesGoalInfo = new Label(" ");
@@ -37,7 +36,17 @@ public class MainSceneController {
 	    private ChoiceBox<String> sexChoiceBox = new ChoiceBox();
 	    private TextField heightTextField = new TextField();
 	    private TextField weightTextField = new TextField();
+	    private ArrayList<String>dailyWaterList = new ArrayList<String>();
+	    private ArrayList<String>sleepDataList = new ArrayList<String>();
+    	private HBox enterSleepGoal = new HBox(5);
+    	private Label enterSleepGoalLabel = new Label("");
+    	private Label bedtimeLabel = new Label("");
+    	private HBox bedtimeContainer = new HBox(5);
 	    private ChoiceBox<String> activityChoiceBox = new ChoiceBox();
+	    private ChoiceBox<Integer> hourChoiceBox = new ChoiceBox();
+	    private ChoiceBox<Integer> minuteChoiceBox = new ChoiceBox();
+	    private ChoiceBox<Integer> hourChoiceBox2 = new ChoiceBox();
+	    private ChoiceBox<Integer> minuteChoiceBox2 = new ChoiceBox();
 	    private ChoiceBox<String> weightGoalChoiceBox = new ChoiceBox();
 	    private ChoiceBox<String> workoutGoalChoiceBox = new ChoiceBox();
 	    private ChoiceBox<String> workoutCompletedChoiceBox = new ChoiceBox();
@@ -51,8 +60,6 @@ public class MainSceneController {
 	    private TextField stepsDataTextField = new TextField();
 	    private ArrayList<String> workoutGoalList = new ArrayList<String>();
 	    private ArrayList<String> workoutCompletedList = new ArrayList<String>();
-	    private ArrayList<String>dailyWaterList = new ArrayList<String>();
-	    private ArrayList<String>sleepDataList = new ArrayList<String>();
 	    private HBox waterDataContainer = new HBox(10);
 	    private HBox waterGoalContainer = new HBox(10);
 	    private String age;
@@ -78,10 +85,6 @@ public class MainSceneController {
     	private Label calorieInputLabel = new Label ("");
     	private HBox calorieDataContainer = new HBox(10);
     	private Calories food = new Calories();
-    	private HBox enterSleepGoal = new HBox(5);
-    	private Label enterSleepGoalLabel = new Label("");
-    	private Label bedtimeLabel = new Label("");
-    	private HBox bedtimeContainer = new HBox(5);
     	boolean isEmpty = true;
     	private VBox foodDataSceneContainer = new VBox(10);
     	private Scene foodScene = new Scene(foodDataSceneContainer);
@@ -90,15 +93,15 @@ public class MainSceneController {
     	
     	
     	
-	    @FXML
+    	
+
+	   
+    	 @FXML
+
 	    	void enterInfo(ActionEvent enterInfoEvent) {
 	    	//Set the original scene to mainScene
 	    	Scene mainScene = applicationStage.getScene();
-	    	
-
-	    	
 	    	//Create the container that will hold everything else in this scene
-	    	
 	    	userInfoContainer.setMinHeight(400);
 	    	userInfoContainer.setMinWidth(400);
 
@@ -154,13 +157,14 @@ public class MainSceneController {
 	    	
 	    	//set the scene to the info scene when the enterInfo action is initiated
 	    	applicationStage.setScene(infoScene);
-	    	
-	    	
+	    	   	
 	    	
 	    	if (!((userAge==""||userAge==null) && (userSex==""||userSex==null) && (userHeight==""||userHeight==null) && (userWeight==""||userWeight==null) && (userActivity==""||userActivity==null))) {
 	    		isEmpty = false;
 	    	  }else if(((userAge==""||userAge==null) && (userSex==""||userSex==null) && (userHeight==""||userHeight==null) && (userWeight==""||userWeight==null) && (userActivity==""||userActivity==null))) {
 	    		  isEmpty = true;
+
+	    	
 	    	  }
 	    	
 	    } 
@@ -190,24 +194,19 @@ public class MainSceneController {
 	    	
 	    	
 	    }
-	    
 
-	    
-	    
+	
 
 	    void dailyCalorieData (String dailyData) {
 	    	if (index == 6) {
 	    		dailyCalorieList.add(dailyData);
 	    		calorieDataContainer.getChildren().removeAll(calorieDataContainer.getChildren());
 	    	}
-	   
 	    	if (index < 6) {
 	    		dailyCalorieList.add(dailyData);
 	    		calorieInputLabel.setText("How many calories did you consume on" + days[index] + "?");
 	    	}
-	   
 	    	index++;
-	  
 	    	food.setCalorieData(dailyCalorieList);
 	    	food.total();
 	    	foodGrade = food.getGrade();
@@ -231,184 +230,211 @@ public class MainSceneController {
  * @param goalMinute
  * @param valueHour
  * @param valueMinute
-// */
+// */	    
+	    //start of current shay sleep stuff
 	    void createSleepHabit (String sleepGoal, String SleepData) {
-	    	enterSleepGoal.getChildren().removeAll(enterSleepGoal.getChildren());
-	    	enterSleepGoalLabel.setText("Your sleep goal for the week is " + sleepGoal + "hours" );
-			   
-			   if (index == 6) {
-				   sleepDataList.add(SleepData);
-				   bedtimeContainer.getChildren().removeAll(bedtimeContainer.getChildren());
-			   }
-				   
-			   if (index < 6) {
-				   sleepDataList.add(SleepData);
-				   bedtimeLabel.setText("How much water did you drink on" + days[index] + "?");
-			   }
-			   
-			   index++;
-			  
-			   Water sleep = new Water(sleepGoal, sleepDataList);
-			   sleep.total();
-			   sleepGrade = sleep.getGrade();
-			   weightedSleepGrade = sleepGrade * 0.2;
-			   
-			   goalLabel.setText(String.format("you have completed %.0f"
-						+ "%% of your sleep goal", sleepGrade)); 
+	    	ErrorCheck sleepCheck = new ErrorCheck();				
+	    	if (sleepCheck.isValid(sleepGoal)) {
+	    		errorLabel.setText("");
+	    		enterSleepGoal.getChildren().removeAll(enterSleepGoal.getChildren());
+	    		enterSleepGoalLabel.setText("Your sleep goal for the week is " + sleepGoal + " hours" );
+	    		if (sleepCheck.isValid(SleepData)) {
+		    		errorLabel.setText("");
+	    			if (index == 6) {
+					   sleepDataList.add(SleepData);
+					   bedtimeContainer.getChildren().removeAll(bedtimeContainer.getChildren());
+				   }   
+				   if (index < 6) {
+					   sleepDataList.add(SleepData);
+					   bedtimeLabel.setText("How much sleep did you get on" + days[index] + "?");
+				   }
+				   index++;
+	    		}else {
+		    		errorLabel.setText(sleepCheck.getMessage(SleepData));
+		    		goalLabel.setText("");
+	    		}
+	    			Water sleep = new Water(sleepGoal, sleepDataList);
+	    			sleep.total();
+	    			sleepGrade = sleep.getGrade();
+	    			if (sleep.getGrade() < 100)
+	    			weightedSleepGrade = sleepGrade * 0.2;	
+	    			else weightedSleepGrade = 20.0;
+	    			goalLabel.setText(String.format("you have completed %.0f"
+							+ "%% of your sleep goal", sleepGrade)); 
+	    	}else {
+	    		errorLabel.setText(sleepCheck.getMessage(sleepGoal));
+	    	}
 	   }
 	    
 	    void sleepDoneButton(Scene mainScene) {
 	    	enterSleepGoal.getChildren().removeAll(enterSleepGoal.getChildren());
 	    	bedtimeContainer.getChildren().removeAll(bedtimeContainer.getChildren());
-			applicationStage.setScene(mainScene);
-			   
+			applicationStage.setScene(mainScene);  
 		   }
-	   
-	   void addDailyWater(String waterIntake, String waterGoal) {
-		   waterGoalContainer.getChildren().removeAll(waterGoalContainer.getChildren());
-		   waterGoalLabel.setText("Your water goal for the week is " + waterGoal + "L" );
+	   // end of current shay sleep stuff
+	 
+	    
+	    //start of shay current water 
+	    void addDailyWater(String waterIntake, String waterGoal) {
+			   ErrorCheck waterCheck = new ErrorCheck();
+			   if (waterCheck.isValid(waterGoal)) {
+		    		errorLabel.setText("");
+		    		waterGoalContainer.getChildren().removeAll(waterGoalContainer.getChildren());
+		    		waterGoalLabel.setText("Your water goal for the week is " + waterGoal + "L" );
+		       if (waterCheck.isValid(waterIntake)) {
+			    		errorLabel.setText("");	
+			   if (index == 6) {
+				   dailyWaterList.add(waterIntake);
+				   waterDataContainer.getChildren().removeAll(waterDataContainer.getChildren());
+			   }				   
+			   if (index < 6) {
+				   dailyWaterList.add(waterIntake);
+				   waterDataLabel.setText("How much water did you drink on" + days[index] + "?");
+			   }
+			   index++;
+		       }else {
+		    		errorLabel.setText(waterCheck.getMessage(waterIntake));
+	   		}
+			   Water drink = new Water(waterGoal, dailyWaterList);
+			   drink.total();
+			   waterGrade = drink.getGrade();
+			   if (drink.getGrade() <= 100.0)
+				   weightedWaterGrade = waterGrade * 0.2;
+			   else weightedWaterGrade = 20.0;
+			   goalLabel.setText(String.format("you have completed %.0f"
+						+ "%% of your water goal", waterGrade));
+			   }else {
+		    		errorLabel.setText(waterCheck.getMessage(waterGoal));
+		    	}
+		   }
 		   
-		   if (index == 6) {
-			   dailyWaterList.add(waterIntake);
+		   void waterDoneButton(Scene mainScene) {
+			   waterGoalContainer.getChildren().removeAll(waterGoalContainer.getChildren());
 			   waterDataContainer.getChildren().removeAll(waterDataContainer.getChildren());
+			   applicationStage.setScene(mainScene);   
 		   }
-			   
-		   if (index < 6) {
-			   dailyWaterList.add(waterIntake);
-			   waterDataLabel.setText("How much water did you drink on" + days[index] + "?");
-		   }
+		   //end of shay current water
 		   
-		   index++;
-		  
-		   Water drink = new Water(waterGoal, dailyWaterList);
-		   drink.total();
-		   waterGrade = drink.getGrade();
-		   weightedWaterGrade = waterGrade * 0.2;
-		   
-		   goalLabel.setText(String.format("you have completed %.0f"
-					+ "%% of your water goal", waterGrade)); 
-	   }
-	   
-	   void waterDoneButton(Scene mainScene) {
-		   waterGoalContainer.getChildren().removeAll(waterGoalContainer.getChildren());
-		   waterDataContainer.getChildren().removeAll(waterDataContainer.getChildren());
-		   applicationStage.setScene(mainScene);
-		   
-	   }
-	   
+	   //updated emily exoenses everything worjks
 	    void createExpensesHabit(String goalAsString, String foodAsString, String entAsString, String grocAsString, String otherAsString) {
 	    	errorLabel.setText("");
 	     	goalLabel.setText("");
 	     	Expenses spend = new Expenses();
-	     	errorLabel.setText(spend.setFood(foodAsString));
-	      	errorLabel.setText(spend.setGroc(grocAsString));
-	      	errorLabel.setText(spend.setOther(otherAsString));
-	      	errorLabel.setText(spend.setEnt(entAsString));
-	      	errorLabel.setText(spend.setGoal(goalAsString));
+	     	spend.setEnt(entAsString);
+	     	spend.setFood(foodAsString);
+	     	spend.setGroc(grocAsString);
+	     	spend.setOther(otherAsString);
 	      	spend.calculateGrade(spend.calculateTotal(), goalAsString);
 	      	spendGrade = spend.getGrade();
+	      	 if (((spend.setGoal(goalAsString)) != "") || ((spend.setFood(foodAsString)) != "") ||((spend.setGroc(grocAsString)) != "")
+	      			 ||((spend.setOther(otherAsString)) != "") ||((spend.setEnt(entAsString)) != ""));{ 
+	      		goalLabel.setText("");
+	     		if ((spend.setGroc(grocAsString)) != ""); 
+			 		errorLabel.setText(spend.setGroc(grocAsString)); 
+			 	if ((spend.setOther(otherAsString)) != "") 
+			 		errorLabel.setText(spend.setOther(otherAsString));
+			 	if ((spend.setEnt(entAsString)) != "")
+			 		errorLabel.setText(spend.setEnt(entAsString));
+				if ((spend.setGoal(goalAsString)) != "") 
+		     		errorLabel.setText(spend.setGoal(goalAsString));
+				if ((spend.setFood(foodAsString)) != "")
+	     			errorLabel.setText(spend.setFood(foodAsString));}
 	      	if (spendGrade < 100)
 	      		weightedSpendGrade = spendGrade * 0.2;
 	      	else if (spendGrade >= 100)
 	      		weightedSpendGrade = 20.0;
-	      	if (spend.getTotal()>spend.getGoal()) goalLabel.setText("You have surpassed your spending goal.");
-	      	else if (spendGrade == 100) goalLabel.setText("Congradulations! You have reached your spending goal.");
+	      	if (spend.getTotal()>spend.getGoal())
+	      		goalLabel.setText("You have surpassed your spending goal.");
+	      	else if ((spendGrade == 100))
+	      		goalLabel.setText("Congratulations! You have reached your spending goal.");
 	      	else goalLabel.setText(String.format("you have completed %.0f"
-	  				+ "%% of your spending goal", spendGrade)); 
+	  				+ "%% of your spending goal", spendGrade));
+	      	if (spend.getGoal() == 0)
+	      		goalLabel.setText("");
+	      	if ((spend.setOther(otherAsString)) != "")
+	      		goalLabel.setText("");
+	      	if ((spend.setEnt(entAsString)) != "")
+	      		goalLabel.setText("");
+	      	if ((spend.setGroc(grocAsString)) != "")
+	      		goalLabel.setText("");
+	      	if ((spend.setFood(foodAsString)) != "")
+	      		goalLabel.setText("");
 	    }
-
-	   
-	   void addWorkoutGoal(String workoutGoal) {
-		   errorLabel.setText("");
-		   boolean valid = true;
+	    //end of expe
+	    
+	    //start updated exercise
+	    void addWorkoutGoal(String workoutGoal) {
+			   errorLabel.setText("");
+			   boolean valid = true;   
+			   for (int index = 0; index <= (workoutGoalList.size() - 1); index++) {   
+				   if (workoutGoalList.get(index).equals(workoutGoal)) valid = false; 
+				   if (valid == false) {
+					   index = 100;
+					   errorLabel.setText("This workout has already been added");
+						}
+				   }
+			   if (valid == true) {
+				   workoutGoalList.add(workoutGoal);
+				   workoutCompletedChoiceBox.getItems().addAll(workoutGoal);
+			   }
+		   }
+		   
+		   
+		   void addWorkoutCompleted(String workoutCompleted) {
+			   errorLabel.setText("");
+			   boolean valid = true;  
+			   for (int index = 0; index <= (workoutCompletedList.size() - 1); index++) {
+				   if (workoutCompletedList.get(index).equals(workoutCompleted)) valid = false;
+				   if (valid == false) {
+					   index = 100;
+					   errorLabel.setText("This workout has already been added");
+				   }
+			   } 
+			   if (valid == true) {
+				   workoutCompletedList.add(workoutCompleted);
+				   workoutCompletedChoiceBox.getItems().removeAll(workoutCompleted);
+			   }  
+		   }
+		   
+		    void createExerciseHabit(ArrayList<String> goal, ArrayList<String> completed) {
+		    	errorLabel.setText("");
+		    	goalLabel.setText("");
+		    	Excercise workouts = new Excercise(goal, completed); 
+		    	workouts.calculate();
+		    	stepGrade = workouts.getGrade();
+		    	if (stepGrade < 100)
+		    		weightedStepGrade = stepGrade * 0.2;
+		    	else if (stepGrade >= 100)
+		    		weightedStepGrade = 20.0;
+		    	if (workouts.getGrade() == 100) goalLabel.setText("Congratulations! You have reached your exercise goal.");
+		    	else if (workouts.getGrade() > 100) goalLabel.setText("Congratulations! You have surpassed your exercise goal.");
+		    	else goalLabel.setText(String.format("you have completed %.0f"
+						+ "%% of your exercise goal", stepGrade));
+		    }
+		    //end updated exercise 
 		    
-		   for (int index = 0; index <= (workoutGoalList.size() - 1); index++) {
-			   
-			   if (workoutGoalList.get(index).equals(workoutGoal)) valid = false;
-				   
-			   if (valid == false) {
-				   index = 100;
-				   errorLabel.setText("This workout has already been added");
-					}
-			   }
-		   
-		   if (valid == true) {
-			   workoutGoalList.add(workoutGoal);
-			   workoutCompletedChoiceBox.getItems().addAll(workoutGoal);
-		   }
-		   
-		   System.out.println("goal list: ");
-		    for (int index = 0; index <= (workoutGoalList.size() - 1); index++) {
-		    	System.out.print(workoutGoalList.get(index)+ ", ");
-		   }
-		    System.out.println("");
-	   }
-	   
-	   
-	   void addWorkoutCompleted(String workoutCompleted) {
-		   errorLabel.setText("");
-		   boolean valid = true;
-		   
-		   for (int index = 0; index <= (workoutCompletedList.size() - 1); index++) {
-			   
-			   if (workoutCompletedList.get(index).equals(workoutCompleted)) valid = false;
-			   
-			   if (valid == false) {
-				   index = 100;
-				   errorLabel.setText("This workout has already been added");
-			   }
-		   }
-			   
-		   if (valid == true) {
-			   workoutCompletedList.add(workoutCompleted);
-			   workoutCompletedChoiceBox.getItems().removeAll(workoutCompleted);
-			   
-		   }
-		
-		   
-		for (index = 0; index <= (workoutCompletedList.size() - 1); index++) {
-			   System.out.println("completed list :" + workoutCompletedList.get(index));
-		   }
-		   
-	   }
-	   
-	    void createExerciseHabit(ArrayList<String> goal, ArrayList<String> completed) {
-	    	errorLabel.setText("");
-	    	goalLabel.setText("");
-	    	Excercise workouts = new Excercise(goal, completed); 
-	    	workouts.calculate();
-	    	stepGrade = workouts.getGrade();
-	    	if (stepGrade < 100)
-	    		weightedStepGrade = stepGrade * 0.2;
-	    	else if (stepGrade >= 100)
-	    		weightedStepGrade = 20.0;
-	    	if (workouts.getGrade() == 100) goalLabel.setText("Congratulations! You have reached your exercise goal.");
-	    	else if (workouts.getGrade() > 100) goalLabel.setText("Congratulations! You have surpassed your exercise goal.");
-	    	else goalLabel.setText(String.format("you have completed %.0f"
-					+ "%% of your exercise goal", stepGrade));
-	    }
+		    void createFoodHabit(String weightGoalAsString) {
+		    	errorLabel.setText("");
+		    	goalLabel.setText("");
+		    	food.setActivity(activityLevel);
+		    	food.setAge(age);
+		    	food.setWeightGoal(weightGoalAsString);
+		    	food.setHeight(height);
+		    	food.setSex(sex);
+		    	food.setWeight(weight);
+		    	food.calculateBMR();
+		    	food.calculateAMR();
+		    	food.calculateCals();
+		    	double myCalories = food.getCalories();
+		    	if (myCalories == 0) caloriesEnterLabel.setText("No goal entered");
+		    	else caloriesEnterLabel.setText(String.format("Based on your given Physical data and dietary goal, \nyou should consume: \n" 
+		    				+ "%.02f calories weekly \n" 
+		    				+  "%.02f calories daily",myCalories,myCalories/7));
+		    	caloriesEnterLabel.setMinHeight(100);
+		    }
+
 	    
-	    void createFoodHabit(String weightGoalAsString) {
-	    	errorLabel.setText("");
-	    	goalLabel.setText("");
-	    	food.setActivity(activityLevel);
-	    	food.setAge(age);
-	    	food.setWeightGoal(weightGoalAsString);
-	    	food.setHeight(height);
-	    	food.setSex(sex);
-	    	food.setWeight(weight);
-	    	food.calculateBMR();
-	    	food.calculateAMR();
-	    	food.calculateCals();
-	    	double myCalories = food.getCalories();
-	    	
-	    	if (myCalories == 0) caloriesEnterLabel.setText("No goal entered");
-	    	else caloriesEnterLabel.setText(String.format("Based on your given Physical data and dietary goal, \nyou should consume: \n" 
-	    				+ "%.02f calories weekly \n" 
-	    				+  "%.02f calories daily",myCalories,myCalories/7));
-	    	caloriesEnterLabel.setMinHeight(100);
-	    }
-	    
+
 	    @FXML
 	    void toSleep(ActionEvent sleepEvent) {
 	    	index = 0;
@@ -436,17 +462,17 @@ public class MainSceneController {
 	    	Scene sleepScene = new Scene(sleepContainer);
 	    	applicationStage.setScene(sleepScene);
 	    }
+	    //end new to slepp
 
 	    
 	    
 	    
 	    @FXML
-	    void toFood(ActionEvent foodEvent) {
-	    	
-	    	foodDataSceneContainer.getChildren().removeAll(foodDataSceneContainer.getChildren());
-	    		    	
+	    void toFood(ActionEvent foodEvent) {	    	
+	    	VBox foodDataSceneContainer = new VBox(10);
 	    	index = 0;
-	    	if(isEmpty == true) {
+	    	if(isEmpty == true)	 {
+
 	    	   	Scene mainScene = applicationStage.getScene();
 	    		
 	    		errorLabel.setText("ENTER USER INFO FIRST");
@@ -467,54 +493,43 @@ public class MainSceneController {
 	    		
 	    		
 	    		
-	    		
+	    	
 	    	}else {
-	    	
+
 	    	errorLabel.setText("");
-	    	
-	    	
 	    	goalLabel.setText("");
 	    	Scene mainScene = applicationStage.getScene();
 	    	Label weightGoalLabel = new Label("What is your dietary goal?");
-	    
 	    	ChoiceBox<String> weightGoalChoiceBox = new ChoiceBox<String>();
 	    	weightGoalChoiceBox.getItems().addAll("Lose Weight","Maintain Weight","Gain Weight");
-	    	
 	    	Button setWeightGoalButton = new Button ("Set Goal");
-	    	
-	    	
 	    	weightGoalContainer.getChildren().addAll( weightGoalChoiceBox,setWeightGoalButton);
-	    	
 	    	foodDataSceneContainer.setPadding(new Insets(10,10,10,10));
 	    	foodDataSceneContainer.setMinHeight(330);
 	    	foodDataSceneContainer.setMinWidth(300);
 	    	caloriesEnterLabel.setText("");
-	    	
-	    	
 	    	setWeightGoalButton.setOnAction(calorieCalc -> createFoodHabit (weightGoalChoiceBox.getValue()));
-	    	
-	    	
 	    	calorieInputLabel.setText("How many calories consumed on Monday?");
 	    	TextField enterCalories = new TextField();
 	    	Button dataCalorieButton = new Button ("Enter");
 	    	dataCalorieButton.setOnAction(enterAction -> dailyCalorieData (enterCalories.getText())  );
-	    	
 	    	calorieDataContainer.getChildren().addAll(enterCalories,dataCalorieButton);
-
 	    	Button doneButton = new Button("Done");
 	    	doneButton.setOnAction(doneEvent2 -> caloriesDoneButton(mainScene));
-	    	
 	    	foodDataSceneContainer.getChildren().addAll(weightGoalLabel, weightGoalContainer, caloriesEnterLabel,calorieInputLabel,  calorieDataContainer, errorLabel, goalLabel, doneButton);
 
-	    	
 	        applicationStage.setScene(foodScene);
+
 	        
 	    	}
-	        
+
 	    	}
 	       
+
 	    
 	    
+
+
 	    void caloriesDoneButton(Scene scene) {
 	    	calorieDataContainer.getChildren().removeAll(calorieDataContainer.getChildren());
 	    	weightGoalContainer.getChildren().removeAll(weightGoalContainer.getChildren());
@@ -526,10 +541,8 @@ public class MainSceneController {
 	     	//set the error and goal labels to blank
 	     	errorLabel.setText("");
 	     	goalLabel.setText("");
-
 	     	//set the scene to the main scene
 	     	Scene mainScene = applicationStage.getScene();
-
 	     	//create the visual parts of the expenses scene
 	     	HBox exGoalContainer = new HBox(10);
 	     	exGoalContainer.setMinWidth(300);
@@ -537,9 +550,11 @@ public class MainSceneController {
 	    	TextField exGoalTextField = new TextField();
 	    	exGoalContainer.getChildren().addAll(exGoalLabel, exGoalTextField );
 
+
 	     	VBox dataSceneContainer = new VBox(10);	
 	    	dataSceneContainer.setPadding(new Insets(10,10,10,10));
-	     	Label moneySpentLabel = new Label("Money spent today");
+
+	       	Label moneySpentLabel = new Label("Money spent today");
 	     	HBox foodContainer = new HBox(10);
 	    	TextField foodTextField = new TextField();
 	    	Label foodLabel = new Label("Food");
@@ -556,19 +571,13 @@ public class MainSceneController {
 	     	TextField otherTextField = new TextField();
 	     	Label otherLabel = new Label("Other");
 	     	otherContainer.getChildren().addAll(otherLabel, otherTextField);
-
 	    	Button calculateSpent = new Button("Calculate");
 	     	Button doneButton = new Button("Done");
 	     	doneButton.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));	 		
-
-
 	     	//give the done button action
 	     	doneButton.setOnAction(doneEvent2 -> applicationStage.setScene(mainScene));	 
-
 	     	//give the calculate button action
 	     	calculateSpent.setOnAction(calculateEvent -> createExpensesHabit(exGoalTextField.getText(), foodTextField.getText() , entertainmentTextField.getText(), groceriesTextField.getText(), otherTextField.getText())); 
-
-
 	     	//create the expenses scene and set it
 	     	dataSceneContainer.getChildren().addAll(exGoalContainer, moneySpentLabel,
 	     			foodContainer, entertainmentContainer,groceriesContainer, 
@@ -577,6 +586,8 @@ public class MainSceneController {
 	     	applicationStage.setScene(expensesScene);
 	     }
 
+	    
+	    //updated exercise 
 	    @FXML
 	    void toExercise(ActionEvent toExerciseScene) {
 	    	errorLabel.setText("");
@@ -606,7 +617,11 @@ public class MainSceneController {
 			Scene exerciseScene = new Scene(exerciseDataWholeContainer);
 			applicationStage.setScene(exerciseScene);
 	    }
+	    //end updated exercuse
 
+
+	    
+	    //updated to Watwe
 	    @FXML
 	    void toWater(ActionEvent toWaterEvent) {
 	    	index = 0;
@@ -632,13 +647,17 @@ public class MainSceneController {
 	   		doneButton.setOnAction(doneEvent -> waterDoneButton(mainScene));
 	   		applicationStage.setScene(waterScene);
 	    }
+	   //end updated to water
 
+	    //updated scoring 
 	    @FXML
-	    void getDailyScore(ActionEvent toDailyScoreEvent) {
+	    void getWeeklyScore(ActionEvent toWeeklyScoreEvent) {
 	    	Scene mainScene = applicationStage.getScene();
-	    	VBox dailyScoreAll = new VBox(10);
-	    	dailyScoreAll.setPadding(new Insets(10,10,10,10));
-	    	Label dailyScoreLabel = new Label("Your daily Score!");
+
+	    	VBox weeklyScoreAll = new VBox(10);
+	    	weeklyScoreAll.setPadding(new Insets(10,10,10,10));
+	    	Label weeklyScoreLabel = new Label("Your weekly Score!");
+
 	    	Button doneButton = new Button("Done");
 	    	doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
 	    
@@ -654,18 +673,16 @@ public class MainSceneController {
 					+ "%% of your spending goal", spendGrade));
 	    	
 	    	//Calculate dailyScore
-	    	double dailyScore = 0.0;
-	    	dailyScore = weightedStepGrade + weightedSpendGrade + weightedWaterGrade +
+	    	double weeklyScore = 0.0;
+	    	weeklyScore = weightedStepGrade + weightedSpendGrade + weightedWaterGrade +
 	    			weightedFoodGrade + weightedSleepGrade;
-	    	
 	    	HBox overallScoreContainer = new HBox(5);
-	    	Label printOverallScore = new Label(String.format("Your overall score is %.02f" + "%%", dailyScore));
+	    	Label printOverallScore = new Label(String.format("Your overall score is %.02f" + "%%", weeklyScore));
 	    	Label yayLabel = new Label("! Good Job!!");
 	    	overallScoreContainer.getChildren().addAll(printOverallScore, yayLabel);
-	    	
-	    	dailyScoreAll.getChildren().addAll(dailyScoreLabel, metSleepGoalInfo,  metFoodGoalInfo, metExpensesGoalInfo, metExerciseGoalInfo, metWaterGoalInfo, overallScoreContainer, doneButton);
-	    	Scene scoreScene = new Scene(dailyScoreAll);
+	    	weeklyScoreAll.getChildren().addAll(weeklyScoreLabel, metSleepGoalInfo,  metFoodGoalInfo, metExpensesGoalInfo, metExerciseGoalInfo, metWaterGoalInfo, overallScoreContainer, doneButton);
+	    	Scene scoreScene = new Scene(weeklyScoreAll);
 	    	applicationStage.setScene(scoreScene);
 	    }
-
+	    //end updated scoring 
 	}

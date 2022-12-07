@@ -3,12 +3,10 @@ package application;
 import java.util.ArrayList;
 
 public class Water {
-
 	private double goal;
 	private ArrayList<String> waterInputs;
 	private double weekTotal;
 	private double grade;
-	
 	
 	public Water (String watergoal, ArrayList<String> dailyInputs) {
 		goal = Double.parseDouble(watergoal);
@@ -25,5 +23,4 @@ public class Water {
 	public double getGrade() {
 		return weekTotal / goal * 100;
 	}
-	
 }
