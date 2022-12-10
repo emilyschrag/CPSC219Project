@@ -6,7 +6,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 
@@ -20,7 +19,7 @@ public class Main extends Application {
 			MainSceneController controller = (MainSceneController)loader.getController();
 			controller.applicationStage = primaryStage;
 			
-			Scene scene = new Scene(root,400,400);
+			Scene scene = new Scene(root,300,330);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			primaryStage.setTitle("Habit Tracker");
