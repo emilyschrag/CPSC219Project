@@ -89,8 +89,15 @@ public class MainSceneController {
     	private Scene foodScene = new Scene(foodDataSceneContainer,375,400);
     	private VBox userInfoContainer = new VBox(20);
     	private Scene infoScene = new Scene(userInfoContainer, 350, 350);
-    	private String activityAsString;
-    	private String sexAsString;
+
+	   
+    	
+    	/**
+    	 * when the enterInfo button is pressed, the scene is switch to the user info Scene, 
+    	 * and all the elements are added to the scene
+    	 * 
+    	 * @param enterInfoEvent event when enterInfo button is pressed
+    	 */
 	    @FXML
     	void enterInfo(ActionEvent enterInfoEvent) {
     	//Set the original scene to mainScene
@@ -147,26 +154,11 @@ public class MainSceneController {
     	activityContainer.getChildren().addAll(activityLabel, activityChoiceBox);
     	activityChoiceBox.getItems().addAll("Sedentary", "Lightly Active","Moderately Active","Active","Very Active");
     	String userActivity = (String) activityChoiceBox.getValue();
-    	
-    	
-    	if(sexChoiceBox.getValue() != null) {
-    	sexAsString = (String)sexChoiceBox.getValue();
-    	}else {
-    		sexAsString = "";
-    	}
-    	
-    	
-    	if(activityChoiceBox.getValue() != null) {
-    	activityAsString = (String)activityChoiceBox.getValue();
-    	}else {
-    		sexAsString = "";
-    	}
-    	
-    	
+
     	//done button to take user back to main scene when information is entered
     	Button doneButton = new Button("Done");
-    	doneButton.setOnAction(doneEvent -> userInfoDone(ageTextField.getText(),sexAsString,heightTextField.getText(),
-    			weightTextField.getText(),activityAsString, mainScene));
+    	doneButton.setOnAction(doneEvent -> userInfoDone(ageTextField.getText(),(String)sexChoiceBox.getValue(),heightTextField.getText(),
+    			weightTextField.getText(),(String)activityChoiceBox.getValue(), mainScene));
     	
     	// add all components to main container
     	userInfoContainer.getChildren().addAll(titleLabel, ageContainer, sexContainer, heightContainer, weightContainer, activityContainer,errorLabel, doneButton);
@@ -176,7 +168,7 @@ public class MainSceneController {
     	applicationStage.setScene(infoScene);
     	
     	
-    	
+    	//Checks if the user has entered values for all categories
     	if (!((userAge==""||userAge==null) && (userSex==""||userSex==null) && (userHeight==""||userHeight==null) && (userWeight==""||userWeight==null) && (userActivity==""||userActivity==null))) {
     		isEmpty = false;
     	  }else if(((userAge==""||userAge==null) && (userSex==""||userSex==null) && (userHeight==""||userHeight==null) && (userWeight==""||userWeight==null) && (userActivity==""||userActivity==null))) {
@@ -185,13 +177,27 @@ public class MainSceneController {
     	
     } 
     
-//END USER INFO
+/**
+ * when the done button is pressed in the user info screen this method cheeks that all inputs are valid.
+ * if all  inputs are valid the scene is switched to the main scene,
+ * if any inputs are invalid then an error message will appear and the scene will remain on the enterInfo Scene
+ * 
+ * @param ageAsString age inputed in enterInfo scene
+ * @param sexAsString sex inputed in enterInfo scene
+ * @param heightAsString height inputed in enterInfo scene
+ * @param weightAsString weight inputed in enterInfo scene
+ * @param activityAsString activity level inputed in enterInfo scene
+ * @param mainScene the main scene
+ */
     void userInfoDone (String ageAsString, String sexAsString , String heightAsString, String weightAsString, String activityAsString, Scene mainScene) {
-      	
+      	//clears error label
     	errorLabel.setText("");
+    	
+    	//create new errrorCheck object
     	ErrorCheck infoCheck = new ErrorCheck();
-      	if(infoCheck.isValid(ageAsString) && infoCheck.isValid(heightAsString) && infoCheck.isValid(weightAsString) && infoCheck.isValid(activityLevel) && infoCheck.isValid(sexAsString)) {
-      		
+      	// checks if all inputs are valid
+    	if(infoCheck.isValid(ageAsString) && infoCheck.isValid(heightAsString) && infoCheck.isValid(weightAsString)) {
+      		// set the global variables
       		age = ageAsString;
         	sex = sexAsString;
         	height = heightAsString;
@@ -200,7 +206,7 @@ public class MainSceneController {
         	applicationStage.setScene(mainScene);
         	
         	
-        	
+        	//Checks if the user has entered values for all categories
         	  	if (!((ageAsString==""||ageAsString==null) && (sexAsString==""||sexAsString==null) && (heightAsString==""||heightAsString==null) && (weightAsString==""||weightAsString==null) && (activityAsString==""||activityAsString==null))) {
         		isEmpty = false;
         	  }else if(((ageAsString==""||ageAsString==null) && (sexAsString==""||sexAsString==null) && (heightAsString==""||heightAsString==null) && (weightAsString==""||weightAsString==null) && (activityAsString==""||activityAsString==null))) {
@@ -208,6 +214,7 @@ public class MainSceneController {
         	  }
         	 
       	}else {
+      		//if any inputs are invalid, sets the error label
       		if(!infoCheck.isValid(ageAsString)) {
       			errorLabel.setStyle("-fx-text-fill: red;");
       			errorLabel.setText(infoCheck.getMessage(ageAsString));
@@ -233,36 +240,55 @@ public class MainSceneController {
 
     
     
-
+/**
+ * when the enter button is pressed in the food scene,
+ *  this method checks if a value has been entered for daily calorie consumption
+ *  if a valid value has been entered then the question prompt will be updated to the next day,
+ *   and a new grade will be calculated and displayed.
+ *   if an invalid input has been entered then an error message will be displayed and the prompt will remain the same
+ * @param dailyData
+ */
     void dailyCalorieData (String dailyData) {
     	
     		
-    	
+    	//creates new errorCheck object
     	 ErrorCheck foodCheck = new ErrorCheck();
-		  
+		  //checks if the input is valid and clears error label
 	       if (foodCheck.isValid(dailyData)) {
 		    		errorLabel.setText("");	
-		   if (index == 6) {
-			   dailyCalorieList.add(dailyData);
-			   calorieDataContainer.getChildren().removeAll(calorieDataContainer.getChildren());
+		   
+		    // checks if the index is 6, meaning that all days have an input
+		    if (index == 6) {
+			   //adds the input to the list
+		       dailyCalorieList.add(dailyData);
+			   //removes the prompt label, text field, and button from the scene
+		       calorieDataContainer.getChildren().removeAll(calorieDataContainer.getChildren());
 		   }				   
-		   if (index < 6) {
-			   dailyCalorieList.add(dailyData);
-			   calorieInputLabel.setText("How many calories consumed on" + days[index] + "?");
+		   //checks if the index is less than six
+		    if (index < 6) {
+		    	//adds the input to the list
+		    	dailyCalorieList.add(dailyData);
+			    //changes the prompt label to ask for the next input
+		    	calorieInputLabel.setText("How many calories consumed on" + days[index] + "?");
 		   }
-		   index++;
+		   // increment the index
+		    index++;
 		   
 	       }else {
+	    	  //sets the error message
 	    	   errorLabel.setStyle("-fx-text-fill: red;");
 	    		errorLabel.setText(foodCheck.getMessage(dailyData));
 	    		
  		}
-		   if(foodCheck.isValid(dailyData)) {
+		   
+	       //if the input is valid, the current food grade is calculated
+	       if(foodCheck.isValid(dailyData)) {
 	       food.setCalorieData(dailyCalorieList);
 	       food.total();
 	       
 		   foodGrade = food.getGrade();
   
+		   // depending on the grade, the appropriate goal message is printed
 		   if (foodGrade == 100) {
 			   foodGrade = 100;
 				goalLabel.setText("you have completed your food goal for the week"); 
@@ -278,7 +304,8 @@ public class MainSceneController {
 				goalLabel.setText(String.format("you have completed %.0f"
 						+ "%% of your food goal", foodGrade));
 			}
-			weightedFoodGrade = sleepGrade * 0.2;
+			//weighted food grade calculated
+		    weightedFoodGrade = sleepGrade * 0.2;
 			goalLabel.setStyle("-fx-font-weight: bold; -fx-text-fill:green; -fx-font-size-14px;");
 
 		   }
@@ -286,40 +313,63 @@ public class MainSceneController {
     }
 	
 /**
- * 	    
- * @param goalHour
- * @param goalMinute
- * @param valueHour
- * @param valueMinute
-// */	    
-	    //start of current shay sleep stuff
+ * when the enter button is pressed in the sleep scene, 
+ * the inputs for sleep goal and sleep input are checked 	
+ * if the sleep goal input is valid then the prompt for sleep goal is removed,
+ * and the label is changed to show the inputed sleep goal.
+ * if the input for sleep goal is invalid, then an error massage will display,
+ * and the user will be prompted to enter the goal again
+ * if the sleep data is valid then the user will be prompted
+ * to input the next days sleep data until all days have been inputed,
+ * and the grade will be calculated and displayed.
+ * if the sleep data input is invalid then an error message will appear,
+ * and the user will be prompted to re enter the data
+ * 
+ * @param sleepGoal users sleep goal for the week
+ * @param SleepData users inputed sleep data for one day
+ */	    
 	    void createSleepHabit (String sleepGoal, String SleepData) {
+	    	//creates new errorCheck object
 	    	ErrorCheck sleepCheck = new ErrorCheck();				
+	    	//checks is the sleep goal is valid 
 	    	if (sleepCheck.isValid(sleepGoal)) {
+	    		//clear error label and remove the prompt for sleep goal
 	    		errorLabel.setText("");
 	    		enterSleepGoal.getChildren().removeAll(enterSleepGoal.getChildren());
+	    		//display entered sleep goal
 	    		enterSleepGoalLabel.setText("Your sleep goal for the week is " + sleepGoal + " hours" );
+	    		//checks if sleep data is valid
 	    		if (sleepCheck.isValid(SleepData)) {
-		    		errorLabel.setText("");
+		    		//clears error label
+	    			errorLabel.setText("");
+	    			//checks is index is equal to 6, meaning all inputs have been entered
 	    			if (index == 6) {
-					   sleepDataList.add(SleepData);
+					   //sleep data is added to the sleep data list and the prompt to enter sleep data is removed
+	    				sleepDataList.add(SleepData);
 					   bedtimeContainer.getChildren().removeAll(bedtimeContainer.getChildren());
 				   }   
-				   if (index < 6) {
+				   //checks if the index is less than six, meaning not all inputs have been entered
+	    			if (index < 6) {
+	    				//sleep data is added to the sleep data list and the prompt is updated to the next day
 					   sleepDataList.add(SleepData);
 					   bedtimeLabel.setText("How much sleep did you get on" + days[index] + "?");
 				   }
-				   index++;
+	    			// increment the index
+	    			index++;
 	    		}else {
+	    			// if the is an invalid input, the error label is set
 	    			errorLabel.setStyle("-fx-text-fill: red;");
 		    		errorLabel.setText(sleepCheck.getMessage(SleepData));
 		    		goalLabel.setText("");
 	    		}
+	    			
+	    			//new water object is created
 	    			Water sleep = new Water(sleepGoal, sleepDataList);
+	    			//sleep grade calculated
 	    			sleep.total();
 	    			sleepGrade = sleep.getGrade();
 
-	    			
+	    			//depending on sleep grade, the appropriate error message is displayed
 	    			if (sleepGrade >= 100) {
 	    				sleepGrade = 100;
 	    				goalLabel.setText("you have completed your sleep goal for the week"); 
@@ -327,49 +377,94 @@ public class MainSceneController {
 	    				goalLabel.setText(String.format("you have completed %.0f"
 								+ "%% of your sleep goal", sleepGrade));
 	    			}
+	    			//weighted sleep grade calculated
 	    			weightedSleepGrade = sleepGrade * 0.2;
-
+	    			//goal message displayed
 	    			goalLabel.setStyle("-fx-font-weight: bold; -fx-text-fill:green; -fx-font-size-14px;");
 	    	}else {
+	    		//error message displayed
 	    		errorLabel.setStyle("-fx-text-fill: red;");
 	    		errorLabel.setText(sleepCheck.getMessage(sleepGoal));
 	    	}
 	   }
 	    
+	    /**
+	     * when the done button is pressed in the sleep scene,
+	     *  all elements are removed from the scene to prevent duplication,
+	     *  and the scene is switched back to the main scene
+	     * @param mainScene 
+	     */
 	    void sleepDoneButton(Scene mainScene) {
+	    	//removes all elements 
 	    	enterSleepGoal.getChildren().removeAll(enterSleepGoal.getChildren());
 	    	bedtimeContainer.getChildren().removeAll(bedtimeContainer.getChildren());
-			applicationStage.setScene(mainScene);  
+			//switches scene
+	    	applicationStage.setScene(mainScene);  
 		   }
 	   // end of current shay sleep stuff
 	 
 	    
 	    //start of shay current water 
+	    
+	    /***
+	     * when the enter button is pressed in the water scene, 
+	     * the inputs for water goal and water input are checked 	
+	     * if the water goal input is valid then the prompt for water goal is removed,
+	     * and the label is changed to show the inputed water goal.
+	     * if the input for water goal is invalid, then an error massage will display,
+	     * and the user will be prompted to enter the goal again
+	     * if the water data is valid then the user will be prompted
+	     * to input the next days water data until all days have been inputed,
+	     * and the grade will be calculated and displayed.
+	     * if the water data input is invalid then an error message will appear,
+	     * and the user will be prompted to re enter the data
+	     *  
+	     * @param waterIntake users inputed water in take for one day
+	     * @param waterGoal users inputed water goal for the week
+	     */
 	    void addDailyWater(String waterIntake, String waterGoal) {
 			   ErrorCheck waterCheck = new ErrorCheck();
+			  //checks if water goal is valid
 			   if (waterCheck.isValid(waterGoal)) {
-		    		errorLabel.setText("");
-		    		waterGoalContainer.getChildren().removeAll(waterGoalContainer.getChildren());
-		    		waterGoalLabel.setText("Your water goal for the week is " + waterGoal + "L" );
-		       if (waterCheck.isValid(waterIntake)) {
-			    		errorLabel.setText("");	
-			   if (index == 6) {
-				   dailyWaterList.add(waterIntake);
-				   waterDataContainer.getChildren().removeAll(waterDataContainer.getChildren());
-			   }				   
+		    		// clears error label
+				    errorLabel.setText("");
+		    		// removes prompt to enter water goal
+				    waterGoalContainer.getChildren().removeAll(waterGoalContainer.getChildren());
+		    		//Displays entered water goal
+				    waterGoalLabel.setText("Your water goal for the week is " + waterGoal + "L" );
+		       
+				    //checks if water in take is valid
+				    if (waterCheck.isValid(waterIntake)) {
+			    		// clears error label
+				    	errorLabel.setText("");	
+				    	//checks if the index is equal to six, meaning all inputs have been entered
+				    	if (index == 6) {
+				    		// add water intake to the sail water list
+				    		dailyWaterList.add(waterIntake);
+				    		// removes prompt to enter water intake
+				    		waterDataContainer.getChildren().removeAll(waterDataContainer.getChildren());
+			   }
+				//checks if the index is less than six, meaning not all inputs have been entered    	
 			   if (index < 6) {
+				   // add water intake to the sail water list
 				   dailyWaterList.add(waterIntake);
+				   // switches prompt to ask for next input
 				   waterDataLabel.setText("How much water did you drink on" + days[index] + "?");
 			   }
+			   // Increment index by one
 			   index++;
 		       }else {
+		    	   // Set error label
 		    	   errorLabel.setStyle("-fx-text-fill: red;");
 		    		errorLabel.setText(waterCheck.getMessage(waterIntake));
 	   		}
-			   Water drink = new Water(waterGoal, dailyWaterList);
-			   drink.total();
+			  //creates new water object
+		       Water drink = new Water(waterGoal, dailyWaterList);
+			   //calculates water grade
+		       drink.total();
 			   waterGrade = drink.getGrade();
-
+			 
+			   //depending on water grade, the appropriate error message is displayed
 			   if (waterGrade >= 100) {
 				   waterGrade = 100;
    				goalLabel.setText("you have completed your water goal for the week"); 
@@ -377,12 +472,19 @@ public class MainSceneController {
    				goalLabel.setText(String.format("you have completed %.0f"
 							+ "%% of your water goal", waterGrade));
    			}
-   			weightedWaterGrade = waterGrade * 0.2;
-   			goalLabel.setStyle("-fx-font-weight: bold; -fx-text-fill:green; -fx-font-size-14px;");
+   			//calculates weighted water grade
+			   weightedWaterGrade = waterGrade * 0.2;
+   			   goalLabel.setStyle("-fx-font-weight: bold; -fx-text-fill:green; -fx-font-size-14px;");
 
 		    	}
 		   }
-		   
+	    
+	    /**
+	     * when the done button is pressed in the water scene,
+	     *  all elements are removed from the scene to prevent duplication,
+	     *  and the scene is switched back to the main scene
+	     * @param mainScene 
+	     */
 		   void waterDoneButton(Scene mainScene) {
 			   waterGoalContainer.getChildren().removeAll(waterGoalContainer.getChildren());
 			   waterDataContainer.getChildren().removeAll(waterDataContainer.getChildren());
@@ -391,17 +493,35 @@ public class MainSceneController {
 		   //end of shay current water
 		   
 	   //updated emily exoenses everything worjks
-	    void createExpensesHabit(String goalAsString, String foodAsString, String entAsString, String grocAsString, String otherAsString) {
-	    	errorLabel.setText("");
+	    
+		   /**
+		    * when the calculate button is pressed in the expense scene all inputs are checked.
+		    * if all inputs are valid then the expense grade is displayed
+		    * if any inputs are invalid then an error message appears
+		    * 
+		    * @param goalAsString expense goal
+		    * @param foodAsString money spent on food
+		    * @param entAsString money spent on entertainment
+		    * @param grocAsString money spent on groceries
+		    * @param otherAsString money spent on other
+		    */
+		   void createExpensesHabit(String goalAsString, String foodAsString, String entAsString, String grocAsString, String otherAsString) {
+	    	//clears goal label and error label
+			errorLabel.setText("");
 	     	goalLabel.setText("");
+	     	//create new expense object
 	     	Expenses spend = new Expenses();
+	     	//set all value of expense object
 	     	spend.setEnt(entAsString);
 	     	spend.setFood(foodAsString);
 	     	spend.setGroc(grocAsString);
 	     	spend.setOther(otherAsString);
-	      	spend.calculateGrade(spend.calculateTotal(), goalAsString);
+	      	//calculate expense grade
+	     	spend.calculateGrade(spend.calculateTotal(), goalAsString);
 	      	spendGrade = spend.getGrade();
-	      	 if (((spend.setGoal(goalAsString)) != "") || ((spend.setFood(foodAsString)) != "") ||((spend.setGroc(grocAsString)) != "")
+	      	 
+	      	// checks is inputs are valid and sets error labels
+	      	if (((spend.setGoal(goalAsString)) != "") || ((spend.setFood(foodAsString)) != "") ||((spend.setGroc(grocAsString)) != "")
 	      			 ||((spend.setOther(otherAsString)) != "") ||((spend.setEnt(entAsString)) != ""));{ 
 	      		goalLabel.setText("");
 	     		if ((spend.setGroc(grocAsString)) != ""); 
@@ -420,6 +540,7 @@ public class MainSceneController {
 					errorLabel.setStyle("-fx-text-fill: red;");
 	     			errorLabel.setText(spend.setFood(foodAsString));}
 	      	
+	      			 //depending on expense grade, the appropriate error message is displayed
 	      			if (spendGrade >= 100) {
 	      				spendGrade = 100;
 	    				goalLabel.setText("You have reached your spending goal."); 
@@ -427,11 +548,12 @@ public class MainSceneController {
 	    				goalLabel.setText(String.format("you have completed %.0f"
 	    		  				+ "%% of your spending goal", spendGrade));
 	    			}
+	      			//calculates weighted expense grade
 	      			weightedSpendGrade = spendGrade * 0.2;
 	    			goalLabel.setStyle("-fx-font-weight: bold; -fx-text-fill:green; -fx-font-size-14px;"); 
 	      			 
 	      			 
-	      			 
+	      	// clears goal label
 	      	if (spend.getGoal() == 0)
 	      		goalLabel.setText("");
 	      	if ((spend.setOther(otherAsString)) != "")
@@ -446,55 +568,99 @@ public class MainSceneController {
 	    //end of expe
 	    
 	    //start updated exercise
-	    void addWorkoutGoal(String workoutGoal) {
+	    
+		   
+		   /**
+		    * when the add work out goal button is pressed in the exercise screen,
+		    * this method checks if a value has been inputed
+		    * if the input is valid then the inputed value is added to the completed choice box
+		    * if the input is invalid then an error message is displayed
+		    * @param workoutGoal 
+		    */
+		   void addWorkoutGoal(String workoutGoal) {
+			   // clears error label
 			   errorLabel.setText("");
+			   //create new boolean
 			   boolean valid = true;   
+			   //loop through the work out goal list
 			   for (int index = 0; index <= (workoutGoalList.size() - 1); index++) {   
+				   //checks if work out goal is already in goal list
 				   if (workoutGoalList.get(index).equals(workoutGoal)) valid = false; 
+				   //if the workout goal is already in the goal list then an error label is displays
+				   // and the loop is broken
 				   if (valid == false) {
 					   index = 100;
 					   errorLabel.setStyle("-fx-text-fill: red;");
 					   errorLabel.setText("This workout has already been added");
 						}
 				   }
+			   // checks if valid equals true
 			   if (valid == true) {
+				   // adds workout goal to the goal list
 				   workoutGoalList.add(workoutGoal);
+				   // adds the goal list to the completed choice box
 				   workoutCompletedChoiceBox.getItems().addAll(workoutGoal);
 			   }
 		   }
 		   
-		   
+		   /**
+		    * when the add work out completed button is pressed in the exercise screen,
+		    * this method checks if a value has been inputed
+		    * if the input is valid then the inputed value is removed to the completed choice box
+		    * if the input is invalid then an error message is displayed
+		    * @param workoutCompleted
+		    */
 		   void addWorkoutCompleted(String workoutCompleted) {
+			   //clears error label
 			   errorLabel.setText("");
+			   //creates new boolean
 			   boolean valid = true;  
+			   //loops through workout completed list
 			   for (int index = 0; index <= (workoutCompletedList.size() - 1); index++) {
+				   //if the value is already in the list valid is set to false
 				   if (workoutCompletedList.get(index).equals(workoutCompleted)) valid = false;
+				   // if valid equals false then the error message is displayed and the loop is broken
 				   if (valid == false) {
 					   index = 100;
 					   errorLabel.setStyle("-fx-text-fill: red;");
 					   errorLabel.setText("This workout has already been added");
 				   }
 			   } 
+			   //if valid equals true then the value is added to the workout completed 
+			   //list and all elements are removed from the choice box
 			   if (valid == true) {
 				   workoutCompletedList.add(workoutCompleted);
 				   workoutCompletedChoiceBox.getItems().removeAll(workoutCompleted);
 			   }  
 		   }
 		   
+		   /**
+		    * when the calculate button is pressed in the exercise scene
+		    * the exercise grade is calculated
+		    * 
+		    * @param goal list of goal exercises 
+		    * @param completed list of completed exercises
+		    */
 		    void createExerciseHabit(ArrayList<String> goal, ArrayList<String> completed) {
+		    	//clears goal and error label
 		    	errorLabel.setText("");
 		    	goalLabel.setText("");
+		    	//create new exercise object
 		    	Excercise workouts = new Excercise(goal, completed); 
+		    	//calculate exercise grade
 		    	workouts.calculate();
 		    	stepGrade = workouts.getGrade();
+		    	//calculates weighted stepGrade
 		    	if (stepGrade < 100)
 		    		weightedStepGrade = stepGrade * 0.2;
 		    	else if (stepGrade >= 100)
 		    		weightedStepGrade = 20.0;
+		    	//Displays error label
 		    	if(goal.isEmpty() || completed.isEmpty()) {
 		    		errorLabel.setStyle("-fx-text-fill: red;");
 		    		errorLabel.setText("Must input workout");
 		    	}else {
+		    		//displays goal label
 		    		goalLabel.setStyle("-fx-font-weight: bold; -fx-text-fill:green; -fx-font-size-14px;");
 		    	if (workouts.getGrade() == 100) goalLabel.setText("Congratulations! You have reached your exercise goal.");
 		    	
@@ -506,19 +672,30 @@ public class MainSceneController {
 		    }
 		    //end updated exercise 
 		    
+		    
+		    /**
+		     * when the set goal button is pressed in the food scene
+		     * the users calorie goal is calculates and displayed
+		     * @param weightGoalAsString users weight goal
+		     */
 		    void createFoodHabit(String weightGoalAsString) {
+		    	//clears error and goal label
 		    	errorLabel.setText("");
 		    	goalLabel.setText("");
+		    	//sets all values for food object
 		    	food.setActivity(activityLevel);
 		    	food.setAge(age);
 		    	food.setWeightGoal(weightGoalAsString);
 		    	food.setHeight(height);
 		    	food.setSex(sex);
 		    	food.setWeight(weight);
+		    	//calculates the calorie goal
 		    	food.calculateBMR();
 		    	food.calculateAMR();
 		    	food.calculateCals();
 		    	double myCalories = food.getCalories();
+		    	
+		    	// Displays the calorie goal
 		    	if (myCalories == 0) caloriesEnterLabel.setText("No goal entered");
 		    	else caloriesEnterLabel.setText(String.format("Based on your given Physical data and dietary goal, \nyou should consume: \n" 
 		    				+ "%.02f calories weekly \n" 
@@ -527,7 +704,10 @@ public class MainSceneController {
 		    	caloriesEnterLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
 		    }
 
-	    
+	    /**
+	     * when the sleep button is pressed on the main scene the sleep scene is created
+	     * @param sleepEvent
+	     */
 	    //updated to sleep
 	    @FXML
 	    void toSleep(ActionEvent sleepEvent) {
@@ -560,8 +740,13 @@ public class MainSceneController {
 	    }
 	    //end new to slepp
 
+	    
+	    /**
+	     * when the food button is pressed on the main scene the food scene is created
+	     * @param foodEvent
+	     */
 	    @FXML
- void toFood(ActionEvent foodEvent) {
+	    void toFood(ActionEvent foodEvent) {
 	    	
 	    	foodDataSceneContainer.getChildren().removeAll(foodDataSceneContainer.getChildren());
 	    		    	
@@ -628,13 +813,25 @@ public class MainSceneController {
 	    	}
 	        
 	    	}
-	       
+	    
+	    /**
+	     * when the done button is pressed in the food scene,
+	     *  all elements are removed from the scene to prevent duplication,
+	     *  and the scene is switched back to the main scene
+	     * @param scene 
+	     */
 	    void caloriesDoneButton(Scene scene) {
+	    	//clears all elements
 	    	calorieDataContainer.getChildren().removeAll(calorieDataContainer.getChildren());
 	    	weightGoalContainer.getChildren().removeAll(weightGoalContainer.getChildren());
+	    	//switches scene
 	    	applicationStage.setScene(scene);
 	    }
 	    
+	    /**
+	     * when the expenses button is pressed on the main scene the expenses scene is created
+	     * @param expensesEvent
+	     */
 	    @FXML
 	    void toExpenses(ActionEvent expensesEvent) {
 	     	//set the error and goal labels to blank
@@ -688,7 +885,10 @@ public class MainSceneController {
 	     	applicationStage.setScene(expensesScene);
 	     }
 
-	    
+	    /**
+	     * when the exercise button is pressed on the main scene the exercise scene is created
+	     * @param toExerciseScene
+	     */
 	    //updated exercise 
 	    @FXML
 	    void toExercise(ActionEvent toExerciseScene) {
@@ -726,6 +926,11 @@ public class MainSceneController {
 
 	    
 	    //updated to Watwe
+	    
+	    /**
+	     * when the water button is pressed on the main scene the water scene is created
+	     * @param toWaterEvent
+	     */
 	    @FXML
 	    void toWater(ActionEvent toWaterEvent) {
 	    	index = 0;
@@ -757,6 +962,12 @@ public class MainSceneController {
 	   //end updated to water
 
 	    //updated scoring 
+	    
+	    /**
+	     * when the calculate weekly score  button is pressed in the main scene the weekly score scene is created
+	     * and it calculates your weekly score
+	     * @param toWeeklyScoreEvent
+	     */
 	    @FXML
 	    void getWeeklyScore(ActionEvent toWeeklyScoreEvent) {
 	    	Scene mainScene = applicationStage.getScene();
@@ -767,6 +978,7 @@ public class MainSceneController {
 	    	Button doneButton = new Button("Done");
 	    	doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
 	    
+	    	//displays the grades for all habits
 	    	metExerciseGoalInfo.setText(String.format("You Have Completed %.02f"
 					+ "%% of your Exercise Goal", stepGrade));
 	    	metWaterGoalInfo.setText(String.format("You Have Completed %.02f"
@@ -782,6 +994,7 @@ public class MainSceneController {
 	    	metFoodGoalInfo.setStyle("-fx-font-weight: bold");
 	    	metSleepGoalInfo.setStyle("-fx-font-weight: bold");
 	    	metExpensesGoalInfo.setStyle("-fx-font-weight: bold");
+	    	
 	    	//Calculate dailyScore
 	    	double weeklyScore = 0.0;
 	    	weeklyScore = weightedStepGrade + weightedSpendGrade + weightedWaterGrade +
@@ -796,5 +1009,4 @@ public class MainSceneController {
 	    	Scene scoreScene = new Scene(weeklyScoreAll);
 	    	applicationStage.setScene(scoreScene);
 	    }
-	    //end updated scoring 
 	}
